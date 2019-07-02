@@ -1,10 +1,24 @@
 {
   "name": "mob-2.0",
-  "main": "server.js",
+  "version": "1.0.0",
+  "description": "updated mob",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rapolusakura/MoB-2.0.git"
+  },
+  "author": "Sakura Rapolu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rapolusakura/MoB-2.0/issues"
+  },
+  "homepage": "https://github.com/rapolusakura/MoB-2.0#readme",
   "dependencies": {
-    "express": "~4.5.1",
-    "mongoose": "^4.7.6",
-    "body-parser": "~1.4.2",
-    "method-override": "~2.0.2"
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.6.2"
   }
 }
