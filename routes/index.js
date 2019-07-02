@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var db = require('./db.js')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -24,6 +25,11 @@ router.post('/login', function(req, res, next) {
 	}
 });
 
+router.get('/getKitty', function(req, res, next) {
+	const Cat = db.mongoose.model('Cat', { name: String });
+	const kitty = new Cat({ name: 'Zildjian' });
+	kitty.save().then(() => console.log('meow'));
 
+}); 
 
 module.exports = router;
