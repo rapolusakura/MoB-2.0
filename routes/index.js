@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var db = require('./db.js')
+var mongoose = require('../db.js').mongoose;
+var Cat = require('../models/cat.js'); 
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -26,10 +27,19 @@ router.post('/login', function(req, res, next) {
 });
 
 router.get('/getKitty', function(req, res, next) {
-	const Cat = db.mongoose.model('Cat', { name: String });
-	const kitty = new Cat({ name: 'Zildjian' });
-	kitty.save().then(() => console.log('meow'));
+	Cat.find({}, function(err, cats) {
+        if (err) {
+            console.log(err);
 
+        } else {
+          res.send(cats);  
+        }  
+    })
 }); 
+
+router.get('/addKitty', function(req, res, next) {
+	const kitty = new Cat({ name: 'fuck' });
+	kitty.save(); 
+});
 
 module.exports = router;
