@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var mongoose = require('../db.js').mongoose;
-var Cat = require('../models/cat.js');
+var mongoose = require('../db.js');
 var Order = require('../models/orders.js'); 
 
 /* GET home page. */
@@ -47,23 +46,15 @@ router.post('/createOrder', function(req, res, next) {
 	});
 });
 
-router.get('/getKitty', function(req, res, next) {
-	Cat.find({}, function(err, cats) {
+router.get('/getOrders', function(req, res, next) {
+	Order.find({}, function(err, orders) {
         if (err) {
             console.log(err);
 
         } else {
-          res.send(cats);  
+          res.send(orders);  
         }  
     })
 }); 
-
-router.get('/addKitty', function(req, res, next) {
-	const kitty = new Cat({ name: 'aileen' });
-	kitty.save(function (err, kitty) {
-		if(err) return console.error(err);
-		res.send(kitty.name + " has just been created!"); 
-	});
-});
 
 module.exports = router;

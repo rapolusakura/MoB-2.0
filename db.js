@@ -7,3 +7,5 @@ db.once('open', function() {
   // we're connected!
   console.log("worked!"); 
 });
+
+module.exports = mongoose; 
