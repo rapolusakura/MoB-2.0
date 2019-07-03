@@ -38,8 +38,11 @@ router.get('/getKitty', function(req, res, next) {
 }); 
 
 router.get('/addKitty', function(req, res, next) {
-	const kitty = new Cat({ name: 'fuck' });
-	kitty.save(); 
+	const kitty = new Cat({ name: 'aileen' });
+	kitty.save(function (err, kitty) {
+		if(err) return console.error(err);
+		res.send(kitty.name + " has just been created!"); 
+	});
 });
 
 module.exports = router;
