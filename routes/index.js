@@ -5,8 +5,14 @@ var Order = require('../models/orders.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'fuck' });
 });
+
+/* Route to render HTML Page */
+router.get('/renderHTML', (req, res) => {
+    // render HTML code will be here
+    
+})
 
 router.get('/about', function(req, res, next) {
   res.send('hi this is sakura :D'); 
