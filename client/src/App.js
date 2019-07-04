@@ -22,8 +22,8 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-            <p className="App-intro">{this.state.apiResponse}</p>
+            //<p className="App-intro">{this.state.apiResponse}</p>
+            <h1> HELLO WORLD! </h1>
         </header>
       </div>
     );
