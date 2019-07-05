@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 class Orders extends React.Component {
   constructor(props) {
@@ -23,7 +22,13 @@ class Orders extends React.Component {
     return (
       <ul>
         {this.state.orders.map( (order, index) => {
-          return <h1> {order.company_name} </h1>
+          return (
+            <div>
+              <h1> {order.company_name} </h1>
+              <h3> {order.date_created} </h3>
+              <h3> isDelivered: {order.isDelivered.toString()} </h3> 
+            </div>
+            ) 
         })}
       </ul>
     );
