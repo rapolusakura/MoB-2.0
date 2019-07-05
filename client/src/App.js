@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Orders from './components/Orders'; 
+import DashboardPanel from './components/DashboardPanel'; 
 
 class App extends Component {
   constructor(props) {
@@ -11,7 +11,7 @@ class App extends Component {
     return (
       <div className="App">
       hell
-      <Orders /> 
+      <DashboardPanel /> 
       </div>
     );
   }
