@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Orders from './Orders'; 
+import Orders from './components/Orders'; 
 
 class App extends Component {
   constructor(props) {
