@@ -33,5 +33,6 @@ class Order extends React.Component {
       </ul>
     );
   }
+}
 
 export default Order;
