@@ -6,23 +6,50 @@ import './style.css';
 class App extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      name : '', 
+      rate : 0, 
+      isDelivered : ''
+    }
   }
 
-  async fuckme() {
-    const response = await fetch("http://localhost:9000/createOrders", {
-      method: 'GET',
-      headers: {
-        'Access-Control-Allow-Origin': "*",
-        "Content-type": "application/json; charset=UTF-8"
-      }
-    });
+  mySubmitHandler = (event) => {
+    event.preventDefault();
+    alert("You are submitting " + this.state.name + "'s order");
+  }
+
+  myChangeHandler = (event) => {
+    let nam = event.target.name;
+    let val = event.target.value;
+    this.setState({[nam]: val});
   }
 
   render() {
     return (
       <div className="App">
-      you got this!!  
-      <button onClick={this.fuckme}> click this to make an order</button> 
+        <form onSubmit={this.mySubmitHandler}>
+        <p>Enter your company name:</p>
+        <input
+        type='text'
+        name='name'
+        onChange={this.myChangeHandler}
+      />
+        <p>Enter the fare:</p>
+      <input
+        type='text'
+        name='rate'
+        onChange={this.myChangeHandler}
+      />
+        <p>Enter if delivered or not:</p>
+      <input
+        type='text'
+        name='isDelivered'
+        onChange={this.myChangeHandler}
+      />
+      <input
+        type='submit'
+      />
+      </form>
       <DashboardPanel /> 
 
 
