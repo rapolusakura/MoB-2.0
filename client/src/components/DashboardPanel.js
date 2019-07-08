@@ -1,5 +1,6 @@
 import React from 'react';
 import Order from './Order'; 
+import '../style.css'; 
 
 class DashboardPanel extends React.Component {
   constructor(props) {
@@ -20,14 +21,25 @@ class DashboardPanel extends React.Component {
   }
 
     render() {
+
+    const mystyle = {
+      color: "black",
+      backgroundColor: "white",
+      padding: "10px",
+      fontFamily: "Arial"
+    };
+
     return (
       <ul>
         {this.state.orders.map( (order, index) => {
           return (
-            <div>
-              <h1> {order.company_name} </h1>
+            <div class = "card">
+            <div class = "container"> 
+
+              <h1 style={mystyle}> {order.company_name} </h1>
               <h3> {order.date_created} </h3>
               <h3> isDelivered: {order.isDelivered.toString()} </h3> 
+              </div> 
             </div>
             ) 
         })}
