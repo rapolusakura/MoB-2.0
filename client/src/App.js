@@ -15,6 +15,20 @@ class App extends Component {
 
   mySubmitHandler = (event) => {
     event.preventDefault();
+
+
+    fetch("http://localhost:9000/createOrder", {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        company_name: this.state.name,
+        rate: this.state.rate,
+        isDelivered: this.state.isDelivered
+      }),
+    });
     alert("You are submitting " + this.state.name + "'s order");
   }
 
