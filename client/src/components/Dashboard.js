@@ -48,4 +48,4 @@ class Dashboard extends React.Component {
   }
 }
 
-export default DashboardPanel;
+export default Dashboard;

@@ -14,7 +14,7 @@ const app = document.getElementById('root');
 ReactDOM.render((
    <HashRouter>
       <div>
-        <Route exact path="/" component={Dashboard} />
+        <Route exact path="/" component={App} />
       </div>
    </HashRouter >
 ), app); 
