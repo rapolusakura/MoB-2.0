@@ -2,7 +2,7 @@ import React from 'react';
 import Order from './Order'; 
 import '../style.css'; 
 
-class DashboardPanel extends React.Component {
+class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 

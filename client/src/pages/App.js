@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import DashboardPanel from '../components/DashboardPanel'; 
+import Dashboard from '../components/Dashboard'; 
 import { Router, Route, IndexRoute, hashHistory } from "react-router"; 
 import '../style.css'; 
 
@@ -64,7 +64,7 @@ class App extends Component {
         type='submit'
       />
       </form>
-      <DashboardPanel /> 
+      <Dashboard /> 
       </div>
     );
   }
