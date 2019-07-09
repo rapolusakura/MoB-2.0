@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import {Link} from "react-router"; 
 import Dashboard from '../components/Dashboard'; 
-import { Router, Route, IndexRoute, hashHistory } from "react-router"; 
 import '../style.css'; 
 
 class App extends Component {
@@ -40,7 +39,9 @@ class App extends Component {
 
   render() {
     return (
+
       <div className="App">
+        <h1>fuck</h1>
         <form onSubmit={this.mySubmitHandler}>
         <p>Enter your company name:</p>
         <input

@@ -8,13 +8,18 @@ import {
 import * as serviceWorker from './serviceWorker';
 
 import App from './pages/App';
+import CompletedOrders from './pages/CompletedOrders';
+import PendingOrders from './pages/PendingOrders';
 
 const app = document.getElementById('root'); 
 
 ReactDOM.render((
    <HashRouter>
       <div>
-        <Route exact path="/" component={App} />
+        <Route path="/" component={App}>
+        <Route path="pendingOrders" component = { PendingOrders }></Route> 
+        <Route path="completedOrders" component = { CompletedOrders }></Route> 
+        </Route>
       </div>
    </HashRouter >
 ), app); 
