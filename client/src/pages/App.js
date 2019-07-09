@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import DashboardPanel from './components/DashboardPanel'; 
-import './style.css'; 
+import DashboardPanel from '../components/DashboardPanel'; 
+import { Router, Route, IndexRoute, hashHistory } from "react-router"; 
+import '../style.css'; 
 
 class App extends Component {
   constructor(props) {
