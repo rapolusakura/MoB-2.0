@@ -13,9 +13,10 @@ class App extends Component {
     }
   }
 
+  
+
   mySubmitHandler = (event) => {
     event.preventDefault();
-
 
     fetch("http://localhost:9000/createOrder", {
       method: 'POST',
@@ -65,8 +66,6 @@ class App extends Component {
       />
       </form>
       <DashboardPanel /> 
-
-
       </div>
     );
   }
