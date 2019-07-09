@@ -16,10 +16,9 @@ const app = document.getElementById('root');
 ReactDOM.render((
    <HashRouter>
       <div>
-        <Route path="/" component={App}>
+        <Route path="/" component={App}></Route>
         <Route path="pendingOrders" component = { PendingOrders }></Route> 
         <Route path="completedOrders" component = { CompletedOrders }></Route> 
-        </Route>
       </div>
    </HashRouter >
 ), app); 
