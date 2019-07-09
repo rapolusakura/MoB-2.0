@@ -13,8 +13,6 @@ class App extends Component {
     }
   }
 
-  
-
   mySubmitHandler = (event) => {
     event.preventDefault();
 
