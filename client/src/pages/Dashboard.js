@@ -1,5 +1,4 @@
-import React from 'react';
-import Order from './Order'; 
+import React from 'react'; 
 import '../style.css'; 
 
 class Dashboard extends React.Component {

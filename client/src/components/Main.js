@@ -1,6 +1,6 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import Home from '../pages/Home'
+import Dashboard from '../pages/Dashboard'
 import PendingOrders from '../pages/PendingOrders'
 import CompletedOrders from '../pages/CompletedOrders'
 
@@ -12,7 +12,7 @@ import CompletedOrders from '../pages/CompletedOrders'
 const Main = () => (
   <main>
     <Switch>
-      <Route exact path='/' component={Home}/>
+      <Route exact path='/' component={Dashboard}/>
       <Route path='/pendingOrders' component={PendingOrders}/>
       <Route path='/completedOrders' component={CompletedOrders}/>
     </Switch>
