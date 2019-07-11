@@ -35,8 +35,9 @@ class Dashboard extends React.Component {
             <div class = "card">
             <div class = "container"> 
 
-              <h1 style={mystyle}> {order.company_name} </h1>
+              <h1 style={mystyle}> {order.company_name}</h1>
               <h3> {order.date_created} </h3>
+              <h2> {order.rate} Sol </h2> 
               <h3> isDelivered: {order.isDelivered.toString()} </h3> 
               </div> 
             </div>
