@@ -4,7 +4,7 @@ var orderSchema = new mongoose.Schema({
   company_name: String,
   rate: Number, 
   date_created: Date, 
-  isDelivered: Boolean 
+  delivery_status: String
 });
 
 var Order = mongoose.model("Orders", orderSchema);

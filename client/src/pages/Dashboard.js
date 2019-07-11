@@ -32,13 +32,13 @@ class Dashboard extends React.Component {
       <ul>
         {this.state.orders.map( (order, index) => {
           return (
-            <div class = "card">
-            <div class = "container"> 
+            <div className = "card">
+            <div className = "container"> 
 
               <h1 style={mystyle}> {order.company_name}</h1>
               <h3> {order.date_created} </h3>
               <h2> {order.rate} Sol </h2> 
-              <h3> isDelivered: {order.isDelivered.toString()} </h3> 
+              <h3> Delivery Status: {order.delivery_status} </h3> 
               </div> 
             </div>
             ) 

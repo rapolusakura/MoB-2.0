@@ -25,13 +25,12 @@ router.post('/login', function(req, res, next) {
 router.post('/createOrder', function(req, res, next) {
 	var company_name = req.body.company_name; 
 	var rate = req.body.rate; 
-	var isDelivered = req.body.isDelivered; 
 
 	const order = new Order({ 
 		company_name: company_name, 
 		rate: rate, 
 		date_created: Date.now(),
-		isDelivered: isDelivered
+		delivery_status: "outgoing"
 	}); 
 
 	order.save(function (err, order) {
