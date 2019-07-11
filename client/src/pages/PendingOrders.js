@@ -4,7 +4,7 @@ export default class PendingOrders extends React.Component {
 
 	render() {
 		return (
-			<h1>PendingOrders</h1> 
+			<h1>thesse are the puta madre pending orders </h1>
 		)
 	}
 

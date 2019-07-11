@@ -4,7 +4,7 @@ export default class CompletedOrders extends React.Component {
 
 	render() {
 		return (
-			<h1>CompletedOrders</h1> 
+			<h1>Completed hahahahhOrders</h1> 
 		)
 	}
 
