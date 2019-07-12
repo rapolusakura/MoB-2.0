@@ -12,6 +12,7 @@ const Header = () => (
         <li><Link to='/completedOrders'>Completed Orders</Link></li>
       </ul>
     </nav>
+    <h1> you are currently on </h1>
   </header>
 )
 
