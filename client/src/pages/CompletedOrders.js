@@ -1,5 +1,5 @@
 import React from 'react'; 
-import '../style.css'; 
+import Order from '../components/Order'
 
 export default class CompletedOrders extends React.Component {
   constructor(props) {
@@ -20,27 +20,16 @@ export default class CompletedOrders extends React.Component {
   }
 
     render() {
-
-    const mystyle = {
-      color: "black",
-      backgroundColor: "white",
-      padding: "10px",
-      fontFamily: "Arial"
-    };
-
     return (
       <ul>
         {this.state.orders.map( (order, index) => {
           return (
-            <div className = "card">
-            <div className = "container"> 
-
-              <h1 style={mystyle}> {order.company_name}</h1>
-              <h3> {order.date_created} </h3>
-              <h2> {order.rate} Sol </h2> 
-              <h3> Delivery Status: {order.delivery_status} </h3> 
-              </div> 
-            </div>
+            <Order 
+            company_name = {order.company_name} 
+            date_created = {order.date_created} 
+            rate = {order.rate} 
+            delivery_status = {order.delivery_status}>
+            </Order>
             ) 
         })}
       </ul>

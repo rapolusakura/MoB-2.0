@@ -1,36 +1,29 @@
 import React from 'react';
+import '../style.css'
 
 class Order extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
-      'orders': []
-    };
-  }
-
-  callAPI() {
-      fetch("http://localhost:9000/getOrders")
-          .then(res => res.json())
-          .then(res => this.setState({ 'orders': res }));
-  }
-
-  componentWillMount() {
-      this.callAPI();
   }
 
     render() {
-    return (
-      <ul>
-        {this.state.orders.map( (order, index) => {
-          return (
-            <div>
-              <h1> {order.company_name} </h1>
-              <h3> {order.date_created} </h3>
-              <h3> isDelivered: {order.isDelivered.toString()} </h3> 
-            </div>
-            ) 
-        })}
-      </ul>
+
+    const mystyle = {
+      color: "black",
+      backgroundColor: "white",
+      padding: "10px",
+      fontFamily: "Arial"
+    };
+
+      return (
+        <div className = "card">
+              <div className = "container"> 
+                <h1 style={mystyle}> {this.props.company_name}</h1>
+                <h3> {this.props.date_created} </h3>
+                <h2> {this.props.rate} Sol </h2> 
+                <h3> Delivery Status: {this.props.delivery_status} </h3> 
+                </div> 
+        </div>
     );
   }
 }
