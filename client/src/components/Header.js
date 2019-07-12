@@ -13,6 +13,7 @@ const Header = () => (
       </ul>
     </nav>
     <h1> you are currently on </h1>
+    <Link to='/createOrder'><button> CREATE AN ORDER </button> </Link>
   </header>
 )
 
