@@ -23,15 +23,8 @@ export default class Login extends React.Component {
         password: this.state.password,
       }),
     }).then(response => response.text())
-      .then(text => {
-        if (text == '{"loginStatus":"success"}') {
-          //successfully logged in
-          
-        } else {
-          //failure
-          alert("invalid email/pw")
-        }
-      });  
+      .then(text => 
+        alert(text));  
   }
 
   myChangeHandler = (event) => {
