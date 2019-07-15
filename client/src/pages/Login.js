@@ -19,12 +19,12 @@ export default class Login extends React.Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: this.state.username, 
-        password: this.state.password,
+        username: this.username, 
+        password: this.password,
       }),
     }).then(response => response.text())
       .then(text => 
-        alert(text));  
+        alert(text + " " + this.username + " " + this.password));  
   }
 
   myChangeHandler = (event) => {
