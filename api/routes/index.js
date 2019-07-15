@@ -15,7 +15,7 @@ router.post('/', function(req, res, next) {
 router.post('/login', function(req, res, next) {
 	var username = req.body.username; 
 	var password = req.body.password; 
-	if(username == "Sakura" && password == "123") {
+	if(username == "rapolu@usc.edu" && password == "123") {
 		res.send({loginStatus: "success"});
 	} else {
 		res.send({loginStatus: "failure"}); 
