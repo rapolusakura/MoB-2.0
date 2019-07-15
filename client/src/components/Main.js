@@ -10,7 +10,7 @@ import CreateOrder from '../pages/CreateOrder'
 const Main = () => (
   <main>
     <Switch>
-      <Route exact path='/' component={Dashboard}/>
+      <Route path='/home' component={Dashboard}/>
       <Route path='/pendingOrders' component={PendingOrders}/>
       <Route path='/completedOrders' component={CompletedOrders}/>
       <Route path='/createOrder' component={CreateOrder}/>
