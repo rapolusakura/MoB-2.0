@@ -9,5 +9,5 @@ var bikers = new mongoose.Schema({
 
 var Biker = mongoose.model("Orders", orderSchema);
 
-module.exports = Order;
+module.exports = Biker;
 
