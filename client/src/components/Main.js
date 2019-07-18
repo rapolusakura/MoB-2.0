@@ -4,6 +4,7 @@ import Dashboard from '../pages/Dashboard'
 import PendingOrders from '../pages/PendingOrders'
 import CompletedOrders from '../pages/CompletedOrders'
 import CreateOrder from '../pages/CreateOrder'
+import Login from '../pages/Login'
 
 // The Main component renders one of the three provided
 // Routes (provided that one matches).
@@ -14,6 +15,7 @@ const Main = () => (
       <Route path='/pendingOrders' component={PendingOrders}/>
       <Route path='/completedOrders' component={CompletedOrders}/>
       <Route path='/createOrder' component={CreateOrder}/>
+      <Route path='/login' component={Login}/>
     </Switch>
   </main>
 )
