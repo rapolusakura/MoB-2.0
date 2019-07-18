@@ -15,12 +15,24 @@ const SignupSchema = Yup.object().shape({
     .email('Invalid email')
     .required('Required'),
   password: Yup.string()
-    .min(6, 'Too short!')
+    .min(1, 'Too short!')
     .required('Password is required'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
 });
 
+let attemptSignup = (values) => {
+  fetch("http://localhost:9000/signup", {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    }).then(response => response.text())
+      .then(text => 
+        alert(text));  
+}
 
 const Signup = () => (
 
@@ -35,6 +47,7 @@ const Signup = () => (
     validationSchema={SignupSchema}
     onSubmit={values => {
           console.log('submitting', values);
+          attemptSignup(values); 
     }}>
     {({ touched, errors }) => (
     <Form>
