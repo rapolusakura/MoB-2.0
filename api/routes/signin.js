@@ -2,9 +2,6 @@ var express = require('express');
 const User = require('../models/User');
 
 module.exports = (app) => {
-  /*
-   * Sign up
-   */
   app.post('/signup', (req, res, next) => {
     const { body } = req;
     const {
@@ -13,19 +10,13 @@ module.exports = (app) => {
     let {
       email
     } = body;
+    let {
+      firstName
+    } = body;
+    let {
+      lastName
+    } = body;
     
-    if (!email) {
-      return res.send({
-        success: false,
-        message: 'Error: Email cannot be blank.'
-      });
-    }
-    if (!password) {
-      return res.send({
-        success: false,
-        message: 'Error: Password cannot be blank.'
-      });
-    }
     email = email.toLowerCase();
     email = email.trim();
     // Steps:
@@ -48,6 +39,8 @@ module.exports = (app) => {
       // Save the new user
       const newUser = new User();
       newUser.email = email;
+      newUser.firstName = firstName.toLowerCase().trim(); 
+      newUser.lastName = lastName.toLowerCase().trim(); 
       newUser.password = newUser.generateHash(password);
       newUser.save((err, user) => {
         if (err) {
