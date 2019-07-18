@@ -8,6 +8,7 @@ var cors = require("cors");
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var ordersRouter = require('./routes/orders'); 
+var testAPIRouter = require('./routes/testAPI.js'); 
 
 var app = express();
 
@@ -25,7 +26,8 @@ app.use(cors());
 //route separation
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/orders', ordersRouter)
+app.use('/orders', ordersRouter); 
+app.use('/testAPI', testAPIRouter); 
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
