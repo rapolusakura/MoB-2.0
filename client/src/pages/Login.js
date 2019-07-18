@@ -7,9 +7,22 @@ const LoginSchema = Yup.object().shape({
     .email('Invalid email')
     .required('Required'),
   password: Yup.string()
-    .min(6, 'Too short!')
+    .min(3, 'Too short!')
     .required('Password is required'),
 });
+
+let attemptSignIn = (values) => {
+  fetch("http://localhost:9000/signin", {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      }).then(response => response.text())
+        .then(text => 
+          alert(text));  
+}
 
 
 const Login = () => (
@@ -22,6 +35,7 @@ const Login = () => (
     validationSchema={LoginSchema}
     onSubmit={values => {
           console.log('submitting', values);
+          attemptSignIn(values); 
     }}>
     {({ touched, errors }) => (
     <Form>
