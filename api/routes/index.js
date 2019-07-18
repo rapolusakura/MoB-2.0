@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var mongoose = require('../db.js');
 var Order = require('../models/orders.js'); 
 
 /* GET home page. */
