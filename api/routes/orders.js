@@ -2,6 +2,10 @@ var express = require('express');
 var router = express.Router();
 
 //routes related to orders
+router.get("/", function(req, res, next) {
+	res.send("api is working properly!"); 
+
+}); 
 
 router.post('/createOrder', function(req, res, next) {
 	var company_name = req.body.company_name; 
