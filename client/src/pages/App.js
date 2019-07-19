@@ -47,7 +47,6 @@ export default class App extends React.Component {
 		.then(res => res.json())
 		.then(json => {
 	  	if (json.success) {
-	  		console.log("this is the status", json); 
 		    this.setState({
 		    	isLoggedIn: true, 
 		    	isAdmin: json.isAdmin

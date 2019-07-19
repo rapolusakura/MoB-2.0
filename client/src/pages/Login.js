@@ -32,28 +32,10 @@ let attemptSignIn = (values) => {
     });  
 }
 
-let verify = () => {
-const obj = getFromStorage('mail_on_bike');
-  if (obj && obj.token) {
-    const { token } = obj;
-    // Verify token
-    fetch('http://localhost:9000/verify?token=' + token, {  headers : { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-       }})
-      .then(res => res.json())
-      .then(json => {
-          console.log("worked and set the cokie ", json); 
-        });
-      } else {
-      console.log("failed to find a token")
-  }
-}
-
 const Login = () => (
   <div> 
   <h1>this is a login page for people who have accounts aleady</h1>
-  <button onClick={verify}> click to verify </button> 
+  <br/>
   <Formik 
     initialValues={{
         email: ''
