@@ -47,7 +47,11 @@ export default class App extends React.Component {
 		.then(res => res.json())
 		.then(json => {
 	  	if (json.success) {
-		    this.setState({isLoggedIn: true}); 
+	  		console.log("this is the status", json); 
+		    this.setState({
+		    	isLoggedIn: true, 
+		    	isAdmin: json.isAdmin
+	    	}); 
 		  }
 		});
 		}	
@@ -58,7 +62,11 @@ export default class App extends React.Component {
 	}
 
 	render() {
-		return this.state.isLoggedIn ?  this.userAccountView() : this.loginView()
+		if(this.state.isLoggedIn) {
+			if(this.state.isAdmin) {
+				return this.adminAccountView(); 
+			} return this.userAccountView(); 
+		} return this.loginView(); 
 	}
 }
 
