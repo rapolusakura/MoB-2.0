@@ -12,6 +12,7 @@ export default class App extends React.Component {
 			isLoggedIn: false,
 			isAdmin: false
 		}
+		this.login = this.login.bind(this)
 	}
 
 	userAccountView = () => {
@@ -32,7 +33,7 @@ export default class App extends React.Component {
 	loginView = () => {
 		return (
 			<div> 
-		   		<Login/>
+		   		<Login login={this.login.bind(this)}/>
 		   		<Signup/>
 			</div> 
 		)
@@ -54,6 +55,10 @@ export default class App extends React.Component {
 		  }
 		});
 		}	
+	}
+
+	login = () => {
+		this.setState({ isLoggedIn: true }); 
 	}
 
 	componentDidMount() {
