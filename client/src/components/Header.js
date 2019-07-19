@@ -10,7 +10,6 @@ const Header = () => (
         <li><Link to='/'>Dashboard</Link></li>
         <li><Link to='/pendingOrders'>Pending Orders</Link></li>
         <li><Link to='/completedOrders'>Completed Orders</Link></li>
-        <li><Link to='/login'>Login</Link></li>
       </ul>
     </nav>
     <h1> you are currently on </h1>
