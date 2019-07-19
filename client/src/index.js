@@ -38,15 +38,21 @@ const userAccountView = () => {
 
 const loginView = () => {
 	return (
-
 	<BrowserRouter>
 		<div> 
 	   		<Login/>
 	   		<Signup/>
 		</div> 
-   </BrowserRouter >
-		
+   </BrowserRouter>
 	)
 }
 
-render(verify(), app); 
+// render(verify(), app); 
+
+render(
+	<BrowserRouter>
+		<div> 
+	   		<App/>
+		</div> 
+   </BrowserRouter> , app); 
+
