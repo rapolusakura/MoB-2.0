@@ -43,7 +43,7 @@ const obj = getFromStorage('mail_on_bike');
        }})
       .then(res => res.json())
       .then(json => {
-          console.log("worked and set the cokie "); 
+          console.log("worked and set the cokie ", json); 
         });
       } else {
       console.log("failed to find a token")

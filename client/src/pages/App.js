@@ -9,11 +9,18 @@ export default class App extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = { 
-			isLoggedIn: false 
+			isLoggedIn: false,
+			isAdmin: false
 		}
 	}
 
 	userAccountView = () => {
+		return (
+			<h1> hahha fuck you youre just a pleb user </h1> 
+		)
+	}
+
+	adminAccountView = () => {
 		return (
 		  <div>
 		    <Header />

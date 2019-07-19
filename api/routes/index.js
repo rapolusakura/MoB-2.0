@@ -166,6 +166,7 @@ router.post('/signin', (req, res, next) => {
       // Otherwise correct user
       const userSession = new UserSession();
       userSession.userId = user._id;
+      userSession.isAdmin = user.isAdmin;
       userSession.save((err, doc) => {
         if (err) {
           console.log(err);
@@ -237,7 +238,8 @@ router.get('/verify', (req, res, next) => {
         // DO ACTION
         return res.send({
           success: true,
-          message: 'Good'
+          message: 'Good', 
+          isAdmin: sessions[0].isAdmin
         });
       }
     });
