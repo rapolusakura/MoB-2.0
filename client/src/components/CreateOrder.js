@@ -1,13 +1,6 @@
 import React from 'react'; 
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import "./../importedCSS/vendor/bootstrap/css/bootstrap.min.css"
-import "./../importedCSS/fonts/font-awesome-4.7.0/css/font-awesome.min.css"
-import "./../importedCSS/vendor/animate/animate.css"
-import "./../importedCSS/vendor/css-hamburgers/hamburgers.min.css"
-import "./../importedCSS/vendor/select2/select2.min.css"
-import "./../importedCSS/css/util.css"
-import "./../importedCSS/css/main.css"
 
 const CreateOrderSchema = Yup.object().shape({
   companyName: Yup.string()
@@ -38,11 +31,8 @@ let createOrderAPI = (values) => {
 }
 
 const orderForm = () => (
-  <div class="contact1">
-    <div class="container-contact1">
-  <span class="contact1-form-title">
-        Create an Order
-  </span>
+  <div>
+    <div>
   <Formik 
     initialValues={{
         companyName: '', 
@@ -56,13 +46,13 @@ const orderForm = () => (
     {({ touched, errors }) => (
     <Form>
         <div> 
-          <Field name="companyName"  class="input1" type="text" placeholder = "Company Name" />
+          <Field name="companyName" type="text" placeholder = "Company Name" />
           {errors.companyName && touched.companyName ? <div>{errors.companyName}</div> : null}
           <br/>
-          <Field name="rate"  class="input1" type="text" placeholder = "Rate in sols" />
+          <Field name="rate" type="text" placeholder = "Rate in sols" />
           {errors.rate && touched.rate ? <div>{errors.rate}</div> : null}
           <br/> 
-          <button class="contact1-form-btn" type="submit">Submit</button>
+          <button  type="submit">Submit</button>
         </div> 
     </Form>
     )}
