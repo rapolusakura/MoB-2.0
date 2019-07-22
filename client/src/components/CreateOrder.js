@@ -11,7 +11,7 @@ import "./../importedCSS/css/main.css"
 
 const CreateOrderSchema = Yup.object().shape({
   companyName: Yup.string()
-    .required('Company name is equired'),
+    .required('Company name is required'),
   rate: Yup.number()
     .positive()
     .required('Rate is required'),
