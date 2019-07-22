@@ -3,6 +3,7 @@ import Header from '../components/Header'
 import Main from '../components/Main'
 import Login from './Login'; 
 import Signup from './Signup'; 
+import Logout from '../components/Logout'; 
 import { getFromStorage } from '../utils/storage';
 	
 export default class App extends React.Component {
@@ -16,7 +17,10 @@ export default class App extends React.Component {
 
 	userAccountView = () => {
 		return (
+			<div> 
 			<h1> hahha fuck you youre just a pleb user </h1> 
+			<Logout /> 
+			</div> 
 		)
 	}
 
@@ -25,6 +29,7 @@ export default class App extends React.Component {
 		  <div>
 		    <Header />
 		    <Main />
+		    <Logout />
 		  </div>
 		)
 	}

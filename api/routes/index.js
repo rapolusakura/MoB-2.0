@@ -190,14 +190,10 @@ router.get('/logout', (req, res, next) => {
     const { token } = query;
     // ?token=test
     // Verify the token is one of a kind and it's not deleted.
-    UserSession.findAndModify({
+    UserSession.remove({
       _id: token,
       isDeleted: false
-    }, {
-      $set: {
-        isDeleted:true
-      }
-    }, null, (err, sessions) => {
+    }, (err, sessions) => {
       if (err) {
         console.log(err);
         return res.send({
