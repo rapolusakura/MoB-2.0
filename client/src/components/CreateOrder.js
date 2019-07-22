@@ -10,7 +10,7 @@ const CreateOrderSchema = Yup.object().shape({
     .required('Rate is required'),
 });
 
-let createOrder = (values) => {
+let createOrderAPI = (values) => {
   fetch("http://localhost:9000/createOrder", {
       method: 'POST',
       headers: {
@@ -30,7 +30,7 @@ let createOrder = (values) => {
     });
 }
 
-const Login = () => (
+const orderForm = () => (
   <div> 
   <h1>This is the form to create orders</h1>
   <br/>
@@ -42,7 +42,7 @@ const Login = () => (
     validationSchema={CreateOrderSchema}
     onSubmit={values => {
           console.log('submitting', values);
-          createOrder(values); 
+          createOrderAPI(values); 
     }}>
     {({ touched, errors }) => (
     <Form>
@@ -59,4 +59,4 @@ const Login = () => (
   </div> 
 )
 
-export default Login; 
+export default orderForm; 
