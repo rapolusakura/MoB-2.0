@@ -4,7 +4,9 @@ import Main from '../components/Main'
 import Login from './Login'; 
 import Signup from './Signup'; 
 import Logout from '../components/Logout'; 
+import CreateOrder from '../components/CreateOrder'; 
 import { getFromStorage } from '../utils/storage';
+
 	
 export default class App extends React.Component {
 	constructor(props){
@@ -18,7 +20,8 @@ export default class App extends React.Component {
 	userAccountView = () => {
 		return (
 			<div> 
-			<h1> hahha fuck you youre just a pleb user </h1> 
+			<h1> User View </h1>
+			<CreateOrder />
 			<Logout /> 
 			</div> 
 		)
