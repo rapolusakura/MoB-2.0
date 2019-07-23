@@ -243,12 +243,21 @@ router.get('/verify', (req, res, next) => {
   });
 
 router.post('/calculateDistance', (req, response, next) => {
-  const start = '-12.1399796,-76.988101'; 
-  const end = '-12.1317666,-76.9838914'; 
+  const { body } = req;
+  const {
+    start, end, mode 
+  } = body;
+  let distance = -1; 
   request(`https://maps.googleapis.com/maps/api/distancematrix/json?mode=walking&origins=${start}&destinations=${end}&key=AIzaSyDI - v6IBi7S91LJXyOJRLWYSj5Mu0VpBS8`, { json: true }, (err, res, body) => {
   if (err) { return console.log(err); }
+    console.log(body); 
     response.send(body); 
-    console.log(body.rows[0].elements[0].distance.value)
+    // distance = body.rows[0].elements[0].distance.value
+    // if (mode == 'round-trip') {distance*=2}
+    // return response.send({
+    //   success: true,
+    //   distance: distance
+    // })
   });
 }); 
 
