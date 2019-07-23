@@ -29,8 +29,17 @@ const UserSchema = new mongoose.Schema({
   signUpDate: {
     type: Date,
     default: Date.now()
-  }
+  }, 
+  isVerified: {
+    type: Boolean, 
+    default: false
+  }, 
+  phoneNumber: Number, 
+  employer: String, 
+  defaultOriginAddress: String, 
+  defaultDestAddress: String
 });
+
 UserSchema.methods.generateHash = function(password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };

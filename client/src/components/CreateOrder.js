@@ -52,7 +52,7 @@ const orderForm = () => (
           <Field name="rate" type="text" placeholder = "Rate in sols" />
           {errors.rate && touched.rate ? <div>{errors.rate}</div> : null}
           <br/> 
-          <button  type="submit">Submit</button>
+          <button type="submit">Submit</button>
         </div> 
     </Form>
     )}
