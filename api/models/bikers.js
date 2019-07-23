@@ -8,7 +8,7 @@ var bikerSchema = new mongoose.Schema({
   	type: String, 
   	enum: ['female', 'male', 'other']
   }, 
-  ecommerce_earn_rate: Number, 
+  e-commerce_earn_rate: Number, 
   express_earn_rate: Number, 
   other_earn_rate: Number
 });

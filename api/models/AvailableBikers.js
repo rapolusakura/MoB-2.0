@@ -8,4 +8,3 @@ var availableSchema = new mongoose.Schema({
 var AvailableBikers = mongoose.model("AvailableBikers", availableSchema);
 
 module.exports = AvailableBikers;
-

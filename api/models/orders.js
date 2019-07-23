@@ -44,6 +44,24 @@ var orderSchema = new mongoose.Schema({
 	}
 });
 
+orderSchema.methods.calculateRate = function(distance, type_of_rate) {
+	let rate = -1.0; 
+	const solPerKm = 1.3333; 
+	const baseDistance = 3.75; 
+	const fee = 7; 
+
+	if(type_of_rate == 'express') {
+		rate = Math.ceil(fee + (distance - baseDistance)*solPerKm); 
+	} else if (type_of_rate == 'e-commerce') {
+		if (distance <= 3*baseDistance) { rate = fee }
+		else if (distance > 3*baseDistance && distance<=baseDistance*3.5) {rate = 9}
+		else if (distance > 3.5*baseDistance && distance<=baseDistance*4) {rate = 12}
+		else if (distance > 4*baseDistance && distance<=baseDistance*4.5) {rate = 14}
+		else if (distance > 4.5*baseDistance) {rate = 14 + (distance - (baseDistance*4.5))*solPerKm}
+	}
+	return rate;  
+};
+
 var Order = mongoose.model("Orders", orderSchema);
 
 module.exports = Order;
