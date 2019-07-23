@@ -248,6 +248,7 @@ router.post('/calculateDistance', (req, response, next) => {
   request(`https://maps.googleapis.com/maps/api/distancematrix/json?mode=walking&origins=${start}&destinations=${end}&key=AIzaSyDI - v6IBi7S91LJXyOJRLWYSj5Mu0VpBS8`, { json: true }, (err, res, body) => {
   if (err) { return console.log(err); }
     response.send(body); 
+    console.log(body.rows[0].elements[0].distance.value)
   });
 }); 
 
