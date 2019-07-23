@@ -4,6 +4,7 @@ var db = require('../db.js');
 const Order = require('../models/orders.js'); 
 const User = require('../models/User');
 const UserSession = require('../models/UserSession'); 
+const request = require('request');
 
 //get home page
 router.get('/', function(req, res, next) {
@@ -240,5 +241,14 @@ router.get('/verify', (req, res, next) => {
       }
     });
   });
+
+router.post('/calculateDistance', (req, response, next) => {
+  const start = '-12.1399796,-76.988101'; 
+  const end = '-12.1317666,-76.9838914'; 
+  request(`https://maps.googleapis.com/maps/api/distancematrix/json?mode=walking&origins=${start}&destinations=${end}&key=AIzaSyDI - v6IBi7S91LJXyOJRLWYSj5Mu0VpBS8`, { json: true }, (err, res, body) => {
+  if (err) { return console.log(err); }
+    response.send(body); 
+  });
+}); 
 
 module.exports = router;

@@ -36,7 +36,7 @@ var orderSchema = new mongoose.Schema({
 	type_of_rate: {
 		type: String, 
 		enum: ['e-commerce', 'enterprise', 'express', 'juntoz']
-	}
+	},
 	delivery_status: {
 		type: String,
 		enum : ['outgoing','pending','completed'],
