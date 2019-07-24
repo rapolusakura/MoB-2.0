@@ -1,8 +1,14 @@
 var mongoose = require('mongoose');
 
 var availableSchema = new mongoose.Schema({
-  availableToday: [String], 
-  availableTomorrow: [String]
+  availableToday: {
+  	type: [String], 
+  	default: []
+  }, 
+  availableTomorrow: {
+  	type: [String],
+  	default: []
+  }
 });
 
 var AvailableBikers = mongoose.model("AvailableBikers", availableSchema);
