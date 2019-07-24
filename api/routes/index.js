@@ -248,20 +248,22 @@ router.get('/verify', (req, res, next) => {
     });
   });
 
-router.post('/whatsapp', function(req, res) {
+router.post('/notifyBikers', function(req, res, next) {
   const twiml = new MessagingResponse();
   const { body } = req;
   const {
-    phone_number
+    numbers
   } = body;
 
-  client.messages
-  .create({
-    from: 'whatsapp:+14155238886',
-    body: "first message",
-    to: `whatsapp:+${phone_number}`
-  })
-  .then(message => console.log(message.sid));
+  for(let i = 0; i<numbers.length; i++) {
+    client.messages
+      .create({
+        from: 'whatsapp:+14155238886',
+        body: "Are you available to come into work tomorrow? Reply (si/no)",
+        to: `whatsapp:+${numbers[i]}`
+      })
+      .then(message => console.log("idk"));
+  }
 })
 
 router.post('/calculateDistance', (req, response, next) => {
