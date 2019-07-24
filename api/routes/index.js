@@ -283,7 +283,7 @@ router.post('/assignBikers', function(req, res, next) {
         if (err) {
             console.log(err);
         } else {
-          const company_name = order[0].company_name; 
+          const company_name = order[0].client_company_name; 
           Bikers.find({"_id": bikerIds}, function(err, bikers) {
             if (err) {
               console.log(err);
