@@ -6,6 +6,11 @@ const User = require('../models/User');
 const UserSession = require('../models/UserSession'); 
 const Bikers = require('../models/bikers')
 const request = require('request');
+const MessagingResponse = require('twilio').twiml.MessagingResponse;
+const accountSid = 'AC295f8aa5179ae9b5deae206f580ff867';
+const authToken = '4cb5392d63c7cdaafaaa1793c6572602';
+const client = require('twilio')(accountSid, authToken);
+
 
 //get home page
 router.get('/', function(req, res, next) {
@@ -243,22 +248,20 @@ router.get('/verify', (req, res, next) => {
     });
   });
 
-router.get('/removeBikers', (req, res, next) => {
-    Bikers.remove({
-    CellPhone: "0"
-  }, (err, sessions) => {
-    if (err) {
-      console.log(err);
-      return res.send({
-        success: false,
-        message: 'Error: Server error'
-      });
-    }
-    return res.send({
-      success: true,
-      message: 'Good'
-    });
-  });
+router.post('/whatsapp', function(req, res) {
+  const twiml = new MessagingResponse();
+  const { body } = req;
+  const {
+    phone_number
+  } = body;
+
+  client.messages
+  .create({
+    from: 'whatsapp:+14155238886',
+    body: "first message",
+    to: `whatsapp:+${phone_number}`
+  })
+  .then(message => console.log(message.sid));
 })
 
 router.post('/calculateDistance', (req, response, next) => {

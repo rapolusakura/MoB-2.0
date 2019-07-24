@@ -6,7 +6,7 @@ var bikerSchema = new mongoose.Schema({
   num_current_orders: {
     type: Number, 
     default: 0
-  }
+  },
   gender: {
   	type: String, 
   	enum: ['female', 'male', 'other']
