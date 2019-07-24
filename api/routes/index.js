@@ -266,6 +266,52 @@ router.post('/notifyBikers', function(req, res, next) {
   }
 })
 
+router.post('/assignBikers', function(req, res, next) {
+  const twiml = new MessagingResponse();
+  const { body } = req;
+  const {
+    bikerIds
+  } = body;
+  const {
+    orderId
+  } = body; 
+  let messageTemplate = {
+    assign: []
+  }; 
+
+  Order.find({"_id": orderId}, function(err, order) {
+        if (err) {
+            console.log(err);
+        } else {
+          const company_name = order[0].company_name; 
+          Bikers.find({"_id": bikerIds}, function(err, bikers) {
+            if (err) {
+              console.log(err);
+            }
+            else { 
+              for(let i =0; i<bikers.length; i++) {
+                messageTemplate.assign.push({ 
+                    "name" : bikers[i].name,
+                    "phone_number"  : bikers[i].phone_number
+                });
+              }
+
+              for(let i = 0; i<messageTemplate.assign.length; i++) {
+                client.messages
+                  .create({
+                    from: 'whatsapp:+14155238886',
+                    body: `Hi ${messageTemplate.assign[i].name}! Would you like to take this order from ${company_name}? Reply (si/no)`,
+                    to: `whatsapp:+${messageTemplate.assign[i].phone_number}`
+                  })
+                  .then(message => console.log(`sent to ${i}`));
+              }
+              res.send(order); 
+            }
+          })
+        }  
+    })
+})
+
 router.post('/calculateDistance', (req, response, next) => {
   const { body } = req;
   const {
