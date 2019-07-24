@@ -52,7 +52,9 @@ orderSchema.methods.calculateRate = function(distance, type_of_rate) {
 
 	if(type_of_rate == 'express') {
 		rate = Math.ceil(fee + (distance - baseDistance)*solPerKm); 
-	} else if (type_of_rate == 'e-commerce') {
+	} else if (type_of_rate == 'enterprise') {
+		rate = Math.ceil(3 + fee + (distance - baseDistance)*solPerKm); 
+	} else if (type_of_rate == 'e-commerce' || type_of_rate == 'juntoz') {
 		if (distance <= 3*baseDistance) { rate = fee }
 		else if (distance > 3*baseDistance && distance<=baseDistance*3.5) {rate = 9}
 		else if (distance > 3.5*baseDistance && distance<=baseDistance*4) {rate = 12}

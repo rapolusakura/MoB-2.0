@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../db.js'); 
-const Order = require('../models/orders.js'); 
+const Order = require('../models/orders'); 
 const User = require('../models/User');
 const UserSession = require('../models/UserSession'); 
+const Bikers = require('../models/bikers')
 const request = require('request');
 
 //get home page
@@ -242,6 +243,24 @@ router.get('/verify', (req, res, next) => {
     });
   });
 
+router.get('/removeBikers', (req, res, next) => {
+    Bikers.remove({
+    CellPhone: "0"
+  }, (err, sessions) => {
+    if (err) {
+      console.log(err);
+      return res.send({
+        success: false,
+        message: 'Error: Server error'
+      });
+    }
+    return res.send({
+      success: true,
+      message: 'Good'
+    });
+  });
+})
+
 router.post('/calculateDistance', (req, response, next) => {
   const { body } = req;
   const {
@@ -253,9 +272,10 @@ router.post('/calculateDistance', (req, response, next) => {
     console.log(body); 
     distance = body.rows[0].elements[0].distance.value
     if (mode == 'round-trip') {distance*=2}
+    let distanceInKm = distance/1000; 
     return response.send({
       success: true,
-      distance: distance
+      distance: distanceInKm
     })
   });
 }); 

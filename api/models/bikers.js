@@ -3,12 +3,15 @@ var mongoose = require('mongoose');
 var bikerSchema = new mongoose.Schema({
   name: String, 
   phone_number: Number, 
-  num_current_orders: Number, 
+  num_current_orders: {
+    type: Number, 
+    default: 0
+  }
   gender: {
   	type: String, 
   	enum: ['female', 'male', 'other']
   }, 
-  e-commerce_earn_rate: Number, 
+  ecommerce_earn_rate: Number, 
   express_earn_rate: Number, 
   other_earn_rate: Number
 });
