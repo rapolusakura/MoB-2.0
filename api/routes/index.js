@@ -314,32 +314,21 @@ router.post('/assignBikers', function(req, res, next) {
 })
 
 router.get('/getBikersForToday', function(req, res, next) {
-  let available  = {
-    bikers: []
-  }; 
-
-  AvailableBikers.find({}, async function(err, record) {
-        if (err) {
-            console.log(err);
-        } else {
-            let list = record[0].availableToday; 
-            list.forEach(function(id) {
-              Bikers.find({"_id" : id}, function(err, biker) {
-                if(err) {console.log(err)}
-                else {
-                  available.bikers.push({ 
-                      "name" : biker.name,
-                      "_id" : biker._id,
-                      "num_current_orders"  : biker.num_current_orders
-                  });
-                }
-              })
-              console.log(id);
-            });
-          await res.send(available);  
-        }  
-    })
-});
+    AvailableBikers.find({}, function(err, record) {
+    if (err) {
+        console.log(err);
+    } else {
+        let list = record[0].availableToday; 
+        console.log(list)
+        Bikers.find({"_id":{"$in": list}}, {name: 1, phone_number: 1, num_current_orders: 1} , function(err, response) {
+          if(err) {console.log(err)} 
+          else {
+            res.send(response); 
+        }
+      })
+    }  
+  })
+})
 
 router.post('/calculateDistance', (req, response, next) => {
   const { body } = req;
