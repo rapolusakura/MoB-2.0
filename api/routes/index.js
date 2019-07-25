@@ -267,6 +267,19 @@ router.post('/notifyBikers', function(req, res, next) {
   }
 })
 
+router.post('/messageReceived', function(req, res) {
+  console.log(req.body);
+  var msgFrom = req.body.From;
+  var msgBody = req.body.Body; 
+  res.send(`
+    <Response> 
+    <Message> 
+    Hello ${msgFrom}. You said: ${msgBody}
+    </Message>
+    </Response>
+  `); 
+}); 
+
 router.post('/assignBikers', function(req, res, next) {
   const twiml = new MessagingResponse();
   const { body } = req;
