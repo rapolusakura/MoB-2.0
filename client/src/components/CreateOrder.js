@@ -1,6 +1,7 @@
 import React from 'react'; 
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import MapView from './Map'; 
 
 const CreateOrderSchema = Yup.object().shape({
   companyName: Yup.string()
@@ -52,6 +53,7 @@ const orderForm = () => (
           <Field name="rate" type="text" placeholder = "Rate in sols" />
           {errors.rate && touched.rate ? <div>{errors.rate}</div> : null}
           <br/> 
+          <MapView />
           <button type="submit">Submit</button>
         </div> 
     </Form>
