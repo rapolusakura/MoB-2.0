@@ -31,7 +31,7 @@ let createOrderAPI = (values) => {
     });
 }
 
-const orderForm = () => (
+const orderForm = (props) => (
   <div>
     <div>
   <Formik 
@@ -53,7 +53,15 @@ const orderForm = () => (
           <Field name="rate" type="text" placeholder = "Rate in sols" />
           {errors.rate && touched.rate ? <div>{errors.rate}</div> : null}
           <br/> 
-          <MapView />
+          <div style={{ margin: '100px' }}>
+        <MapView
+          google={props.google}
+          center={{lat: 18.5204, lng: 73.8567}}
+          height='300px'
+          zoom={15}
+        />
+      </div>
+
           <button type="submit">Submit</button>
         </div> 
     </Form>
