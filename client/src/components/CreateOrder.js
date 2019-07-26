@@ -56,7 +56,7 @@ const orderForm = (props) => (
           <div style={{ margin: '100px' }}>
         <MapView
           google={props.google}
-          center={{lat: 18.5204, lng: 73.8567}}
+          center={{lat: -12.140381, lng: -76.9857613}}
           height='300px'
           zoom={15}
         />
