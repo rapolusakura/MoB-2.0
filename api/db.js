@@ -1,5 +1,6 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
-mongoose.connect("mongodb+srv://srapolu:mailOnBike2019%21@mailonbike-ddwms.mongodb.net/test?retryWrites=true&w=majority", {useNewUrlParser: true});
+mongoose.connect(process.env.DB_CONNECT, {useNewUrlParser: true});
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

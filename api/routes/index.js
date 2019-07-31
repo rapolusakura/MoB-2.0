@@ -1,3 +1,4 @@
+require('dotenv').config()
 var express = require('express');
 var router = express.Router();
 var db = require('../db.js'); 
@@ -8,8 +9,8 @@ const Bikers = require('../models/bikers')
 const AvailableBikers = require('../models/AvailableBikers')
 const request = require('request');
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
-const accountSid = 'AC295f8aa5179ae9b5deae206f580ff867';
-const authToken = '4cb5392d63c7cdaafaaa1793c6572602';
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 
 
@@ -349,7 +350,7 @@ router.post('/calculateDistance', (req, response, next) => {
     start, end, mode 
   } = body;
   let distance = -1; 
-  request(`https://maps.googleapis.com/maps/api/distancematrix/json?mode=walking&origins=${start}&destinations=${end}&key=AIzaSyDI - v6IBi7S91LJXyOJRLWYSj5Mu0VpBS8`, { json: true }, (err, res, body) => {
+  request(`https://maps.googleapis.com/maps/api/distancematrix/json?mode=walking&origins=${start}&destinations=${end}&key=${process.env.GOOGLE_MAPS_API_KEY}`, { json: true }, (err, res, body) => {
   if (err) { return console.log(err); }
     console.log(body); 
     distance = body.rows[0].elements[0].distance.value
