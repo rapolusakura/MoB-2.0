@@ -9,7 +9,7 @@ const Bikers = require('../models/bikers')
 const AvailableBikers = require('../models/AvailableBikers')
 const request = require('request');
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const accountSid = process.env.TWILIO_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 
@@ -261,7 +261,7 @@ router.post('/notifyBikers', function(req, res, next) {
     client.messages
       .create({
         from: 'whatsapp:+14155238886',
-        body: "Are you available to come into work tomorrow? Reply (si/no)",
+        body: "Are you available to come into work tomorrow? Reply (available/unavailable)",
         to: `whatsapp:+${numbers[i]}`
       })
       .then(message => console.log("idk"));
@@ -272,13 +272,19 @@ router.post('/messageReceived', function(req, res) {
   console.log(req.body);
   var msgFrom = req.body.From;
   var msgBody = req.body.Body; 
-  res.send(`
-    <Response> 
-    <Message> 
-    Hello ${msgFrom}. You said: ${msgBody}
-    </Message>
-    </Response>
-  `); 
+  const twiml = new MessagingResponse();
+
+  if ( msgBody == 'Unavailable' || msgBody == 'unavailable' || msgBody == 'UNAVAILABLE') {
+    twiml.message('Sorry to hear that :(');
+  } else if (msgBody == 'available' || msgBody == 'Available' || msgBody == 'AVAILABLE') {
+    twiml.message('Fantastico! Hasta manyana! The number that sent this is ' + msgFrom);
+    //add backend code to add this number to the database of people who said yes
+  }
+
+  res.writeHead(200, {
+    'Content-Type': 'text/xml'
+  });
+  res.end(twiml.toString());
 }); 
 
 router.post('/assignBikers', function(req, res, next) {
