@@ -263,6 +263,9 @@ router.get('/jobs', (req, res, next) => {
   notify all the bikers to see if they are available TOMORROW, the cutoff should be 6-7pm - why? 
   */
   console.log('Before job instantiation');
+
+
+
   const job = new CronJob('00 02 22 * * 1-5', function() {
     console.log("this happened just now oh my gosh!"); 
   }, 'America/Lima');
@@ -317,29 +320,26 @@ router.post('/messageReceived', function(req, res) {
   }
 
   //accepting an order
-  if (msgBody.split(' ')[0] == 'ORDER_ID:') {
-    console.log('someone wnats to accept an order'); 
+  else if (msgBody.split(' ')[0] == 'ORDER_ID:') {
     let orderId = msgBody.split(' ')[1];
     Order.find({ "_id": orderId }, function(err, order) {
         if (err) {
             console.log(err);
             twiml.message(`${orderId} is not a valid order. Make sure you copy and paste the message exactly without spaces.`); 
         } else {
-          console.log(order[0].client_company_name + " is the company name"); 
           if(order[0].assigned_messenger_id == null) {
+            twiml.message(`Congrats! You've accepted this order named ${orderId}`); 
             Bikers.find({"phone_number": msgFrom}, function(err, biker){
               if (err) { console.log(err)}
               else {
-                console.log("FOUND YOU!")
                 Order.updateOne({_id: orderId}, {$set: {"assigned_messenger_id": biker[0]._id}}, function(err, success) {
                   if(err) {console.log(err)} else {console.log("the order has been successfully assigned to you")}
                 }); 
-                twiml.message(`congrats! you've accepted this order named ${orderId}`); 
               }
             })
           } else {
-            console.log('is taken')
             twiml.message(`sorry this order has already been accepted by another biker.`); 
+            console.log('is taken')
           }
         }  
     })
