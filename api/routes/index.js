@@ -13,7 +13,7 @@ const accountSid = process.env.TWILIO_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 const TWILIO_NUM = 'whatsapp:+14155238886'; 
-
+const CronJob = require('cron').CronJob;
 
 //get home page
 router.get('/', function(req, res, next) {
@@ -250,6 +250,15 @@ router.get('/verify', (req, res, next) => {
       }
     });
   });
+
+router.get('/jobs', (req, res, next) => {
+  console.log('Before job instantiation');
+  const job = new CronJob('*/5 * * * * *', function() {
+    console.log("fuck me")
+  });
+  console.log('After job instantiation');
+  job.start();
+});
 
 router.post('/notifyBikers', function(req, res, next) {
   const twiml = new MessagingResponse();
