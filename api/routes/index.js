@@ -257,6 +257,7 @@ router.get('/jobs', (req, res, next) => {
   clear the available today database
   move the available tomorrow database to the available today database
   clear the available tomorrow database
+  send a message to anderson a list of all of the available tomorrow bikers
 
   AT 6AM PERUVIAN TIME
   notify all the bikers to see if they are available TOMORROW, the cutoff should be 6-7pm - why? 
@@ -265,11 +266,8 @@ router.get('/jobs', (req, res, next) => {
   const job = new CronJob('00 02 22 * * 1-5', function() {
     console.log("this happened just now oh my gosh!"); 
   }, 'America/Lima');
-
-
-
-
   console.log('After job instantiation');
+
   job.start();
 });
 
@@ -295,18 +293,18 @@ router.post('/messageReceived', function(req, res) {
   var msgFrom = parseFloat(req.body.From.split('+')[1]);
   var msgBody = req.body.Body; 
   const twiml = new MessagingResponse();
+
+  //notifying availability for next day
   if ( msgBody == 'Unavailable' || msgBody == 'unavailable' || msgBody == 'UNAVAILABLE') {
     twiml.message('Sorry to hear that :(');
   } else if (msgBody == 'available' || msgBody == 'Available' || msgBody == 'AVAILABLE') {
     twiml.message('Fantastico! Hasta manyana! The number that sent this is ' + msgFrom);
-
-    //backend code to add the biker to the list of available bikers for tomorrow
     Bikers.find({phone_number: msgFrom}, function(err, biker) {
       if (err) {
           console.log(err);
       } else {
           console.log(biker[0].name)
-          AvailableBikers.updateOne({"tag": 1}, { $push : { availableTomorrow: biker[0]._id}}, function(err, response) {
+          AvailableBikers.updateOne({"tag": 1}, { $addToSet : { availableTomorrow: biker[0]._id}}, function(err, response) {
             if(err) {
               console.log(err); 
             }
@@ -318,27 +316,10 @@ router.post('/messageReceived', function(req, res) {
     })
   }
 
-  if ( msgBody == 'reject' || msgBody == 'unavailable' || msgBody == 'UNAVAILABLE') {
-    twiml.message('Sorry to hear that :(');
-  } else if (msgBody == 'available' || msgBody == 'Available' || msgBody == 'AVAILABLE') {
-    twiml.message('Fantastico! Hasta manyana! The number that sent this is ' + msgFrom);
-
-    //backend code to add the biker to the list of available bikers for tomorrow
-    Bikers.find({phone_number: msgFrom}, function(err, biker) {
-      if (err) {
-          console.log(err);
-      } else {
-          console.log(biker[0].name)
-          AvailableBikers.updateOne({"tag": 1}, { $push : { availableTomorrow: biker[0]._id}}, function(err, response) {
-            if(err) {
-              console.log(err); 
-            }
-            else {
-              console.log("success the available biker has just been added")
-            }
-          }); 
-      }  
-    })
+  //accepting an order
+  if (msgBody.split(' ')[0] == 'ORDER_ID:') {
+    let orderId = msgBody.split(' ')[1]; 
+    twiml.message(`congrats! you've accepted this order named ${orderId}`); 
   }
 
   res.writeHead(200, {
