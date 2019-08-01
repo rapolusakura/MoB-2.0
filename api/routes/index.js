@@ -262,9 +262,13 @@ router.get('/jobs', (req, res, next) => {
   notify all the bikers to see if they are available TOMORROW, the cutoff should be 6-7pm - why? 
   */
   console.log('Before job instantiation');
-  const job = new CronJob('*/4 * * * * *', function() {
-    console.log("this is happening every 4 seconds"); 
-  });
+  const job = new CronJob('00 02 22 * * 1-5', function() {
+    console.log("this happened just now oh my gosh!"); 
+  }, 'America/Lima');
+
+
+
+
   console.log('After job instantiation');
   job.start();
 });
