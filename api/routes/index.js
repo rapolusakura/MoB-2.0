@@ -252,9 +252,18 @@ router.get('/verify', (req, res, next) => {
   });
 
 router.get('/jobs', (req, res, next) => {
+  /* 
+  AT 6-7PM PERUVIAN TIME
+  clear the available today database
+  move the available tomorrow database to the available today database
+  clear the available tomorrow database
+
+  AT 6AM PERUVIAN TIME
+  notify all the bikers to see if they are available TOMORROW, the cutoff should be 6-7pm - why? 
+  */
   console.log('Before job instantiation');
-  const job = new CronJob('*/5 * * * * *', function() {
-    console.log("fuck me")
+  const job = new CronJob('*/4 * * * * *', function() {
+    console.log("this is happening every 4 seconds"); 
   });
   console.log('After job instantiation');
   job.start();
