@@ -235,6 +235,7 @@ class MapView extends React.Component{
               }}
               onPlaceSelected={ this.onPlaceSelected }
               types={['(regions)']}
+              componentRestrictions= {{country: 'pe'}}
             />
           </GoogleMap>
         )

@@ -252,6 +252,19 @@ router.get('/verify', (req, res, next) => {
   });
 
 router.get('/jobs', (req, res, next) => {
+
+  updateAvailableList = () => {
+      AvailableBikers.find({}, function(err, record) {
+      if (err) {
+          console.log(err);
+      } else {
+          let availableToday = record[0].availableToday; 
+          let availableTomorrow = record[0].availableTomorrow; 
+          AvailableBikers.updateOne({"tag":1}, {$set: {availableToday: availableTomorrow, availableTomorrow: []}})
+      }  
+    })
+
+}
   /* 
   AT 6-7PM PERUVIAN TIME
   clear the available today database
@@ -263,8 +276,6 @@ router.get('/jobs', (req, res, next) => {
   notify all the bikers to see if they are available TOMORROW, the cutoff should be 6-7pm - why? 
   */
   console.log('Before job instantiation');
-
-
 
   const job = new CronJob('00 02 22 * * 1-5', function() {
     console.log("this happened just now oh my gosh!"); 
@@ -297,7 +308,7 @@ router.post('/messageReceived', function(req, res) {
   var msgBody = req.body.Body; 
   const twiml = new MessagingResponse();
 
-  //notifying availability for next day
+  //confirming availability for next day
   if ( msgBody == 'Unavailable' || msgBody == 'unavailable' || msgBody == 'UNAVAILABLE') {
     twiml.message('Sorry to hear that :(');
   } else if (msgBody == 'available' || msgBody == 'Available' || msgBody == 'AVAILABLE') {
@@ -343,6 +354,12 @@ router.post('/messageReceived', function(req, res) {
           }
         }  
     })
+  }
+
+  //delivery confirmation
+  else if (msgBody == 'confirmed' || msgBody == 'Confirmed' || msgBody == 'confirm' || msgBody == 'Confirm') {
+    twiml.message('Great! You just completed this delivery.');
+    //change the order status to completed
   }
 
   res.writeHead(200, {
