@@ -12,6 +12,7 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const accountSid = process.env.TWILIO_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
+const TWILIO_NUM = 'whatsapp:+14155238886'; 
 
 
 //get home page
@@ -260,7 +261,7 @@ router.post('/notifyBikers', function(req, res, next) {
   for(let i = 0; i<numbers.length; i++) {
     client.messages
       .create({
-        from: 'whatsapp:+14155238886',
+        from: TWILIO_NUM,
         body: "Are you available to come into work tomorrow? Reply (available/unavailable)",
         to: `whatsapp:+${numbers[i]}`
       })
@@ -273,6 +274,29 @@ router.post('/messageReceived', function(req, res) {
   var msgBody = req.body.Body; 
   const twiml = new MessagingResponse();
   if ( msgBody == 'Unavailable' || msgBody == 'unavailable' || msgBody == 'UNAVAILABLE') {
+    twiml.message('Sorry to hear that :(');
+  } else if (msgBody == 'available' || msgBody == 'Available' || msgBody == 'AVAILABLE') {
+    twiml.message('Fantastico! Hasta manyana! The number that sent this is ' + msgFrom);
+
+    //backend code to add the biker to the list of available bikers for tomorrow
+    Bikers.find({phone_number: msgFrom}, function(err, biker) {
+      if (err) {
+          console.log(err);
+      } else {
+          console.log(biker[0].name)
+          AvailableBikers.updateOne({"tag": 1}, { $push : { availableTomorrow: biker[0]._id}}, function(err, response) {
+            if(err) {
+              console.log(err); 
+            }
+            else {
+              console.log("success the available biker has just been added")
+            }
+          }); 
+      }  
+    })
+  }
+
+  if ( msgBody == 'reject' || msgBody == 'unavailable' || msgBody == 'UNAVAILABLE') {
     twiml.message('Sorry to hear that :(');
   } else if (msgBody == 'available' || msgBody == 'Available' || msgBody == 'AVAILABLE') {
     twiml.message('Fantastico! Hasta manyana! The number that sent this is ' + msgFrom);
@@ -334,7 +358,7 @@ router.post('/assignBikers', function(req, res, next) {
               for(let i = 0; i<messageTemplate.assign.length; i++) {
                 client.messages
                   .create({
-                    from: 'whatsapp:+14155238886',
+                    from: TWILIO_NUM,
                     body: `Hi ${messageTemplate.assign[i].name}! Would you like to take this order from ${company_name}? Reply (si/no)`,
                     to: `whatsapp:+${messageTemplate.assign[i].phone_number}`
                   })

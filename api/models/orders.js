@@ -31,7 +31,10 @@ var orderSchema = new mongoose.Schema({
 		type: Date,
     	default: Date.now()
 	}, 
-	assigned_messenger_id: String, 
+	assigned_messenger_id: {
+		type: String, 
+		default: null
+	},
 	kg_of_c02_saved: Number, 
 	type_of_rate: {
 		type: String, 
