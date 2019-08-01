@@ -269,16 +269,30 @@ router.post('/notifyBikers', function(req, res, next) {
 })
 
 router.post('/messageReceived', function(req, res) {
-  console.log(req.body);
-  var msgFrom = req.body.From;
+  var msgFrom = parseFloat(req.body.From.split('+')[1]);
   var msgBody = req.body.Body; 
   const twiml = new MessagingResponse();
-
   if ( msgBody == 'Unavailable' || msgBody == 'unavailable' || msgBody == 'UNAVAILABLE') {
     twiml.message('Sorry to hear that :(');
   } else if (msgBody == 'available' || msgBody == 'Available' || msgBody == 'AVAILABLE') {
     twiml.message('Fantastico! Hasta manyana! The number that sent this is ' + msgFrom);
-    //add backend code to add this number to the database of people who said yes
+
+    //backend code to add the biker to the list of available bikers for tomorrow
+    Bikers.find({phone_number: msgFrom}, function(err, biker) {
+      if (err) {
+          console.log(err);
+      } else {
+          console.log(biker[0].name)
+          AvailableBikers.updateOne({"tag": 1}, { $push : { availableTomorrow: biker[0]._id}}, function(err, response) {
+            if(err) {
+              console.log(err); 
+            }
+            else {
+              console.log("success the available biker has just been added")
+            }
+          }); 
+      }  
+    })
   }
 
   res.writeHead(200, {
