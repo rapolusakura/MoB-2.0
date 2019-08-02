@@ -23,7 +23,8 @@ class OutgoingAssignment extends React.Component {
       <ul> 
       {this.state.availableBikers.map( (biker, index) => {
         return (
-            <h1> {biker.name} </h1> 
+            <h1> {biker.name} ({biker.num_current_orders})</h1> 
+
           )
       })}
       </ul> 
