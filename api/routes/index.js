@@ -323,7 +323,7 @@ router.post('/messageReceived', function(req, res) {
             createMessage(`${orderId} is not a valid order. Make sure you copy and paste the message exactly without spaces.`, msgFrom); 
         } else {
           if(order[0].assigned_messenger_id == null) {
-            createMessage(`Congrats! You've been assigned ORDER_ID: ${orderId}`, msgFrom); 
+            createMessage(`Congrats! You've been assigned ORDER_ID: ${orderId}, for company ${order[0].client_company_name}`, msgFrom); 
             Bikers.find({"phone_number": msgFrom}, function(err, biker){
               if (err) { console.log(err)}
               else {
@@ -333,7 +333,7 @@ router.post('/messageReceived', function(req, res) {
               }
             })
           } else {
-            createMessage(`Sorry, ORDER_ID: ${orderId} has already been accepted by another biker. Next time, respond faster!`); 
+            createMessage(`Sorry, ORDER_ID: ${orderId}, for company ${order[0].client_company_name} has already been accepted by another biker. Next time, respond faster!`); 
             console.log('is taken')
           }
         }  
