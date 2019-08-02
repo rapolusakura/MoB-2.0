@@ -11,7 +11,7 @@ shiftAvailableList = () => {
   } else {
       let availableToday = record[0].availableToday; 
       let availableTomorrow = record[0].availableTomorrow; 
-      AvailableBikers.updateOne({"tag":1}, {$set: {"availableToday": []}}, function(err, success) {
+      AvailableBikers.updateOne({"tag":1}, {$set: {"availableToday": availableTomorrow, "availableTomorrow": []}}, function(err, success) {
         if(err) {console.log(err)} 
           else {console.log("succesfully shifted lists")}
       })
