@@ -279,30 +279,16 @@ router.post('/notifyBikers', function(req, res, next) {
 })
 
 router.get('/notifyBikersTest', function(req, res, next) {
-  const twiml = new MessagingResponse(); 
-  let numbers = []; 
+  //the actual route will have nothing in the find so it gets everyone
   Bikers.find({"phone_number" : "18082037593"}, function(err, bikers) {
     if(err) {console.log(err)}
     else {
-      console.log('eggie')
       for(let i =0; i<bikers.length; i++) {
-        numbers.push(bikers[i].phone_number);
+        createMessage('Are you available to come into work tomorrow? Reply (available/unavailable)', bikers[i].phone_number); 
       }
-
-      for(let i = 0; i<numbers.length; i++) {
-        client.messages
-          .create({
-            from: TWILIO_NUM,
-            body: "Are you available to come into work tomorrow? Reply (available/unavailable)",
-            to: `whatsapp:+${numbers[i]}`
-          })
-          .then(message => console.log(`sent to ${numbers[i]}`));
-      }
-
       res.send("success")
     }
   })
-
 })
 
 router.post('/messageReceived', function(req, res) {
@@ -311,10 +297,7 @@ router.post('/messageReceived', function(req, res) {
   const twiml = new MessagingResponse();
 
   //confirming availability for next day
-  if ( msgBody == 'Unavailable' || msgBody == 'unavailable' || msgBody == 'UNAVAILABLE') {
-    createMessage("sorry to heat that brith", msgFrom); 
-  } else if (msgBody == 'available' || msgBody == 'Available' || msgBody == 'AVAILABLE') {
-    //createMessage('Fantastico! Hasta manyana!', msgFrom);
+  if (msgBody == 'available' || msgBody == 'Available' || msgBody == 'AVAILABLE') {
     Bikers.find({"phone_number": msgFrom}, function(err, biker) {
       if (err) {
           console.log(err);
@@ -324,7 +307,7 @@ router.post('/messageReceived', function(req, res) {
               console.log(err); 
             }
             else {
-              console.log(`${biker[0].name} has just been added to the list of availble bikers for tomorrow`)
+              console.log(`${biker[0].name} has just been added to the list of available bikers for tomorrow`)
             }
           }); 
       }  
@@ -337,10 +320,10 @@ router.post('/messageReceived', function(req, res) {
     Order.find({ "_id": orderId }, function(err, order) {
         if (err) {
             console.log(err);
-            twiml.message(`${orderId} is not a valid order. Make sure you copy and paste the message exactly without spaces.`); 
+            createMessage(`${orderId} is not a valid order. Make sure you copy and paste the message exactly without spaces.`, msgFrom); 
         } else {
           if(order[0].assigned_messenger_id == null) {
-            twiml.message(`Congrats! You've accepted this order named ${orderId}`); 
+            createMessage(`Congrats! You've been assigned ORDER_ID: ${orderId}`, msgFrom); 
             Bikers.find({"phone_number": msgFrom}, function(err, biker){
               if (err) { console.log(err)}
               else {
@@ -350,7 +333,7 @@ router.post('/messageReceived', function(req, res) {
               }
             })
           } else {
-            twiml.message(`sorry this order has already been accepted by another biker.`); 
+            createMessage(`Sorry, ORDER_ID: ${orderId} has already been accepted by another biker. Next time, respond faster!`); 
             console.log('is taken')
           }
         }  
