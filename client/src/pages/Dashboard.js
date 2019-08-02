@@ -25,7 +25,7 @@ class Dashboard extends React.Component {
         {this.state.orders.map( (order, index) => {
           return (
             <Order 
-            company_name = {order.company_name} 
+            company_name = {order.client_company_name} 
             date_created = {order.date_created} 
             rate = {order.rate} 
             delivery_status = {order.delivery_status}>

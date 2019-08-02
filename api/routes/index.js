@@ -13,7 +13,6 @@ const accountSid = process.env.TWILIO_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 const TWILIO_NUM = 'whatsapp:+14155238886'; 
-const CronJob = require('cron').CronJob;
 
 //get home page
 router.get('/', function(req, res, next) {
@@ -251,40 +250,6 @@ router.get('/verify', (req, res, next) => {
     });
   });
 
-router.get('/jobs', (req, res, next) => {
-
-  updateAvailableList = () => {
-      AvailableBikers.find({}, function(err, record) {
-      if (err) {
-          console.log(err);
-      } else {
-          let availableToday = record[0].availableToday; 
-          let availableTomorrow = record[0].availableTomorrow; 
-          AvailableBikers.updateOne({"tag":1}, {$set: {availableToday: availableTomorrow, availableTomorrow: []}})
-      }  
-    })
-
-}
-  /* 
-  AT 6-7PM PERUVIAN TIME
-  clear the available today database
-  move the available tomorrow database to the available today database
-  clear the available tomorrow database
-  send a message to anderson a list of all of the available tomorrow bikers
-
-  AT 6AM PERUVIAN TIME
-  notify all the bikers to see if they are available TOMORROW, the cutoff should be 6-7pm - why? 
-  */
-  console.log('Before job instantiation');
-
-  const job = new CronJob('00 02 22 * * 1-5', function() {
-    console.log("this happened just now oh my gosh!"); 
-  }, 'America/Lima');
-  console.log('After job instantiation');
-
-  job.start();
-});
-
 router.post('/notifyBikers', function(req, res, next) {
   const twiml = new MessagingResponse();
   const { body } = req;
@@ -299,7 +264,7 @@ router.post('/notifyBikers', function(req, res, next) {
         body: "Are you available to come into work tomorrow? Reply (available/unavailable)",
         to: `whatsapp:+${numbers[i]}`
       })
-      .then(message => console.log("idk"));
+      .then(message => console.log("sent"));
   }
 })
 
@@ -361,11 +326,6 @@ router.post('/messageReceived', function(req, res) {
     twiml.message('Great! You just completed this delivery.');
     //change the order status to completed
   }
-
-  res.writeHead(200, {
-    'Content-Type': 'text/xml'
-  });
-  res.end(twiml.toString());
 }); 
 
 router.post('/assignBikers', function(req, res, next) {
