@@ -260,22 +260,16 @@ router.get('/verify', (req, res, next) => {
     });
   });
 
-router.post('/notifyBikers', function(req, res, next) {
-  const twiml = new MessagingResponse();
-  const { body } = req;
-  const {
-    numbers
-  } = body;
-
-  for(let i = 0; i<numbers.length; i++) {
-    client.messages
-      .create({
-        from: TWILIO_NUM,
-        body: "Are you available to come into work tomorrow? Reply (available/unavailable)",
-        to: `whatsapp:+${numbers[i]}`
-      })
-      .then(message => console.log("sent"));
-  }
+router.get('/notifyBikers', function(req, res, next) {
+  Bikers.find({}, function(err, bikers) {
+    if(err) {console.log(err)}
+    else {
+      for(let i =0; i<bikers.length; i++) {
+        createMessage('Are you available to come into work tomorrow? Reply (available/unavailable)', bikers[i].phone_number); 
+      }
+      res.send("success")
+    }
+  })
 })
 
 router.get('/notifyBikersTest', function(req, res, next) {
@@ -333,7 +327,7 @@ router.post('/messageReceived', function(req, res) {
               }
             })
           } else {
-            createMessage(`Sorry, ORDER_ID: ${orderId}, for company ${order[0].client_company_name} has already been accepted by another biker. Next time, respond faster!`); 
+            createMessage(`Sorry, ORDER_ID: ${orderId}, for company ${order[0].client_company_name} has already been accepted by another biker. Next time, respond faster!`, msgFrom); 
             console.log('is taken')
           }
         }  
@@ -342,7 +336,9 @@ router.post('/messageReceived', function(req, res) {
 
   //delivery confirmation
   else if (msgBody == 'confirmed' || msgBody == 'Confirmed' || msgBody == 'confirm' || msgBody == 'Confirm') {
-    twiml.message('Great! You just completed this delivery.');
+    //works
+    createMessage('Great! You just completed this delivery.', msgFrom);
+    console.log('hit piont')
     //change the order status to completed
   }
 }); 
