@@ -13,6 +13,16 @@ const accountSid = process.env.TWILIO_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 const TWILIO_NUM = 'whatsapp:+14155238886'; 
+const TWILIO_PROD_NUM = 'whatsapp:+5117062608'
+
+createMessage = (body, to) => {
+  client.messages
+  .create({
+    from: TWILIO_NUM,
+    body: body,
+    to: `whatsapp:+${to}`
+  })
+}
 
 //get home page
 router.get('/', function(req, res, next) {
@@ -268,27 +278,53 @@ router.post('/notifyBikers', function(req, res, next) {
   }
 })
 
+router.get('/notifyBikersTest', function(req, res, next) {
+  const twiml = new MessagingResponse(); 
+  let numbers = []; 
+  Bikers.find({"phone_number" : "18082037593"}, function(err, bikers) {
+    if(err) {console.log(err)}
+    else {
+      console.log('eggie')
+      for(let i =0; i<bikers.length; i++) {
+        numbers.push(bikers[i].phone_number);
+      }
+
+      for(let i = 0; i<numbers.length; i++) {
+        client.messages
+          .create({
+            from: TWILIO_NUM,
+            body: "Are you available to come into work tomorrow? Reply (available/unavailable)",
+            to: `whatsapp:+${numbers[i]}`
+          })
+          .then(message => console.log(`sent to ${numbers[i]}`));
+      }
+
+      res.send("success")
+    }
+  })
+
+})
+
 router.post('/messageReceived', function(req, res) {
-  var msgFrom = parseFloat(req.body.From.split('+')[1]);
+  var msgFrom = req.body.From.split('+')[1];
   var msgBody = req.body.Body; 
   const twiml = new MessagingResponse();
 
   //confirming availability for next day
   if ( msgBody == 'Unavailable' || msgBody == 'unavailable' || msgBody == 'UNAVAILABLE') {
-    twiml.message('Sorry to hear that :(');
+    createMessage("sorry to heat that brith", msgFrom); 
   } else if (msgBody == 'available' || msgBody == 'Available' || msgBody == 'AVAILABLE') {
-    twiml.message('Fantastico! Hasta manyana! The number that sent this is ' + msgFrom);
-    Bikers.find({phone_number: msgFrom}, function(err, biker) {
+    //createMessage('Fantastico! Hasta manyana!', msgFrom);
+    Bikers.find({"phone_number": msgFrom}, function(err, biker) {
       if (err) {
           console.log(err);
       } else {
-          console.log(biker[0].name)
           AvailableBikers.updateOne({"tag": 1}, { $addToSet : { availableTomorrow: biker[0]._id}}, function(err, response) {
             if(err) {
               console.log(err); 
             }
             else {
-              console.log("success the available biker has just been added")
+              console.log(`${biker[0].name} has just been added to the list of availble bikers for tomorrow`)
             }
           }); 
       }  
