@@ -33,6 +33,13 @@ router.post('/', function(req, res, next) {
   res.send('Got a POST request'); 
 });
 
+router.get('/changeDatabase', function(req, res, next) {
+  Bikers.updateMany({}, {$set: {"num_current_orders":0}} , {multi: true}, function(err, success) {
+    if(err) {console.log(err)}
+      else { console.log("successfully did operation")}
+  })
+})
+
 router.post('/login', function(req, res, next) {
 	var username = req.body.username; 
 	var password = req.body.password; 
@@ -321,7 +328,7 @@ router.post('/messageReceived', function(req, res) {
             Bikers.find({"phone_number": msgFrom}, function(err, biker){
               if (err) { console.log(err)}
               else {
-                Order.updateOne({_id: orderId}, {$set: {"assigned_messenger_id": biker[0]._id}}, function(err, success) {
+                Order.updateOne({_id: orderId}, {$set: {"assigned_messenger_id": biker[0]._id, "delivery_status": "pending"}}, function(err, success) {
                   if(err) {console.log(err)} else {console.log("the order has been successfully assigned to you")}
                 }); 
               }
@@ -335,11 +342,26 @@ router.post('/messageReceived', function(req, res) {
   }
 
   //delivery confirmation
-  else if (msgBody == 'confirmed' || msgBody == 'Confirmed' || msgBody == 'confirm' || msgBody == 'Confirm') {
-    //works
-    createMessage('Great! You just completed this delivery.', msgFrom);
-    console.log('hit piont')
-    //change the order status to completed
+  else if (msgBody.split(' ')[0] == 'Delivered' || msgBody.split(' ')[0] == 'delivered' || msgBody.split(' ')[0] == 'DELIVERED') {
+    let orderId = msgBody.split(' ')[2]; 
+    Order.find({ "_id": orderId }, function(err, order) {
+        if (err) {
+            console.log(err);
+            createMessage(`${orderId} is not a valid order. Make sure you copy and paste the message exactly without spaces.`, msgFrom); 
+        } else {
+            createMessage('Great! You just completed this delivery.', msgFrom);
+            Bikers.updateOne({"phone_number": msgFrom}, {$inc: {"num_current_orders": -1}}, function(err, decremented){
+              if (err) { console.log(err)}
+              else {
+                Order.updateOne({_id: orderId}, {$set: {"delivery_status": "completed"}}, function(err, success) {
+                  if(err) {console.log(err)} else {
+                    console.log("the order has been completed")}
+                }); 
+              }
+            })
+        }  
+    })
+
   }
 }); 
 
