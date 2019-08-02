@@ -329,7 +329,14 @@ router.post('/messageReceived', function(req, res) {
               if (err) { console.log(err)}
               else {
                 Order.updateOne({_id: orderId}, {$set: {"assigned_messenger_id": biker[0]._id, "delivery_status": "pending"}}, function(err, success) {
-                  if(err) {console.log(err)} else {console.log("the order has been successfully assigned to you")}
+                  if(err) {console.log(err)} else {
+                    Bikers.updateOne({"phone_number": msgFrom}, {$inc: {"num_current_orders": 1}}, function(err, incremented) {
+                      if (err) { console.log(err)}
+                        else {
+                          console.log("the order has been successfully assigned to you")
+                        }
+                    })
+                    }
                 }); 
               }
             })
