@@ -6,7 +6,7 @@ class OutgoingAssignment extends React.Component {
     super(props);
     this.state = {
       'availableBikers': [], 
-      orderId: ''
+      order: ''
     };
   }
 
@@ -28,14 +28,14 @@ class OutgoingAssignment extends React.Component {
       },
       body: JSON.stringify({
         bikerIds: ids,
-        orderId: this.state.orderId
+        orderId: this.state.order._id
       }),
     })
   }
 
   componentWillMount() {
       this.getBikers();
-      this.setState({orderId: this.props.orderId})
+      this.setState({order: this.props.order})
   }
 
   render() {

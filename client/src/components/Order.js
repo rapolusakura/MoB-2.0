@@ -28,7 +28,7 @@ class Order extends React.Component {
                 <h3> {this.props.order.date_created} </h3>
                 <h2> {this.props.order.rate} Sol </h2> 
                 <h3> Delivery Status: {status} </h3> 
-                {status == 'outgoing' && <OutgoingAssignment orderId={this.props.order._id} /> }
+                {status == 'outgoing' && <OutgoingAssignment order={this.props.order} /> }
                 </div> 
         </div>
     );
