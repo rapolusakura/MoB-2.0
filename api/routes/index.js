@@ -447,6 +447,19 @@ router.get('/getBikersForToday', function(req, res, next) {
   })
 })
 
+router.post('/getBikerDetails', (req, res, next) => {
+  const { body } = req;
+  const {
+    bikerId 
+  } = body;
+  Bikers.find({"_id": bikerId}, {name: 1, phone_number: 1, num_current_orders: 1} , function(err, response) {
+    if(err) {console.log(err)} 
+    else {
+      res.send(response[0]); 
+    }
+  })
+}); 
+
 router.post('/calculateDistance', (req, response, next) => {
   const { body } = req;
   const {

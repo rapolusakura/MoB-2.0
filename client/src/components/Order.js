@@ -29,6 +29,7 @@ class Order extends React.Component {
                 <h2> {this.props.order.rate} Sol </h2> 
                 <h3> Delivery Status: {status} </h3> 
                 {status == 'outgoing' && <OutgoingAssignment order={this.props.order} /> }
+                {status == 'pending' && <PendingCompletion order={this.props.order} /> }
                 </div> 
         </div>
     );
