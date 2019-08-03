@@ -381,9 +381,6 @@ router.post('/assignBikers', function(req, res, next) {
   const {
     orderId
   } = body; 
-
-  console.log("biker ids: " , bikerIds)
-  console.log("order id: ", orderId)
   let messageTemplate = {
     assign: []
   }; 
@@ -392,7 +389,6 @@ router.post('/assignBikers', function(req, res, next) {
         if (err) {
             console.log(err);
         } else {
-          console.log("order" , order)
           const company_name = order[0].client_company_name; 
           Bikers.find({"_id": bikerIds}, function(err, bikers) {
             if (err) {
@@ -405,8 +401,7 @@ router.post('/assignBikers', function(req, res, next) {
                     "phone_number"  : bikers[i].phone_number
                 });
               }
-
-              console.log("all the bikers", messageTemplate)
+              
               for(let i = 0; i<messageTemplate.assign.length; i++) {
                 client.messages
                   .create({
