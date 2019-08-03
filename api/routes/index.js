@@ -370,6 +370,11 @@ router.post('/messageReceived', function(req, res) {
     })
 
   }
+
+  //edge case
+  else {
+    createMessage("I don't understand this message. Your options are: \n1) (Available/Unavailable) to confirm your availability for the next day\n2) Copy and pasting the message starting with ORDER_ID to accept an order\n 3) 'Delivered ' followed by the 'ORDER_ID: ' of the order you have just completed.", msgFrom)
+  }
 }); 
 
 router.post('/assignBikers', function(req, res, next) {

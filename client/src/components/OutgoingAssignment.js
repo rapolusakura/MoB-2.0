@@ -17,9 +17,8 @@ class OutgoingAssignment extends React.Component {
   }
 
   callAPI = (list) => {
-
     let ids = []; 
-    for(var i in list) { ids.push(i);   }
+    for(var i in list) { ids.push(i); }
 
     fetch("http://localhost:9000/assignBikers", {
       method: 'POST',
@@ -31,13 +30,7 @@ class OutgoingAssignment extends React.Component {
         bikerIds: ids,
         orderId: this.state.orderId
       }),
-    }).then(res => res.json())
-        .then(json => { 
-        console.log('json', json); 
-        if(json.success) {
-          console.log("successfully assigned bikers!!");
-        }
-    });
+    })
   }
 
   componentWillMount() {
@@ -50,7 +43,6 @@ class OutgoingAssignment extends React.Component {
 
     <Formik
       onSubmit = { values => {
-          console.log('submitting', values);
           this.callAPI(values); 
       }}
     > 
