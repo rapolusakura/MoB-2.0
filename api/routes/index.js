@@ -406,10 +406,17 @@ router.post('/assignBikers', function(req, res, next) {
                 client.messages
                   .create({
                     from: TWILIO_NUM,
-                    body: `Hi ${messageTemplate.assign[i].name}! Would you like to take this order from ${company_name}? Reply (si/no)`,
+                    body: `ORDER_ID: ${orderId}`,
                     to: `whatsapp:+${messageTemplate.assign[i].phone_number}`
                   })
-                  .then(message => console.log(`sent to ${i}`));
+
+                client.messages
+                  .create({
+                    from: TWILIO_NUM,
+                    body: `Hi ${messageTemplate.assign[i].name}! Would you like to take this order from ${company_name}? If you would like to accept, copy and paste EXACTLY the message with the ORDER_ID.`,
+                    to: `whatsapp:+${messageTemplate.assign[i].phone_number}`
+                  })
+                  .then(message => console.log(`sent to: ${messageTemplate.assign[i].name}`));
               }
               res.send(order); 
             }
