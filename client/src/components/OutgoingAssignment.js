@@ -58,6 +58,7 @@ class OutgoingAssignment extends React.Component {
           </div> 
           )
       })}
+     <br/>
      <button type="submit"> assign bikers </button> 
      </div>
     </Form>
