@@ -4,7 +4,9 @@ class PendingCompletion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      assignedBiker: null
+      bikerName: null,
+      bikerPhone: null, 
+      bikerNumOrders: null
     };
   }
 
@@ -21,7 +23,11 @@ class PendingCompletion extends React.Component {
     })
     .then( res => res.json())
     .then( json => {
-      this.setState({assignedBiker: json.name})
+      this.setState({
+        bikerName: json.name, 
+        bikerPhone: json.phone_number, 
+        bikerNumOrders: json.num_current_orders
+      })
     })
   }
 
@@ -32,8 +38,8 @@ class PendingCompletion extends React.Component {
   render() {
     return (   
       <div>
-      <h1> {this.props.order.assigned_messenger_id} </h1> 
-      <h1> {this.state.assignedBiker} </h1> 
+      <h1> {this.state.bikerName} ({this.state.bikerNumOrders}) </h1> 
+      <h1> {this.state.bikerPhone} </h1> 
       </div>
     )
   }
