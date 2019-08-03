@@ -5,7 +5,8 @@ class OutgoingAssignment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      'availableBikers': []
+      'availableBikers': [], 
+      orderId: ''
     };
   }
 
@@ -16,6 +17,10 @@ class OutgoingAssignment extends React.Component {
   }
 
   callAPI = (list) => {
+
+    let ids = []; 
+    for(var i in list) { ids.push(i);   }
+
     fetch("http://localhost:9000/assignBikers", {
       method: 'POST',
       headers: {
@@ -23,7 +28,8 @@ class OutgoingAssignment extends React.Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        list,
+        bikerIds: ids,
+        orderId: this.state.orderId
       }),
     }).then(res => res.json())
         .then(json => { 
@@ -36,15 +42,16 @@ class OutgoingAssignment extends React.Component {
 
   componentWillMount() {
       this.getBikers();
+      this.setState({orderId: this.props.orderId})
   }
 
   render() {
     return (   
 
-          <Formik
+    <Formik
       onSubmit = { values => {
           console.log('submitting', values);
-          //callAPI(values); 
+          this.callAPI(values); 
       }}
     > 
     <Form> 
