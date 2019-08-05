@@ -18,7 +18,7 @@ const TWILIO_PROD_NUM = 'whatsapp:+5117062608'
 createMessage = (body, to) => {
   client.messages
   .create({
-    from: TWILIO_PROD_NUM,
+    from: TWILIO_NUM,
     body: body,
     to: `whatsapp:+${to}`
   })
