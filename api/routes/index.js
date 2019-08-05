@@ -294,7 +294,6 @@ router.get('/notifyBikersTest', function(req, res, next) {
 })
 
 router.post('/messageReceived', function(req, res) {
-  console.log('this is the req ', req)
   var msgFrom = req.body.From.split('+')[1];
   var msgBody = req.body.Body; 
   const twiml = new MessagingResponse();
