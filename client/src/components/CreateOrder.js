@@ -14,7 +14,7 @@ const CreateOrderSchema = Yup.object().shape({
 });
 
 let createOrderAPI = (values) => {
-  fetch("http://localhost:9000/createOrder", {
+  fetch("/createOrder", {
       method: 'POST',
       headers: {
         Accept: 'application/json',

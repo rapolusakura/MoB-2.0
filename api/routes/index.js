@@ -272,7 +272,7 @@ router.get('/notifyBikers', function(req, res, next) {
     if(err) {console.log(err)}
     else {
       for(let i =0; i<bikers.length; i++) {
-        createMessage('Mail On Bike: ¿Estarás disponible mañana para realizar envíos? Por favor responder sólo éstas dos opciones: (si/no)', bikers[i].phone_number);
+        createMessage('Mail On Bike: ¿Estarás disponible mañana para realizar envíos? Por favor responder sólo éstas dos opciones: (disponible/negativo)', bikers[i].phone_number);
         //createMessage('Are you available to work tomorrow? Respond with (si/no)', bikers[i].phone_number);
       }
       res.send("success")
@@ -286,7 +286,7 @@ router.get('/notifyBikersTest', function(req, res, next) {
     if(err) {console.log(err)}
     else {
       for(let i =0; i<bikers.length; i++) {
-        createMessage('Are you available to come into work tomorrow? Reply (si/no)', bikers[i].phone_number); 
+        createMessage('Mail On Bike: ¿Estarás disponible mañana para realizar envíos? Por favor responder sólo éstas dos opciones: (disponible/negativo)', bikers[i].phone_number); 
       }
       res.send("success")
     }
@@ -305,10 +305,11 @@ router.post('/messageReceived', function(req, res) {
   }
 
   //confirming availability for next day
-  else if(msgBody == 'no' || msgBody == 'No' || msgBody == 'No ' || msgBody == 'no ' || msgBody == 'NO') {
+  else if(msgBody == 'negativo' || msgBody == 'Negativo' || msgBody == 'negativo ' || msgBody == 'Negativo ') {
     console.log(`${msgFrom} said they are not availabe to work`)
+    res.end('done')
   }
-  else if (msgBody == 'si' || msgBody == 'sí' || msgBody == 'Sí' || msgBody == 'sí ' || msgBody == 'Si' || msgBody == 'SI' || msgBody == 'si ' || msgBody == 'Si ') {
+  else if (msgBody == 'disponible' || msgBody == 'Disponible' || msgBody == 'Disponible ' || msgBody == 'disponible ') {
     Bikers.find({"phone_number": msgFrom}, function(err, biker) {
       if (err) {
           console.log(err);
@@ -323,6 +324,7 @@ router.post('/messageReceived', function(req, res) {
             }
             else {
               console.log(`${biker[0].name} has just been added to the list of available bikers for tomorrow`)
+              res.end('done')
             }
           }); 
       }  
@@ -387,7 +389,7 @@ router.post('/messageReceived', function(req, res) {
 
   //edge case
   else {
-    createMessage("I don't understand this message. Your options are: \n1) (si/no) to confirm your availability for the next day\n2) Copy and pasting the message starting with ORDER_ID to accept an order\n 3) 'Delivered ' followed by the 'ORDER_ID: ' of the order you have just completed.", msgFrom)
+    createMessage("No entiendo esta mensaje. Your options are: \n1) (disponible/negativo) to confirm your availability for the next day\n2) Copy and pasting the message starting with ORDER_ID to accept an order\n 3) 'Delivered ' followed by the 'ORDER_ID: ' of the order you have just completed.", msgFrom)
   }
 }); 
 
@@ -422,20 +424,9 @@ router.post('/assignBikers', function(req, res, next) {
               }
               
               for(let i = 0; i<messageTemplate.assign.length; i++) {
-                client.messages
-                  .create({
-                    from: TWILIO_NUM,
-                    body: `ORDER_ID: ${orderId}`,
-                    to: `whatsapp:+${messageTemplate.assign[i].phone_number}`
-                  })
-
-                client.messages
-                  .create({
-                    from: TWILIO_NUM,
-                    body: `Hi ${messageTemplate.assign[i].name}! Would you like to take this order from ${company_name}? If you would like to accept, copy and paste EXACTLY the message with the ORDER_ID.`,
-                    to: `whatsapp:+${messageTemplate.assign[i].phone_number}`
-                  })
-                  .then(message => console.log(`sent to: ${messageTemplate.assign[i].name}`));
+                createMessage(`ORDER_ID: ${orderId}`, messageTemplate.assign[i].phone_number); 
+                createMessage(`Hi ${messageTemplate.assign[i].name}! Would you like to take this order from ${company_name}? If you would like to accept, copy and paste EXACTLY the message with the ORDER_ID.`, messageTemplate.assign[i].phone_number) 
+                console.log(`just asked if ${messageTemplate.assign[i].name} wants to take the order`)
               }
               res.send(order); 
             }
@@ -463,6 +454,7 @@ router.get('/getBikersForToday', function(req, res, next) {
 
 router.post('/getBikerDetails', (req, res, next) => {
   const { body } = req;
+  console.log(body); 
   const {
     bikerId 
   } = body;

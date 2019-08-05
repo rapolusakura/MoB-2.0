@@ -22,7 +22,7 @@ const SignupSchema = Yup.object().shape({
 });
 
 let attemptSignup = (values) => {
-  fetch("http://localhost:9000/signup", {
+  fetch("/signup", {
       method: 'POST',
       headers: {
         Accept: 'application/json',

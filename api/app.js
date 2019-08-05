@@ -1,6 +1,6 @@
+const express = require('express');
+const path = require('path');
 var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require("cors");
@@ -8,12 +8,10 @@ const bodyParser = require('body-parser');
 var indexRouter = require('./routes/index');
 var testAPIRouter = require('./routes/testAPI'); 
 
-var app = express();
+const app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -21,8 +19,8 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors()); 
+app.set('view engine', 'jade');
 
 //route separation
 app.use('/', indexRouter);
@@ -44,4 +42,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+const port = process.env.PORT || 9000;
+app.listen(port);
+
+console.log(`listening on ${port}`);

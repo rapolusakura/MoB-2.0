@@ -16,6 +16,7 @@
     "react-scripts": "3.0.1",
     "yup": "^0.27.0"
   },
+  "proxy": "https://mailonbike-test.herokuapp.com",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
