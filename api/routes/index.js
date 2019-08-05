@@ -294,6 +294,7 @@ router.get('/notifyBikersTest', function(req, res, next) {
 })
 
 router.post('/messageReceived', function(req, res) {
+  console.log('this is the req ', req)
   var msgFrom = req.body.From.split('+')[1];
   var msgBody = req.body.Body; 
   const twiml = new MessagingResponse();
@@ -463,6 +464,7 @@ router.get('/getBikersForToday', function(req, res, next) {
 
 router.post('/getBikerDetails', (req, res, next) => {
   const { body } = req;
+  console.log(body); 
   const {
     bikerId 
   } = body;
