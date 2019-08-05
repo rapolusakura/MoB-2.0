@@ -8,36 +8,36 @@ class PendingCompletion extends React.Component {
     };
   }
 
-  callAPI = () => {
-    fetch("/getBikerDetails", {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        bikerId: this.props.order.assigned_messenger_id
-      }),
-    })
-    .then( res => res.json())
-    .then( json => {
-      this.setState({
-        assignedBiker: json,
-      })
-      {this.state.assignedBiker.map( (biker, index) => {
-        this.setState({assignedBiker: biker})
-      })}
-    })
-  }
+  // callAPI = () => {
+  //   fetch("/getBikerDetails", {
+  //     method: 'POST',
+  //     headers: {
+  //       Accept: 'application/json',
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       bikerId: this.props.order.assigned_messenger_id
+  //     }),
+  //   })
+  //   .then( res => res.json())
+  //   .then( json => {
+  //     this.setState({
+  //       assignedBiker: json,
+  //     })
+  //     {this.state.assignedBiker.map( (biker, index) => {
+  //       this.setState({assignedBiker: biker})
+  //     })}
+  //   })
+  // }
 
   componentWillMount() {
-      this.callAPI()
+      //this.callAPI()
   }
 
   render() {
     return (   
       <div>
-      <h1> fucker {this.state.assignedBiker.name} </h1> 
+      <h1> in progress </h1> 
       </div>
     )
   }
