@@ -332,8 +332,8 @@ router.post('/messageReceived', function(req, res) {
   }
 
   //accepting an order
-  else if (msgBody.split(' ')[0] == 'ORDER_ID:') {
-    let orderId = msgBody.split(' ')[1];
+  else if (msgBody.split(' ')[0] == 'ORDER_ID') {
+    let orderId = msgBody.split(' ')[3];
     Order.find({ "_id": orderId }, function(err, order) {
         if (err) {
             console.log(err);
@@ -366,7 +366,7 @@ router.post('/messageReceived', function(req, res) {
 
   //delivery confirmation
   else if (msgBody.split(' ')[0] == 'Delivered' || msgBody.split(' ')[0] == 'delivered' || msgBody.split(' ')[0] == 'DELIVERED') {
-    let orderId = msgBody.split(' ')[2]; 
+    let orderId = msgBody.split(' ')[4]; 
     Order.find({ "_id": orderId }, function(err, order) {
         if (err) {
             console.log(err);
@@ -384,7 +384,6 @@ router.post('/messageReceived', function(req, res) {
             })
         }  
     })
-
   }
 
   //edge case
@@ -424,7 +423,7 @@ router.post('/assignBikers', function(req, res, next) {
               }
               
               for(let i = 0; i<messageTemplate.assign.length; i++) {
-                createMessage(`ORDER_ID: ${orderId}`, messageTemplate.assign[i].phone_number); 
+                createMessage(`ORDER_ID FOR ${company_name}: ${orderId}`, messageTemplate.assign[i].phone_number); 
                 createMessage(`Hi ${messageTemplate.assign[i].name}! Would you like to take this order from ${company_name}? If you would like to accept, copy and paste EXACTLY the message with the ORDER_ID.`, messageTemplate.assign[i].phone_number) 
                 console.log(`just asked if ${messageTemplate.assign[i].name} wants to take the order`)
               }
@@ -458,7 +457,7 @@ router.post('/getBikerDetails', (req, res, next) => {
   const {
     bikerId 
   } = body;
-  Bikers.find({"_id": bikerId}, {name: 1, phone_number: 1, num_current_orders: 1} , function(err, response) {
+  Bikers.find({"_id": bikerId}, {name: 1, phone_number: 1, num_current_orders: 1, district: 1} , function(err, response) {
     if(err) {console.log(err)} 
     else {
       res.send(response[0]); 
