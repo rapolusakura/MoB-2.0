@@ -23,23 +23,18 @@ shiftAvailableList = () => {
           else {
           	console.log("succesfully shifted lists")
           	//get the bikers names and phone numbers
-			let list = {
-				namesAndNum: []
-			};
+			var list = '';
           	Bikers.find({"_id": availableTomorrow}, function(err, bikers) {
           		if (err) {console.log(err)}
       			else {
 	              for(let i =0; i<bikers.length; i++) {
-	                list.namesAndNum.push({
-	                    "name" : bikers[i].name,
-	                    "phone_number"  : bikers[i].phone_number
-	                });
+	              	list += `\n${bikers[i].name}: ${bikers[i].phone_number}`; 
 	              }
 	          	//message the list to anderson
 	          	client.messages
 				  .create({
-				    from: TWILIO_TEST_NUM,
-				    body: `Hi Anderson, this is the list for people available tomorrow: ${JSON.stringify(list)}!`,
+				    from: TWILIO_PROD_NUM,
+				    body: `Hola, this is the list for bikers available tomorrow: ${list}`,
 				    to: `whatsapp:+18082037593`
 				  })
       			}

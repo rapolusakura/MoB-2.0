@@ -18,7 +18,7 @@ const TWILIO_PROD_NUM = 'whatsapp:+5117062608'
 createMessage = (body, to) => {
   client.messages
   .create({
-    from: TWILIO_NUM,
+    from: TWILIO_PROD_NUM,
     body: body,
     to: `whatsapp:+${to}`
   })
@@ -272,7 +272,8 @@ router.get('/notifyBikers', function(req, res, next) {
     if(err) {console.log(err)}
     else {
       for(let i =0; i<bikers.length; i++) {
-        createMessage('Are you available to come into work tomorrow? Reply (available/unavailable)', bikers[i].phone_number); 
+        createMessage('Mail On Bike: ¿Estarás disponible mañana para realizar envíos? Por favor responder sólo éstas dos opciones: (si/no)', bikers[i].phone_number);
+        //createMessage('Are you available to work tomorrow? Respond with (si/no)', bikers[i].phone_number);
       }
       res.send("success")
     }
@@ -285,7 +286,7 @@ router.get('/notifyBikersTest', function(req, res, next) {
     if(err) {console.log(err)}
     else {
       for(let i =0; i<bikers.length; i++) {
-        createMessage('Are you available to come into work tomorrow? Reply (available/unavailable)', bikers[i].phone_number); 
+        createMessage('Are you available to come into work tomorrow? Reply (si/no)', bikers[i].phone_number); 
       }
       res.send("success")
     }
@@ -296,13 +297,26 @@ router.post('/messageReceived', function(req, res) {
   var msgFrom = req.body.From.split('+')[1];
   var msgBody = req.body.Body; 
   const twiml = new MessagingResponse();
+  console.log('got message from: ', msgFrom, " saying: ", msgBody)
+
+  //initially starting the session
+  if (msgBody == 'hola' || msgBody == 'Hola') {
+    createMessage('Hola del Mail on Bike!', msgFrom); 
+  }
 
   //confirming availability for next day
-  if (msgBody == 'available' || msgBody == 'Available' || msgBody == 'AVAILABLE') {
+  else if(msgBody == 'no' || msgBody == 'No' || msgBody == 'No ' || msgBody == 'no ' || msgBody == 'NO') {
+    console.log(`${msgFrom} said they are not availabe to work`)
+  }
+  else if (msgBody == 'si' || msgBody == 'sí' || msgBody == 'Sí' || msgBody == 'sí ' || msgBody == 'Si' || msgBody == 'SI' || msgBody == 'si ' || msgBody == 'Si ') {
     Bikers.find({"phone_number": msgFrom}, function(err, biker) {
       if (err) {
           console.log(err);
       } else {
+          if (biker == 'undefined') {
+            console.log('this phone number is undefined')
+            res.end('not successful, number is undefined')
+          }
           AvailableBikers.updateOne({"tag": 1}, { $addToSet : { availableTomorrow: biker[0]._id}}, function(err, response) {
             if(err) {
               console.log(err); 
@@ -373,7 +387,7 @@ router.post('/messageReceived', function(req, res) {
 
   //edge case
   else {
-    createMessage("I don't understand this message. Your options are: \n1) (Available/Unavailable) to confirm your availability for the next day\n2) Copy and pasting the message starting with ORDER_ID to accept an order\n 3) 'Delivered ' followed by the 'ORDER_ID: ' of the order you have just completed.", msgFrom)
+    createMessage("I don't understand this message. Your options are: \n1) (si/no) to confirm your availability for the next day\n2) Copy and pasting the message starting with ORDER_ID to accept an order\n 3) 'Delivered ' followed by the 'ORDER_ID: ' of the order you have just completed.", msgFrom)
   }
 }); 
 
