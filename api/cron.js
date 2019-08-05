@@ -28,8 +28,7 @@ shiftAvailableList = () => {
           		if (err) {console.log(err)}
       			else {
 	              for(let i =0; i<bikers.length; i++) {
-                  console.log('biker', bikers[i])
-	              	list += `\n${bikers[i].name}: ${bikers[i].district}`; 
+	              	list += `\n${bikers[i]}`; 
 	              }
 	          	//message the list to anderson
 	          	client.messages
