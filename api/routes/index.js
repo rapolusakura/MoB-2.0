@@ -307,6 +307,7 @@ router.post('/messageReceived', function(req, res) {
   //confirming availability for next day
   else if(msgBody == 'no' || msgBody == 'No' || msgBody == 'No ' || msgBody == 'no ' || msgBody == 'NO') {
     console.log(`${msgFrom} said they are not availabe to work`)
+    res.end('done')
   }
   else if (msgBody == 'si' || msgBody == 'sí' || msgBody == 'Sí' || msgBody == 'sí ' || msgBody == 'Si' || msgBody == 'SI' || msgBody == 'si ' || msgBody == 'Si ') {
     Bikers.find({"phone_number": msgFrom}, function(err, biker) {
@@ -323,6 +324,7 @@ router.post('/messageReceived', function(req, res) {
             }
             else {
               console.log(`${biker[0].name} has just been added to the list of available bikers for tomorrow`)
+              res.end('done')
             }
           }); 
       }  
