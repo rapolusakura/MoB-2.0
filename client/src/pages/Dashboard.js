@@ -10,7 +10,7 @@ class Dashboard extends React.Component {
   }
 
   callAPI() {
-      fetch("http://localhost:9000/getOutgoingOrders")
+      fetch("/getOutgoingOrders")
           .then(res => res.json())
           .then(res => this.setState({ 'orders': res }));
   }

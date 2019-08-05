@@ -51,7 +51,7 @@ export default class App extends React.Component {
 		if (obj && obj.token) {
 		const { token } = obj;
 		// Verify token
-		fetch('http://localhost:9000/verify?token=' + token)
+		fetch('/verify?token=' + token)
 		.then(res => res.json())
 		.then(json => {
 	  	if (json.success) {

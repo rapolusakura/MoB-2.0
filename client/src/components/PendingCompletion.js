@@ -9,7 +9,7 @@ class PendingCompletion extends React.Component {
   }
 
   callAPI = () => {
-    fetch("http://localhost:9000/getBikerDetails", {
+    fetch("/getBikerDetails", {
       method: 'POST',
       headers: {
         Accept: 'application/json',

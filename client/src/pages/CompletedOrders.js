@@ -11,7 +11,7 @@ export default class CompletedOrders extends React.Component {
   }
 
   callAPI() {
-      fetch("http://localhost:9000/getCompletedOrders")
+      fetch("/getCompletedOrders")
           .then(res => res.json())
           .then(res => this.setState({ 'orders': res }));
   }

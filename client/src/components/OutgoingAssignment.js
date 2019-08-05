@@ -11,7 +11,7 @@ class OutgoingAssignment extends React.Component {
   }
 
   getBikers = () => {
-      fetch("http://localhost:9000/getBikersForToday")
+      fetch("/getBikersForToday")
           .then(res => res.json())
           .then(res => this.setState({ 'availableBikers': res }));
   }
@@ -20,7 +20,7 @@ class OutgoingAssignment extends React.Component {
     let ids = []; 
     for(var i in list) { ids.push(i); }
 
-    fetch("http://localhost:9000/assignBikers", {
+    fetch("/assignBikers", {
       method: 'POST',
       headers: {
         Accept: 'application/json',

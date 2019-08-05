@@ -16,7 +16,7 @@ const LoginSchema = Yup.object().shape({
 });
 
 let attemptSignIn = (values) => {
-  fetch("http://localhost:9000/signin", {
+  fetch("/signin", {
         method: 'POST',
         headers: {
           Accept: 'application/json',
