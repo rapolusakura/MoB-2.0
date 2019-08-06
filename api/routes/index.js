@@ -7,6 +7,7 @@ const User = require('../models/User');
 const UserSession = require('../models/UserSession'); 
 const Bikers = require('../models/bikers')
 const AvailableBikers = require('../models/AvailableBikers')
+const Companies = require('../models/Companies')
 const request = require('request');
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const accountSid = process.env.TWILIO_SID;
@@ -102,7 +103,11 @@ router.post('/signup', (req, res, next) => {
     email = email.toLowerCase();
     email = email.trim();
     phone_number = phone_number.trim(); 
-    if(phone_number )
+
+    //add area code
+    if(phone_number.length == 9) {
+      phone_number = '51' + phone_number; 
+    }
 
     // Steps:
     // 1. Verify email doesn't exist
@@ -126,6 +131,9 @@ router.post('/signup', (req, res, next) => {
       newUser.email = email;
       newUser.firstName = firstName.toLowerCase().trim(); 
       newUser.lastName = lastName.toLowerCase().trim(); 
+      newUser.phone_number = phone_number; 
+      //um idk what to do here
+      newUser.employer = employer; 
       newUser.password = newUser.generateHash(password);
       newUser.save((err, user) => {
         if (err) {
@@ -449,6 +457,15 @@ router.post('/getBikerDetails', (req, res, next) => {
     }
   })
 }); 
+
+router.get('/getCompanyNames', (req, res, next) => {
+  Companies.find({}, {'official_company_name': 1}, function(err, companies) {
+    if(err) {console.log(err)}
+      else {
+        res.send(companies); 
+      }
+  })
+})
 
 router.post('/calculateDistance', (req, response, next) => {
   const { body } = req;

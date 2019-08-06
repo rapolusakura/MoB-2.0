@@ -8,6 +8,7 @@ var companySchema = new mongoose.Schema({
 		type: String, 
 		enum: ['e-commerce', 'enterprise', 'express', 'juntoz']
 	}, 
+	official_company_name: String,
 	company_name: String, 
 	address: String, 
 	district: String, 
