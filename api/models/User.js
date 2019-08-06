@@ -36,6 +36,10 @@ const UserSchema = new mongoose.Schema({
   }, 
   phoneNumber: Number, 
   employer: String, 
+  firstTimeLoggingIn: {
+    type: Boolean, 
+    default: true
+  },
   defaultOriginAddress: String, 
   defaultDestAddress: String
 });

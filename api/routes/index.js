@@ -40,16 +40,6 @@ router.get('/changeDatabase', function(req, res, next) {
   })
 })
 
-router.post('/login', function(req, res, next) {
-	var username = req.body.username; 
-	var password = req.body.password; 
-	if(username == "rapolu@usc.edu" && password == "123") {
-		res.send({loginStatus: "success"});
-	} else {
-		res.send({loginStatus: "failure"}); 
-	}
-});
-
 router.post('/createOrder', function(req, res, next) {
 	var client_company_name = req.body.company_name; 
 	var rate = req.body.rate; 
@@ -106,20 +96,12 @@ router.get('/getCompletedOrders', function(req, res, next) {
 router.post('/signup', (req, res, next) => {
     const { body } = req;
     const {
-      password
-    } = body;
-    let {
-      email
-    } = body;
-    let {
-      firstName
-    } = body;
-    let {
-      lastName
+      password, email, firstName, lastName, phone_number, employer
     } = body;
     
     email = email.toLowerCase();
     email = email.trim();
+
     // Steps:
     // 1. Verify email doesn't exist
     // 2. Save
