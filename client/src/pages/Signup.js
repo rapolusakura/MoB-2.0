@@ -65,24 +65,33 @@ const Signup = () => (
           {errors.firstName && touched.firstName ? (
             <div>{errors.firstName}</div>
           ) : null}
+          <br/>
           <Field name="lastName" placeholder = "Last Name" />
           {errors.lastName && touched.lastName ? (
             <div>{errors.lastName}</div>
           ) : null}
+          <br/>
+
           <Field name="email" type="email" placeholder = "Email" />
           {errors.email && touched.email ? <div>{errors.email}</div> : null}
-
+          <br/>
+          search for your employer's razon commerical name
           <Field name="employer" type="text" placeholder = "Employer" />
           {errors.employer && touched.employer ? <div>{errors.employer}</div> : null}
+          <br/>
 
           <Field name="phone_number" type="tel" placeholder = "Phone number"/>
           {errors.phone_number && touched.phone_number ? <div>{errors.phone_number}</div> : null}
+          <br/>
 
           <Field name="password" type="password" placeholder = "Enter password" />
           {errors.password && touched.password ? <div>{errors.password}</div> : null}
+          <br/>
 
           <Field name="confirmPassword" type="password" placeholder = "Confirm password" />
           {errors.confirmPassword && touched.confirmPassword ? <div>{errors.confirmPassword}</div> : null}
+          <br/>
+          
           <button type="submit">Submit</button>
         </div> 
     </Form>

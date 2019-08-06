@@ -10,7 +10,20 @@ var companySchema = new mongoose.Schema({
 	}, 
 	company_name: String, 
 	address: String, 
-	district: String
+	district: String, 
+	phone_number: String, 
+	department: String, 
+	province: String, 
+	contact_first_name: String, 
+	contact_last_name: String, 
+	contact_phone_number: String, 
+	email: String, 
+	salesperson: String, 
+	payment_method: String,
+	payment_receipt: String, 
+	bank: String,
+	bank_account_type: String,
+	bank_account_number: String
 }); 
 
 var Companies = mongoose.model("Companies", companySchema);

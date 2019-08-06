@@ -101,6 +101,8 @@ router.post('/signup', (req, res, next) => {
     
     email = email.toLowerCase();
     email = email.trim();
+    phone_number = phone_number.trim(); 
+    if(phone_number )
 
     // Steps:
     // 1. Verify email doesn't exist
@@ -149,6 +151,7 @@ router.post('/signin', (req, res, next) => {
       email
     } = body;
     email = email.toLowerCase().trim(); 
+
     User.find({
       email: email
     }, (err, users) => {
