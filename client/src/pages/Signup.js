@@ -2,6 +2,8 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+
 const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
     .min(2, 'Too Short!')
@@ -14,6 +16,11 @@ const SignupSchema = Yup.object().shape({
   email: Yup.string()
     .email('Invalid email')
     .required('Required'),
+  employer: Yup.string()
+    .required('Required'), 
+  phone_number: Yup.string()
+    .matches(phoneRegExp, 'Phone number is not valid')
+    .required('A phone number is required'),
   password: Yup.string()
     .min(1, 'Too short!')
     .required('Password is required'),
@@ -42,7 +49,9 @@ const Signup = () => (
     initialValues={{
         firstName: '',
         lastName: '',
-        email: ''
+        email: '', 
+        employer: '', 
+        phone_number: ''
       }}
     validationSchema={SignupSchema}
     onSubmit={values => {
@@ -62,6 +71,13 @@ const Signup = () => (
           ) : null}
           <Field name="email" type="email" placeholder = "Email" />
           {errors.email && touched.email ? <div>{errors.email}</div> : null}
+
+          <Field name="employer" type="text" placeholder = "Employer" />
+          {errors.employer && touched.employer ? <div>{errors.employer}</div> : null}
+
+          <Field name="phone_number" type="tel" placeholder = "Phone number"/>
+          {errors.phone_number && touched.phone_number ? <div>{errors.phone_number}</div> : null}
+
           <Field name="password" type="password" placeholder = "Enter password" />
           {errors.password && touched.password ? <div>{errors.password}</div> : null}
 

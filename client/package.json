@@ -6,6 +6,7 @@
     "formik": "^1.5.8",
     "google-maps-react": "^2.0.2",
     "history": "^4.9.0",
+    "pusher": "^2.2.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-geocode": "^0.1.2",
