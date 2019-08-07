@@ -20,23 +20,23 @@ if (err) {
       else {
       	console.log("succesfully shifted lists")
       	//get the bikers names and phone numbers
-		var list = '';
+		    var list = '';
       	Bikers.find({"_id": availableTomorrow}, {name: 1, district: 1, _id: 0}, function(err, bikers) {
       		if (err) {console.log(err)}
-  			else {
-              for(let i =0; i<bikers.length; i++) {
-                var biker = JSON.stringify(bikers[i]);
-                var district = biker.split('"')[7]
-              	list += `\n${bikers[i].name}: ${district}`; 
-              }
-          	//message the list to anderson
-          	client.messages
-			  .create({
-			    from: TWILIO_PROD_NUM,
-			    body: `Hola, this is the tentative list for bikers available tomorrow: ${list}`,
-			    to: ANDERSONS_NUM
-			  })
-  			}
+    			else {
+                for(let i =0; i<bikers.length; i++) {
+                  var biker = JSON.stringify(bikers[i]);
+                  var district = biker.split('"')[7]
+                	list += `\n${bikers[i].name}: ${district}`; 
+                }
+            	//message the list to anderson
+            	client.messages
+  			  .create({
+  			    from: TWILIO_PROD_NUM,
+  			    body: `Hola, this is the tentative list for bikers available tomorrow: ${list}`,
+  			    to: ANDERSONS_NUM
+  			  })
+    			}
       	})
       }
   })

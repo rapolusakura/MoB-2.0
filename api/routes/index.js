@@ -15,6 +15,7 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 const TWILIO_NUM = 'whatsapp:+14155238886'; 
 const TWILIO_PROD_NUM = 'whatsapp:+5117062608'
+const ANDERSONS_NUM = 'whatsapp:+51932522542';
 
 createMessage = (body, to) => {
   client.messages
@@ -260,18 +261,18 @@ router.get('/verify', (req, res, next) => {
     });
   });
 
-router.get('/notifyBikers', function(req, res, next) {
-  Bikers.find({}, function(err, bikers) {
-    if(err) {console.log(err)}
-    else {
-      for(let i =0; i<bikers.length; i++) {
-        createMessage('Mail On Bike: ¿Estarás disponible mañana para realizar envíos? Por favor responder sólo éstas dos opciones: (disponible/negativo)', bikers[i].phone_number);
-        //createMessage('Are you available to work tomorrow? Respond with (si/no)', bikers[i].phone_number);
-      }
-      res.send("success")
-    }
-  })
-})
+// router.get('/notifyBikers', function(req, res, next) {
+//   Bikers.find({}, function(err, bikers) {
+//     if(err) {console.log(err)}
+//     else {
+//       for(let i =0; i<bikers.length; i++) {
+//         createMessage('Mail On Bike: ¿Estarás disponible mañana para realizar envíos? Por favor responder sólo éstas dos opciones: (disponible/negativo)', bikers[i].phone_number);
+//         //createMessage('Are you available to work tomorrow? Respond with (si/no)', bikers[i].phone_number);
+//       }
+//       res.send("success")
+//     }
+//   })
+// })
 
 router.get('/notifyBikersTest', function(req, res, next) {
   //the actual route will have nothing in the find so it gets everyone
@@ -292,12 +293,43 @@ router.post('/messageReceived', function(req, res) {
   const twiml = new MessagingResponse();
   console.log('got message from: ', msgFrom, " saying: ", msgBody)
   var ranges = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|\ud83c[\ude32-\ude3a]|\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])/g
+  
   //initially starting the session
   if (msgBody == 'hola' || msgBody == 'Hola') {
     createMessage('Hola del Mail on Bike!', msgFrom); 
   }
   //responding on saturday with emoji
   else if (msgBody.match(ranges)) {console.log('just received an emoji'); res.end(200)}
+
+  //anderson's key word to get list of bikers who are available tomorrow
+  else if (msgBody == 'list' || msgBody == 'List') {
+    AvailableBikers.find({}, function(err, record) {
+    if (err) {
+      console.log(err);
+    } else {
+      let availableTomorrow = record[0].availableTomorrow; 
+      //get the bikers names and phone numbers
+      var list = '';
+      Bikers.find({"_id": availableTomorrow}, {name: 1, district: 1, _id: 0}, function(err, bikers) {
+        if (err) {console.log(err)}
+        else {
+              for(let i =0; i<bikers.length; i++) {
+                var biker = JSON.stringify(bikers[i]);
+                var district = biker.split('"')[7]
+                list += `\n${bikers[i].name}: ${district}`; 
+              }
+            //message the list to anderson
+            client.messages
+            .create({
+              from: TWILIO_PROD_NUM,
+              body: `This is the list for bikers available tomorrow: ${list}`,
+              to: ANDERSONS_NUM
+            })
+        }
+      })
+    }  
+    })
+  }
   //confirming availability for next day
   else if(msgBody == 'negativo' || msgBody == 'Negativo' || msgBody == 'negativo ' || msgBody == 'Negativo ') {
     console.log(`${msgFrom} said they are not availabe to work`)
