@@ -19,7 +19,7 @@ if(n == 6) {
 	msgBody = "Mail On Bike: ¿Estarás disponible mañana para realizar envíos? Por favor responder sólo éstas dos opciones: (disponible/negativo)"
 }
 
-Bikers.find({'phone_number': '18082037593'}, function(err, bikers) {
+Bikers.find({}, function(err, bikers) {
 	if(err) {console.log(err)}
 		else {
 		  for(let i =0; i<bikers.length; i++) {

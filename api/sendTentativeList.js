@@ -25,15 +25,16 @@ if (err) {
       		if (err) {console.log(err)}
   			else {
               for(let i =0; i<bikers.length; i++) {
-              	list += `\n${bikers[i]}`; 
-              	console.log(bikers[i].district)
+                var biker = JSON.stringify(bikers[i]);
+                var district = biker.split('"')[7]
+              	list += `\n${bikers[i].name}: ${district}`; 
               }
           	//message the list to anderson
           	client.messages
 			  .create({
 			    from: TWILIO_PROD_NUM,
 			    body: `Hola, this is the tentative list for bikers available tomorrow: ${list}`,
-			    to: 'whatsapp:+18082037593'
+			    to: ANDERSONS_NUM
 			  })
   			}
       	})

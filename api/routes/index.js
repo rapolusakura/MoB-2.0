@@ -296,6 +296,7 @@ router.post('/messageReceived', function(req, res) {
   if (msgBody == 'hola' || msgBody == 'Hola') {
     createMessage('Hola del Mail on Bike!', msgFrom); 
   }
+  //responding on saturday with emoji
   else if (msgBody.match(ranges)) {console.log('just received an emoji'); res.end(200)}
   //confirming availability for next day
   else if(msgBody == 'negativo' || msgBody == 'Negativo' || msgBody == 'negativo ' || msgBody == 'Negativo ') {
