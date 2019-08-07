@@ -301,7 +301,7 @@ router.post('/messageReceived', function(req, res) {
   //responding on saturday with emoji
   else if (msgBody.match(ranges)) {console.log('just received an emoji'); res.end(200)}
 
-  //anderson's key word to get list of bikers who are available tomorrow
+  //admin's key word to get list of bikers who are available tomorrow
   else if (msgBody == 'list' || msgBody == 'List') {
     AvailableBikers.find({}, function(err, record) {
     if (err) {
@@ -318,13 +318,7 @@ router.post('/messageReceived', function(req, res) {
                 var district = biker.split('"')[7]
                 list += `\n${bikers[i].name}: ${district}`; 
               }
-            //message the list to anderson
-            client.messages
-            .create({
-              from: TWILIO_PROD_NUM,
-              body: `This is the list for bikers available tomorrow: ${list}`,
-              to: ANDERSONS_NUM
-            })
+              createMessage(`This is the list for bikers available tomorrow: ${list}`, msgFrom); 
         }
       })
     }  

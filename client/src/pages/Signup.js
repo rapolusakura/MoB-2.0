@@ -2,7 +2,27 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
-const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+export default class Signup extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      'company_names' : []
+    }
+  }
+
+  componentWillMount() {
+    fetch('/getCompanyNames')
+      .then(res => res.json())
+      .then(res => this.setState({ 'company_names': res }));
+      console.log(this.state.company_names)
+  }
+
+}
+
+ phoneRegExp = () => {
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+ } 
 
 const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -41,7 +61,8 @@ let attemptSignup = (values) => {
         alert(text));  
 }
 
-const Signup = () => (
+render() {
+  return (
 
   <div> 
     <h1>this is a sign up page for new users</h1> 
@@ -99,5 +120,8 @@ const Signup = () => (
   </Formik>
   </div> 
 )
+}
+
+
 
 export default Signup; 
