@@ -13,8 +13,38 @@ export default class App extends React.Component {
 		super(props);
 		this.state = { 
 			isLoggedIn: false,
-			isAdmin: false
+			isAdmin: false,
+			isLoading: true
 		}
+	}
+
+	verify = () => {
+		const obj = getFromStorage('mail_on_bike');
+		if (obj && obj.token) {
+		const { token } = obj;
+		// Verify token
+		fetch('/verify?token=' + token)
+		.then(res => res.json())
+		.then(json => {
+	  	if (json.success) {
+		    this.setState({
+		    	isLoggedIn: true, 
+		    	isAdmin: json.isAdmin,
+		    	isLoading: false
+	    	}); 
+		  }
+		});
+		} else {
+			this.setState({ isLoading: false })
+		}
+	}
+
+	loadingView = () => {
+		return (
+			<div> 
+				Loading...
+			</div>
+		)
 	}
 
 	userAccountView = () => {
@@ -46,24 +76,6 @@ export default class App extends React.Component {
 		)
 	}
 
-	verify = () => {
-		const obj = getFromStorage('mail_on_bike');
-		if (obj && obj.token) {
-		const { token } = obj;
-		// Verify token
-		fetch('/verify?token=' + token)
-		.then(res => res.json())
-		.then(json => {
-	  	if (json.success) {
-		    this.setState({
-		    	isLoggedIn: true, 
-		    	isAdmin: json.isAdmin
-	    	}); 
-		  }
-		});
-		}	
-	}
-
 	setLoginStatus = (bool) => {
 		this.setState({
 	      isLoggedIn: bool
@@ -71,15 +83,19 @@ export default class App extends React.Component {
 	}
 
 	componentDidMount() {
-		this.verify(); 
+		this.verify()
 	}
 
 	render() {
-		if(this.state.isLoggedIn) {
-			if(this.state.isAdmin) {
-				return this.adminAccountView(); 
-			} return this.userAccountView(); 
-		} return this.loginView(); 
+		if(this.state.isLoading) {
+			return this.loadingView(); 
+		} else {
+			if(this.state.isLoggedIn) {
+				if(this.state.isAdmin) {
+					return this.adminAccountView(); 
+				} return this.userAccountView(); 
+			} return this.loginView(); 
+		}
 	}
 }
 

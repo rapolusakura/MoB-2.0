@@ -133,6 +133,7 @@ router.post('/signup', (req, res, next) => {
       newUser.firstName = firstName.toLowerCase().trim(); 
       newUser.lastName = lastName.toLowerCase().trim(); 
       newUser.phone_number = phone_number; 
+
       //um idk what to do here
       newUser.employer = employer; 
       newUser.password = newUser.generateHash(password);
@@ -210,7 +211,7 @@ router.get('/logout', (req, res, next) => {
     const { token } = query;
     // ?token=test
     // Verify the token is one of a kind and it's not deleted.
-    UserSession.remove({
+    UserSession.deleteOne({
       _id: token,
       isDeleted: false
     }, (err, sessions) => {
