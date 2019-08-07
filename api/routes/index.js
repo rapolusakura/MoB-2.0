@@ -110,9 +110,7 @@ router.post('/signup', (req, res, next) => {
       phone_number = '51' + phone_number; 
     }
 
-    // Steps:
-    // 1. Verify email doesn't exist
-    // 2. Save
+    // Steps: 1. Verify email doesn't exist 2. Save
     User.find({
       email: email
     }, (err, previousUsers) => {
@@ -126,7 +124,23 @@ router.post('/signup', (req, res, next) => {
           success: false,
           message: 'Error: Account already exist.'
         });
+      } else {
+        Companies.find({'RUC': employer}, function (err, companies) {
+          if (err) {
+          return res.send({
+            success: false,
+            message: 'Error: Server error'
+          });
+          } else if (companies.length > 1) {
+            console.log('this is not unique!')
+          } else if (companies.length == 1) {
+              console.log('fuck ya found one')
+          }
+        })
+
       }
+
+      /*
       // Save the new user
       const newUser = new User();
       newUser.email = email;
@@ -148,8 +162,9 @@ router.post('/signup', (req, res, next) => {
           success: true,
           message: 'Signed up'
         });
+
+        */
       });
-    });
 });
 
 router.post('/signin', (req, res, next) => {
