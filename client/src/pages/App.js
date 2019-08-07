@@ -22,7 +22,7 @@ export default class App extends React.Component {
 			<div> 
 			<h1> User View </h1>
 			<CreateOrder />
-			<Logout /> 
+			<Logout setLoginStatus={this.setLoginStatus}/> 
 			</div> 
 		)
 	}
@@ -32,7 +32,7 @@ export default class App extends React.Component {
 		  <div>
 		    <Header />
 		    <Main />
-		    <Logout />
+		    <Logout setLoginStatus={this.setLoginStatus}/>
 		  </div>
 		)
 	}
@@ -40,7 +40,7 @@ export default class App extends React.Component {
 	loginView = () => {
 		return (
 			<div> 
-		   		<Login/>
+		   		<Login setLoginStatus={this.setLoginStatus}/>
 		   		<Signup/>
 			</div> 
 		)
@@ -62,6 +62,12 @@ export default class App extends React.Component {
 		  }
 		});
 		}	
+	}
+
+	setLoginStatus = (bool) => {
+		this.setState({
+	      isLoggedIn: bool
+	    })
 	}
 
 	componentDidMount() {

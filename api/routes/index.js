@@ -460,7 +460,6 @@ router.get('/getBikersForToday', function(req, res, next) {
         console.log(err);
     } else {
         let list = record[0].availableToday; 
-        console.log(list)
         Bikers.find({"_id":{"$in": list}}, {name: 1, phone_number: 1, num_current_orders: 1} , function(err, response) {
           if(err) {console.log(err)} 
           else {

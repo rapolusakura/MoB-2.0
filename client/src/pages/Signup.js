@@ -11,20 +11,9 @@ export default class Signup extends React.Component {
     }
   }
 
-  componentWillMount() {
-    fetch('/getCompanyNames')
-      .then(res => res.json())
-      .then(res => this.setState({ 'company_names': res }));
-      console.log(this.state.company_names)
-  }
-
-}
-
- phoneRegExp = () => {
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
- } 
-
-const SignupSchema = Yup.object().shape({
+ phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+ 
+ SignupSchema = () => { Yup.object().shape({
   firstName: Yup.string()
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
@@ -36,19 +25,21 @@ const SignupSchema = Yup.object().shape({
   email: Yup.string()
     .email('Invalid email')
     .required('Required'),
-  employer: Yup.string()
-    .required('Required'), 
+  employer: Yup.number()
+    .required('Required') 
+    .positive()
+    .integer(),
   phone_number: Yup.string()
-    .matches(phoneRegExp, 'Phone number is not valid')
+    .matches(this.phoneRegExp, 'Phone number is not valid')
     .required('A phone number is required'),
   password: Yup.string()
     .min(1, 'Too short!')
     .required('Password is required'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
-});
+})}
 
-let attemptSignup = (values) => {
+ attemptSignup = (values) => {
   fetch("/signup", {
       method: 'POST',
       headers: {
@@ -74,10 +65,10 @@ render() {
         employer: '', 
         phone_number: ''
       }}
-    validationSchema={SignupSchema}
+    validationSchema={this.SignupSchema}
     onSubmit={values => {
           console.log('submitting', values);
-          attemptSignup(values); 
+          this.attemptSignup(values); 
     }}>
     {({ touched, errors }) => (
     <Form>
@@ -96,7 +87,7 @@ render() {
           <Field name="email" type="email" placeholder = "Email" />
           {errors.email && touched.email ? <div>{errors.email}</div> : null}
           <br/>
-          search for your employer's razon commerical name
+          type in your employer's RUC
           <Field name="employer" type="text" placeholder = "Employer" />
           {errors.employer && touched.employer ? <div>{errors.employer}</div> : null}
           <br/>
@@ -121,7 +112,4 @@ render() {
   </div> 
 )
 }
-
-
-
-export default Signup; 
+}

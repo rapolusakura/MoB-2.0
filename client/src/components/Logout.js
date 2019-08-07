@@ -12,7 +12,10 @@ class Logout extends React.Component {
     const { token } = obj;
     // Verify token
     fetch('/logout?token=' + token)
-    .then(res => res.json());
+    .then(res => res.json())
+    .then(
+      this.props.setLoginStatus(false)
+    )
     } 
   }
 
