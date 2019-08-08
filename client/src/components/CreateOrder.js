@@ -10,7 +10,9 @@ export default class orderForm extends React.Component {
     super(props); 
     this.state = {
       startingAddress : '',
-      destAddress : ''
+      destAddress : '', 
+      startingPlaceId : '', 
+      destPlaceId : ''
     }
   }
 
@@ -46,15 +48,36 @@ export default class orderForm extends React.Component {
     });
 }
 
-updateAddress = (isOrigin, address) => {
-  console.log('got called by', isOrigin, ' ', address)
+  calculateRate = () => {
+
+      fetch("/calculateDistance", {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        start: this.state.startingPlaceId,
+        end: this.state.destPlaceId,
+        mode: 'one-way'
+      }),
+    }).then(res => res.json())
+        .then(json => { 
+        console.log('json', json); 
+    });
+
+  }
+
+updateAddress = (isOrigin, address, place_id) => {
   if(isOrigin) {
     this.setState({
-    startingAddress : address
+    startingAddress: address,
+    startingPlaceId: place_id
    })
   } else {
     this.setState({
-    destAddress : address
+    destAddress: address, 
+    destPlaceId: place_id
    })
   }
 }
@@ -124,7 +147,7 @@ updateAddress = (isOrigin, address) => {
         />
 
     </div>
-
+        <button onClick={this.calculateRate}> Calculate Rate </button>
         <button type="submit">Submit</button>
       </div> 
   </Form>

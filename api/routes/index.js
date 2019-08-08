@@ -515,7 +515,7 @@ router.post('/calculateDistance', (req, response, next) => {
     start, end, mode 
   } = body;
   let distance = -1; 
-  request(`https://maps.googleapis.com/maps/api/distancematrix/json?mode=walking&origins=${start}&destinations=${end}&key=${process.env.GOOGLE_MAPS_API_KEY}`, { json: true }, (err, res, body) => {
+  request(`https://maps.googleapis.com/maps/api/distancematrix/json?mode=walking&origins=place_id:${start}&destinations=place_id:${end}&key=${process.env.GOOGLE_MAPS_API_KEY}`, { json: true }, (err, res, body) => {
   if (err) { return console.log(err); }
     console.log(body); 
     distance = body.rows[0].elements[0].distance.value

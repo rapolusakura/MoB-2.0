@@ -196,7 +196,7 @@ class MapView extends React.Component{
         lng: lngValue
       },
     })
-    this.props.updateAddress(this.props.isOrigin, address); 
+    this.props.updateAddress(this.props.isOrigin, address, place.place_id); 
   };
 
 
