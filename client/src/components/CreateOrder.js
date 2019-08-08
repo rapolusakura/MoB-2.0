@@ -54,6 +54,8 @@ export default class orderForm extends React.Component {
   })};
 
  createOrderAPI = (values) => {
+  let mode = ''; 
+  values.mode ? mode = 'round-trip' : mode = 'one-way'; 
   console.log("starting addy", this.state.startingAddress)
   console.log("dest addy", this.state.destAddress)
   fetch("/createOrder", {
@@ -67,7 +69,7 @@ export default class orderForm extends React.Component {
         client_company_name : values.companyName,
         special_instructions : "Origin Notes:\n".concat(values.origin_notes).concat('\nDestination Notes:\n').concat(values.dest_notes), 
         type_of_load : values.type_of_load, 
-        mode : values.mode, 
+        mode : mode, 
         distance : this.state.distance,
         rate : this.state.rate, 
         client_address : this.state.startingAddress, 
@@ -105,10 +107,10 @@ export default class orderForm extends React.Component {
         end: this.state.destPlaceId,
         mode: mode
       }),
-    }).then(res => res.json())
-        .then(json => { 
-          this.setState({distance: json.distance})
-          console.log('this is the distance', json.distance); 
+    })
+        .then(res => { 
+          this.setState({distance: res.distance})
+          console.log('this is the distance', res.distance); 
           if(this.state.employer != null) {
               fetch("/calculateRate", {
               method: 'POST',
@@ -223,8 +225,8 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
             />
 
         </div>
-            <button onClick={this.calculateRate(values.mode)}> Calculate Rate </button>
-            <button type="submit">Submit</button>
+            <button style={{margin: '40px'}} onClick={() => {this.calculateRate(values.mode)}}> Calculate Rate </button>
+            <button type="submit"> Submit </button>
           </div> 
       </Form>
       )}
