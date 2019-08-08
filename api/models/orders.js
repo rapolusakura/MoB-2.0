@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 
+
 var orderSchema = new mongoose.Schema({
+	client_company_id: String,
 	client_contact_name: String,
 	client_company_name: String, 
 	client_address: String, 
@@ -18,7 +20,7 @@ var orderSchema = new mongoose.Schema({
 		enum: ['cash', 'credit']
 	}, 
 	operator: String, 
-	RUC: Number, 
+	//RUC: Number, 
 	dest_contact_name: String, 
 	dest_company_name: String, 
 	dest_address: String, 
@@ -33,10 +35,14 @@ var orderSchema = new mongoose.Schema({
 		default: null
 	},
 	kg_of_c02_saved: Number, 
-	type_of_rate: {
-		type: String, 
-		enum: ['e-commerce', 'enterprise', 'express', 'juntoz']
-	},
+	startLat: String, 
+	startLng: String, 
+	endLat: String, 
+	endLng: String,
+	// type_of_rate: {
+	// 	type: String, 
+	// 	enum: ['e-commerce', 'enterprise', 'express', 'juntoz']
+	// },
 	delivery_status: {
 		type: String,
 		enum : ['outgoing','pending','completed'],

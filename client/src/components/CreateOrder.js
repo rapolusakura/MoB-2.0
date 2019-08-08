@@ -19,7 +19,9 @@ export default class orderForm extends React.Component {
       destLng : '', 
       isAdmin : false, 
       employer : null,
-      userId : ''
+      userId : '', 
+      distance : -1, 
+      rate : -1
     }
   }
 
@@ -61,7 +63,22 @@ export default class orderForm extends React.Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        company_name: values.companyName,
+        client_company_id : this.state.employer, 
+        client_company_name : values.companyName,
+        special_instructions : "Origin Notes:\n".concat(values.origin-notes).concat('\nDestination Notes:\n').concat(values.dest-notes), 
+        type_of_load : values.type-of-load, 
+        mode : values.mode, 
+        distance : this.state.distance,
+        rate : this.state.rate, 
+        client_address : this.state.startingAddress, 
+        dest_address : this.state.destAddress, 
+        dest_contact_name : values.destContact, 
+        dest_company_name: values.destCompany,
+        dest_phone_number: values.destPhone, 
+        startLat: this.state.startingLat, 
+        startLng: this.state.startingLng, 
+        endLat: this.state.destLat,
+        endLng: this.state.destLng
       }),
     }).then(res => res.json())
         .then(json => { 
@@ -74,7 +91,6 @@ export default class orderForm extends React.Component {
 
   calculateRate = (isRoundTrip) => {
     if(this.state.startingPlaceId != '' && this.state.destPlaceId != '') {
-      console.log('calculating the fucking rate..')
       let mode = ''; 
       isRoundTrip ? mode = 'round-trip' : mode = 'one-way'; 
 
@@ -91,6 +107,7 @@ export default class orderForm extends React.Component {
       }),
     }).then(res => res.json())
         .then(json => { 
+          this.setState({distance: json.distance})
           console.log('this is the distance', json.distance); 
           if(this.state.employer != null) {
               fetch("/calculateRate", {
@@ -108,6 +125,7 @@ export default class orderForm extends React.Component {
               .then(json => { 
               if(json.success) {
                 console.log('this is the rate of the order: ', json.rate)
+                this.setState({rate:json.rate}); 
               }
               });
           }
@@ -143,7 +161,6 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
 
   render() {
     return (
-
           <Formik 
            initialValues={{
           companyName: '', 

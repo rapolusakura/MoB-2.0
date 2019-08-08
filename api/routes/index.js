@@ -43,15 +43,33 @@ router.get('/changeDatabase', function(req, res, next) {
 })
 
 router.post('/createOrder', function(req, res, next) {
-	var client_company_name = req.body.company_name; 
-	var rate = req.body.rate; 
-	var delivery_status = req.body.delivery_status; 
+  //keep in mind the companyId can be null espeically since you havent implemented the other componenet rendering based off of admin status
+  const { body } = req;
+  const {
+    client_company_name, special_instructions, 
+    type_of_load, mode, distance, rate, client_address, dest_address, 
+    dest_contact_name, dest_company_name, dest_phone_number, client_company_id,
+    startLat, startLng, endLat, endLng
+  } = body;
 
 	const order = new Order({ 
-		client_company_name: client_company_name, 
-		rate: rate, 
-		date_created: Date.now(),
-		delivery_status: delivery_status
+		client_company_name: client_company_name,
+    special_instructions: special_instructions, 
+    type_of_load: type_of_load, 
+    mode: mode,
+    distance: distance, 
+    rate: rate,
+    client_address: client_address, 
+    dest_address: dest_address, 
+    dest_contact_name: dest_contact_name, 
+    dest_company_name: dest_company_name, 
+    dest_phone_number: dest_phone_number, 
+    client_company_id: client_company_id,
+    startLat: startLat, 
+    startLng: startLng, 
+    endLat: endLat,
+    endLng: endLng,
+		date_created: Date.now()
 	}); 
 
 	order.save(function (err, order) {
@@ -61,6 +79,8 @@ router.post('/createOrder', function(req, res, next) {
 		}
 	});
 });
+
+
 
 router.get('/getOutgoingOrders', function(req, res, next) {
 	Order.find({ "delivery_status": "outgoing" }, function(err, orders) {
@@ -621,29 +641,5 @@ router.get('/getUserSessionDetails', (req, res, next) => {
       }
     });
   });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 module.exports = router;
