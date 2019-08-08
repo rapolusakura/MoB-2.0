@@ -93,7 +93,6 @@ export default class orderForm extends React.Component {
         .then(json => { 
           console.log('this is the distance', json.distance); 
           if(this.state.employer != null) {
-              console.log("hahhah brinch")
               fetch("/calculateRate", {
               method: 'POST',
               headers: {
@@ -107,9 +106,7 @@ export default class orderForm extends React.Component {
             })
               .then(res => res.json())
               .then(json => { 
-              console.log('rate json omfg', json); 
               if(json.success) {
-                console.log("just got the rate back!!");
                 console.log('this is the rate of the order: ', json.rate)
               }
               });
