@@ -63,6 +63,16 @@ const orderForm = (props) => (
           </label> 
           <br/>
 
+          <div style={{margin: '70px'}}>
+          <h2> origin address </h2> 
+          <MapView
+            google={props.google}
+            center={{lat: -12.140381, lng: -76.9857613}}
+            height='300px'
+            zoom={15}
+          />
+          </div> 
+
           <h2> destination info </h2> 
           <Field name="destContact" type="text" placeholder = "Dest contact name" /> 
           {errors.destContact && touched.destContact ? <div>{errors.destContact}</div> : null}
@@ -74,13 +84,15 @@ const orderForm = (props) => (
           <br/>
           <Field name="dest-notes" type="text" placeholder = "Enter any special notes.. instructions on getting there, etc" />
           <br/>
-          <div style={{ margin: '100px' }}>
+          <div style={{ margin: '70px' }}>
+          <h2> destination address </h2> 
           <MapView
             google={props.google}
             center={{lat: -12.140381, lng: -76.9857613}}
             height='300px'
             zoom={15}
           />
+
       </div>
 
           <button type="submit">Submit</button>
