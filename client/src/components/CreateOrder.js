@@ -91,17 +91,31 @@ export default class orderForm extends React.Component {
       }),
     }).then(res => res.json())
         .then(json => { 
-
-            console.log(json.distance); 
-            //fuck
-            if(!this.state.employer == null) {
-              fetch()
-            }
-
-
+          console.log('this is the distance', json.distance); 
+          if(this.state.employer != null) {
+              console.log("hahhah brinch")
+              fetch("/calculateRate", {
+              method: 'POST',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                distance: json.distance,
+                companyId: this.state.employer
+              }),
+            })
+              .then(res => res.json())
+              .then(json => { 
+              console.log('rate json omfg', json); 
+              if(json.success) {
+                console.log("just got the rate back!!");
+                console.log('this is the rate of the order: ', json.rate)
+              }
+              });
+          }
         });
 
-          
         //now get the rate based off of the distance and the company
         //i need to find the fucking company first.. 
         //1) get the user session

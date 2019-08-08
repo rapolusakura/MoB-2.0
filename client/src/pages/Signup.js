@@ -26,12 +26,12 @@ export default class Signup extends React.Component {
     .email('Invalid email')
     .required('Required'),
   employer: Yup.number()
-    .required('Required') 
+ //   .required('Required') 
     .positive()
     .integer(),
   phone_number: Yup.string()
-    .matches(this.phoneRegExp, 'Phone number is not valid')
-    .required('A phone number is required'),
+ //   .required('A phone number is required')
+    .matches(this.phoneRegExp, 'Phone number is not valid'),
   password: Yup.string()
     .min(1, 'Too short!')
     .required('Password is required'),

@@ -97,7 +97,7 @@ router.get('/getCompletedOrders', function(req, res, next) {
 
 router.post('/signup', (req, res, next) => {
     const { body } = req;
-    const {
+    var {
       password, email, firstName, lastName, phone_number, employer
     } = body;
     
@@ -125,20 +125,36 @@ router.post('/signup', (req, res, next) => {
           message: 'Error: Account already exist.'
         });
       } else {
-        Companies.find({'RUC': employer}, function (err, companies) {
-          if (err) {
+        // Companies.find({'RUC': employer}, function (err, companies) {
+        //   if (err) {
+        //   return res.send({
+        //     success: false,
+        //     message: 'Error: Server error'
+        //   });
+        //   } else if (companies.length > 1) {
+        //     console.log('this is not unique!')
+        //   } else if (companies.length == 1) {
+        //       console.log('fuck ya found one')
+        //   }
+        // })
+// Save the new user
+      const newUser = new User();
+      newUser.email = email;
+      newUser.firstName = firstName.toLowerCase().trim(); 
+      newUser.lastName = lastName.toLowerCase().trim(); 
+      newUser.password = newUser.generateHash(password);
+      newUser.save((err, user) => {
+        if (err) {
           return res.send({
             success: false,
             message: 'Error: Server error'
           });
-          } else if (companies.length > 1) {
-            console.log('this is not unique!')
-          } else if (companies.length == 1) {
-              console.log('fuck ya found one')
-          }
-        })
-
-      }
+        }
+        return res.send({
+          success: true,
+          message: 'Signed up'
+        });
+      })
 
       /*
       // Save the new user
@@ -164,7 +180,7 @@ router.post('/signup', (req, res, next) => {
         });
 
         */
-      });
+      }});
 });
 
 router.post('/signin', (req, res, next) => {
@@ -538,22 +554,37 @@ router.post('/calculateDistance', (req, response, next) => {
 router.post('/calculateRate', (req, response, next) => {
   const { body } = req;
   const {
-    dist, companyId
+    distance, companyId
   } = body;
+  let type_of_rate = ''; 
+  let rate = -1.0; 
+  const solPerKm = 1.3333; 
+  const baseDistance = 3.75; 
+  const fee = 7; 
 
-  //call the distance matrix API
-  let distance = -1; 
-  request(`https://maps.googleapis.com/maps/api/distancematrix/json?mode=walking&origins=place_id:${start}&destinations=place_id:${end}&key=${process.env.GOOGLE_MAPS_API_KEY}`, { json: true }, (err, res, body) => {
-  if (err) { return console.log(err); }
-    console.log(body); 
-    distance = body.rows[0].elements[0].distance.value
-    if (mode == 'round-trip') {distance*=2}
-    let distanceInKm = distance/1000; 
-    return response.send({
-      success: true,
-      distance: distanceInKm
+  //get the type of rate for the company by finding their record through the ID
+  //then CP the function from the orders schema 
+  Companies.find({_id: companyId}, function(err, company){
+    if(err) {console.log(err)} 
+    else {
+      type_of_rate = company[0].type_of_rate; 
+    if(type_of_rate == 'express') {
+      rate = Math.ceil(fee + (distance - baseDistance)*solPerKm); 
+    } else if (type_of_rate == 'enterprise') {
+      rate = Math.ceil(3 + fee + (distance - baseDistance)*solPerKm); 
+    } else if (type_of_rate == 'e-commerce' || type_of_rate == 'juntoz') {
+      if (distance <= 3*baseDistance) { rate = fee }
+      else if (distance > 3*baseDistance && distance<=baseDistance*3.5) {rate = 9}
+      else if (distance > 3.5*baseDistance && distance<=baseDistance*4) {rate = 12}
+      else if (distance > 4*baseDistance && distance<=baseDistance*4.5) {rate = 14}
+      else if (distance > 4.5*baseDistance) {rate = 14 + (distance - (baseDistance*4.5))*solPerKm}
+    }
+      return response.send({
+        success: true,
+        rate: rate
     })
-  });
+    }
+  })
 }); 
 
 router.get('/getUserSessionDetails', (req, res, next) => {
