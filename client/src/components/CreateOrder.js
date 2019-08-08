@@ -65,8 +65,8 @@ export default class orderForm extends React.Component {
       body: JSON.stringify({
         client_company_id : this.state.employer, 
         client_company_name : values.companyName,
-        special_instructions : "Origin Notes:\n".concat(values.origin-notes).concat('\nDestination Notes:\n').concat(values.dest-notes), 
-        type_of_load : values.type-of-load, 
+        special_instructions : "Origin Notes:\n".concat(values.origin_notes).concat('\nDestination Notes:\n').concat(values.dest_notes), 
+        type_of_load : values.type_of_load, 
         mode : values.mode, 
         distance : this.state.distance,
         rate : this.state.rate, 
@@ -178,9 +178,9 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
             <Field name="companyName" type="text" placeholder = "Company Name" />
             {errors.companyName && touched.companyName ? <div>{errors.companyName}</div> : null}
             <br/> 
-            <Field name="origin-notes" type="text" placeholder = "Enter any special notes.. instructions on getting there, etc" />
+            <Field name="origin_notes" type="text" placeholder = "Enter any special notes.. instructions on getting there, etc" />
             <br/>
-            <Field name="type-of-load" type="text" placeholder = "Enter the type of load (document, etc.)" /> 
+            <Field name="type_of_load" type="text" placeholder = "Enter the type of load (document, etc.)" /> 
             <br/>
             <label> 
             <Field name="mode" type="checkbox" checked={values.mode}/> 
@@ -209,7 +209,7 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
             <Field name="destPhone" type="text" placeholder = "Dest phone number" /> 
             {errors.destPhone && touched.destPhone ? <div>{errors.destPhone}</div> : null}
             <br/>
-            <Field name="dest-notes" type="text" placeholder = "Enter any special notes.. instructions on getting there, etc" />
+            <Field name="dest_notes" type="text" placeholder = "Enter any special notes.. instructions on getting there, etc" />
             <br/>
             <div style={{ margin: '70px' }}>
             <h2> destination address </h2> 
