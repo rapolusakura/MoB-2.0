@@ -127,6 +127,9 @@ class MapView extends React.Component{
    */
   onChange = ( event ) => {
     this.setState({ [event.target.name]: event.target.value });
+    if(event.target.name == 'addressArray') {
+      
+    }
   };
   /**
    * This Event triggers when the marker window is closed
