@@ -234,7 +234,7 @@ class MapView extends React.Component{
                 marginBottom: '500px'
               }}
               onPlaceSelected={ this.onPlaceSelected }
-              types={['(regions)']}
+              types={['geocode', 'establishment']}
               componentRestrictions= {{country: 'pe'}}
             />
           </GoogleMap>
