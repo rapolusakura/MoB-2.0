@@ -16,6 +16,10 @@ const UserSessionSchema = new mongoose.Schema({
   isDeleted: {
     type: Boolean,
     default: false
+  }, 
+  employer: {
+    type: String, 
+    default: null
   }
 });
 

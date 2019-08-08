@@ -203,6 +203,9 @@ router.post('/signin', (req, res, next) => {
       const userSession = new UserSession();
       userSession.userId = user._id;
       userSession.isAdmin = user.isAdmin;
+      if(!user.isAdmin) {
+        userSession.employer = user.employer; 
+      }
       userSession.save((err, doc) => {
         if (err) {
           console.log(err);
@@ -514,6 +517,10 @@ router.post('/calculateDistance', (req, response, next) => {
   const {
     start, end, mode 
   } = body;
+
+  //check if either are empty
+
+  //call the distance matrix API
   let distance = -1; 
   request(`https://maps.googleapis.com/maps/api/distancematrix/json?mode=walking&origins=place_id:${start}&destinations=place_id:${end}&key=${process.env.GOOGLE_MAPS_API_KEY}`, { json: true }, (err, res, body) => {
   if (err) { return console.log(err); }
@@ -527,5 +534,52 @@ router.post('/calculateDistance', (req, response, next) => {
     })
   });
 }); 
+
+router.post('/calculateRate', (req, response, next) => {
+  const { body } = req;
+  const {
+    distance, companyId
+  } = body;
+
+  //call the distance matrix API
+  let distance = -1; 
+  request(`https://maps.googleapis.com/maps/api/distancematrix/json?mode=walking&origins=place_id:${start}&destinations=place_id:${end}&key=${process.env.GOOGLE_MAPS_API_KEY}`, { json: true }, (err, res, body) => {
+  if (err) { return console.log(err); }
+    console.log(body); 
+    distance = body.rows[0].elements[0].distance.value
+    if (mode == 'round-trip') {distance*=2}
+    let distanceInKm = distance/1000; 
+    return response.send({
+      success: true,
+      distance: distanceInKm
+    })
+  });
+}); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports = router;

@@ -2,7 +2,6 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import MapView from './Map'; 
-import Fuckme from './test';
 
 export default class orderForm extends React.Component {
 
@@ -12,7 +11,11 @@ export default class orderForm extends React.Component {
       startingAddress : '',
       destAddress : '', 
       startingPlaceId : '', 
-      destPlaceId : ''
+      destPlaceId : '', 
+      startingLat : '', 
+      startingLng : '', 
+      destLat : '', 
+      destLng : ''
     }
   }
 
@@ -48,7 +51,11 @@ export default class orderForm extends React.Component {
     });
 }
 
-  calculateRate = () => {
+  calculateRate = (isRoundTrip) => {
+    if(this.state.startingPlaceId != '' && this.state.destPlaceId != '') {
+      console.log('calculating the fucking rate..')
+      let mode = ''; 
+      isRoundTrip ? mode = 'round-trip' : mode = 'one-way'; 
 
       fetch("/calculateDistance", {
       method: 'POST',
@@ -59,25 +66,36 @@ export default class orderForm extends React.Component {
       body: JSON.stringify({
         start: this.state.startingPlaceId,
         end: this.state.destPlaceId,
-        mode: 'one-way'
+        mode: mode
       }),
     }).then(res => res.json())
         .then(json => { 
-        console.log('json', json); 
-    });
+        //now get the rate based off of the distance and the company
+        //i need to find the fucking company first.. 
+        //1) get the user session
+        //2) get the companyId - if it is not null/if they are not an admin
+        //3) on the UI side, if they are an admin, render a component that allows them to search a company by their RUC or razon commercial
 
+        console.log('json', json.distance); 
+    });
+    }
   }
 
-updateAddress = (isOrigin, address, place_id) => {
+updateAddress = (isOrigin, address, place_id, lat, lng) => {
   if(isOrigin) {
     this.setState({
     startingAddress: address,
-    startingPlaceId: place_id
+    startingPlaceId: place_id, 
+    startingLat: lat, 
+    startingLng: lng
+
    })
   } else {
     this.setState({
     destAddress: address, 
-    destPlaceId: place_id
+    destPlaceId: place_id,
+    destLat: lat, 
+    destLng: lng
    })
   }
 }
@@ -147,7 +165,7 @@ updateAddress = (isOrigin, address, place_id) => {
         />
 
     </div>
-        <button onClick={this.calculateRate}> Calculate Rate </button>
+        <button onClick={this.calculateRate(values.mode)}> Calculate Rate </button>
         <button type="submit">Submit</button>
       </div> 
   </Form>
