@@ -23,7 +23,6 @@ export default class orderForm extends React.Component {
     }
   }
 
-
   componentDidMount() {
     const obj = getFromStorage('mail_on_bike');
     const { token } = obj;
@@ -42,14 +41,14 @@ export default class orderForm extends React.Component {
   }
 
   CreateOrderSchema = () => { 
-  Yup.object().shape({
-  companyName: Yup.string()
-    .required('Company name is required'),
-  destContact: Yup.string()
-    .required('the contact name of the destination is required'),
-  destPhone: Yup.number()
-    .positive()
-    .required('the phone number of the dest is required'),  
+    Yup.object().shape({
+    companyName: Yup.string()
+      .required('Company name is required'),
+    destContact: Yup.string()
+      .required('the contact name of the destination is required'),
+    destPhone: Yup.number()
+      .positive()
+      .required('the phone number of the dest is required'),  
   })};
 
  createOrderAPI = (values) => {
@@ -93,8 +92,11 @@ export default class orderForm extends React.Component {
     }).then(res => res.json())
         .then(json => { 
 
-
+            console.log(json.distance); 
             //fuck
+            if(!this.state.employer == null) {
+              fetch()
+            }
 
 
         });
@@ -106,8 +108,6 @@ export default class orderForm extends React.Component {
         //2) get the companyId - if it is not null/if they are not an admin
         //3) on the UI side, if they are an admin, render a component that allows them to search a company by their RUC or razon commercial
 
-        console.log('json', json.distance); 
-    });
     }
   }
 
@@ -133,74 +133,74 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
   render() {
     return (
 
-      <Formik 
-  initialValues={{
-      companyName: '', 
-      mode: false
-    }}
-  validationSchema={this.CreateOrderSchema}
-  onSubmit={values => {
-        console.log('submitting', values);
-        this.createOrderAPI(values); 
-  }}>
-  {({ touched, values, errors }) => (
-  <Form>
-      <div> 
-        <h2> client info </h2> 
-        <Field name="companyName" type="text" placeholder = "Company Name" />
-        {errors.companyName && touched.companyName ? <div>{errors.companyName}</div> : null}
-        <br/> 
-        <Field name="origin-notes" type="text" placeholder = "Enter any special notes.. instructions on getting there, etc" />
-        <br/>
-        <Field name="type-of-load" type="text" placeholder = "Enter the type of load (document, etc.)" /> 
-        <br/>
-        <label> 
-        <Field name="mode" type="checkbox" checked={values.mode}/> 
-        Round-trip delivery?
-        </label> 
-        <br/>
+          <Formik 
+           initialValues={{
+          companyName: '', 
+          mode: false
+        }}
+      validationSchema={this.CreateOrderSchema}
+      onSubmit={values => {
+            console.log('submitting', values);
+            this.createOrderAPI(values); 
+      }}>
+      {({ touched, values, errors }) => (
+      <Form>
+          <div> 
+            <h2> client info </h2> 
+            <Field name="companyName" type="text" placeholder = "Company Name" />
+            {errors.companyName && touched.companyName ? <div>{errors.companyName}</div> : null}
+            <br/> 
+            <Field name="origin-notes" type="text" placeholder = "Enter any special notes.. instructions on getting there, etc" />
+            <br/>
+            <Field name="type-of-load" type="text" placeholder = "Enter the type of load (document, etc.)" /> 
+            <br/>
+            <label> 
+            <Field name="mode" type="checkbox" checked={values.mode}/> 
+            Round-trip delivery?
+            </label> 
+            <br/>
 
-        <div style={{margin: '70px'}}>
-        <h2> origin address </h2> 
-        <MapView
-          isOrigin={true}
-          google={this.props.google}
-          center={{lat: -12.140381, lng: -76.9857613}}
-          height='300px'
-          zoom={15}
-          updateAddress={this.updateAddress}
-        />
-        </div> 
+            <div style={{margin: '70px'}}>
+            <h2> origin address </h2> 
+            <MapView
+              isOrigin={true}
+              google={this.props.google}
+              center={{lat: -12.140381, lng: -76.9857613}}
+              height='300px'
+              zoom={15}
+              updateAddress={this.updateAddress}
+            />
+            </div> 
 
-        <h2> destination info </h2> 
-        <Field name="destContact" type="text" placeholder = "Dest contact name" /> 
-        {errors.destContact && touched.destContact ? <div>{errors.destContact}</div> : null}
-        <br/>
-        <Field name="destCompany" type="text" placeholder = "Dest company" /> 
-        <br/>
-        <Field name="destPhone" type="text" placeholder = "Dest phone number" /> 
-        {errors.destPhone && touched.destPhone ? <div>{errors.destPhone}</div> : null}
-        <br/>
-        <Field name="dest-notes" type="text" placeholder = "Enter any special notes.. instructions on getting there, etc" />
-        <br/>
-        <div style={{ margin: '70px' }}>
-        <h2> destination address </h2> 
-        <MapView
-          isOrigin={false}
-          google={this.props.google}
-          center={{lat: -12.140381, lng: -76.9857613}}
-          height='300px'
-          zoom={15}
-          updateAddress={this.updateAddress}
-        />
+            <h2> destination info </h2> 
+            <Field name="destContact" type="text" placeholder = "Dest contact name" /> 
+            {errors.destContact && touched.destContact ? <div>{errors.destContact}</div> : null}
+            <br/>
+            <Field name="destCompany" type="text" placeholder = "Dest company" /> 
+            <br/>
+            <Field name="destPhone" type="text" placeholder = "Dest phone number" /> 
+            {errors.destPhone && touched.destPhone ? <div>{errors.destPhone}</div> : null}
+            <br/>
+            <Field name="dest-notes" type="text" placeholder = "Enter any special notes.. instructions on getting there, etc" />
+            <br/>
+            <div style={{ margin: '70px' }}>
+            <h2> destination address </h2> 
+            <MapView
+              isOrigin={false}
+              google={this.props.google}
+              center={{lat: -12.140381, lng: -76.9857613}}
+              height='300px'
+              zoom={15}
+              updateAddress={this.updateAddress}
+            />
 
-    </div>
-        <button onClick={this.calculateRate(values.mode)}> Calculate Rate </button>
-        <button type="submit">Submit</button>
-      </div> 
-  </Form>
-  )}
-</Formik>
+        </div>
+            <button onClick={this.calculateRate(values.mode)}> Calculate Rate </button>
+            <button type="submit">Submit</button>
+          </div> 
+      </Form>
+      )}
+    </Formik>
 
     )
   }
