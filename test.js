@@ -1,6 +1,6 @@
 import React from 'react' 
 
-const map = () => {
+const Fuckme = () => {
   <div> 
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
@@ -177,4 +177,4 @@ const map = () => {
 
 }
 
-export default map; 
+export default Fuckme; 
