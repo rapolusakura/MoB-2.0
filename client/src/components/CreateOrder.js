@@ -8,6 +8,10 @@ export default class orderForm extends React.Component {
 
   constructor(props) {
     super(props); 
+    this.state = {
+      startingAddress : '',
+      destAddress : ''
+    }
   }
 
   CreateOrderSchema = () => { 
@@ -22,6 +26,8 @@ export default class orderForm extends React.Component {
   })};
 
  createOrderAPI = (values) => {
+  console.log("starting addy", this.state.startingAddress)
+  console.log("dest addy", this.state.destAddress)
   fetch("/createOrder", {
       method: 'POST',
       headers: {
@@ -40,6 +46,18 @@ export default class orderForm extends React.Component {
     });
 }
 
+updateAddress = (isOrigin, address) => {
+  console.log('got called by', isOrigin, ' ', address)
+  if(isOrigin) {
+    this.setState({
+    startingAddress : address
+   })
+  } else {
+    this.setState({
+    destAddress : address
+   })
+  }
+}
 
   render() {
     return (
@@ -74,10 +92,12 @@ export default class orderForm extends React.Component {
         <div style={{margin: '70px'}}>
         <h2> origin address </h2> 
         <MapView
+          isOrigin={true}
           google={this.props.google}
           center={{lat: -12.140381, lng: -76.9857613}}
           height='300px'
           zoom={15}
+          updateAddress={this.updateAddress}
         />
         </div> 
 
@@ -95,10 +115,12 @@ export default class orderForm extends React.Component {
         <div style={{ margin: '70px' }}>
         <h2> destination address </h2> 
         <MapView
+          isOrigin={false}
           google={this.props.google}
           center={{lat: -12.140381, lng: -76.9857613}}
           height='300px'
           zoom={15}
+          updateAddress={this.updateAddress}
         />
 
     </div>
