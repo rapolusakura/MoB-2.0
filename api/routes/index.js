@@ -538,7 +538,7 @@ router.post('/calculateDistance', (req, response, next) => {
 router.post('/calculateRate', (req, response, next) => {
   const { body } = req;
   const {
-    distance, companyId
+    dist, companyId
   } = body;
 
   //call the distance matrix API
@@ -556,7 +556,40 @@ router.post('/calculateRate', (req, response, next) => {
   });
 }); 
 
+router.get('/getUserSessionDetails', (req, res, next) => {
+    // Get the token
+    const { query } = req;
+    const { token } = query;
 
+    // Verify the token is one of a kind and it's not deleted.
+    UserSession.find({
+      _id: token,
+      isDeleted: false
+    }, (err, sessions) => {
+      if (err) {
+        console.log(err);
+        return res.send({
+          success: false,
+          message: 'Error: Server error'
+        });
+      }
+      if (sessions.length != 1) {
+        return res.send({
+          success: false,
+          message: 'Error: Invalid'
+        });
+      } else {
+        // DO ACTION
+        return res.send({
+          success: true,
+          message: 'Good', 
+          isAdmin: sessions[0].isAdmin,
+          userId: sessions[0]._id,
+          employer: sessions[0].employer
+        });
+      }
+    });
+  });
 
 
 

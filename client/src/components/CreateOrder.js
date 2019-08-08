@@ -2,6 +2,7 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import MapView from './Map'; 
+import { getFromStorage } from '../utils/storage';
 
 export default class orderForm extends React.Component {
 
@@ -15,8 +16,29 @@ export default class orderForm extends React.Component {
       startingLat : '', 
       startingLng : '', 
       destLat : '', 
-      destLng : ''
+      destLng : '', 
+      isAdmin : false, 
+      employer : null,
+      userId : ''
     }
+  }
+
+
+  componentDidMount() {
+    const obj = getFromStorage('mail_on_bike');
+    const { token } = obj;
+    fetch('/getUserSessionDetails?token=' + token)
+    .then(res => res.json())
+    .then(json => {
+      if (json.success) {
+        this.setState({
+          isAdmin: json.isAdmin,
+          employer: json.employer, 
+          userId: json.userId
+        }); 
+      }
+    }); 
+
   }
 
   CreateOrderSchema = () => { 
@@ -70,6 +92,14 @@ export default class orderForm extends React.Component {
       }),
     }).then(res => res.json())
         .then(json => { 
+
+
+            //fuck
+
+
+        });
+
+          
         //now get the rate based off of the distance and the company
         //i need to find the fucking company first.. 
         //1) get the user session
