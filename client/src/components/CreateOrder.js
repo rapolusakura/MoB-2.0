@@ -2,6 +2,7 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import MapView from './Map'; 
+import Maps from './test';
 
 const CreateOrderSchema = Yup.object().shape({
   companyName: Yup.string()
@@ -74,12 +75,7 @@ const orderForm = (props) => (
           <Field name="dest-notes" type="text" placeholder = "Enter any special notes.. instructions on getting there, etc" />
           <br/>
           <div style={{ margin: '100px' }}>
-          <MapView
-            google={props.google}
-            center={{lat: -12.140381, lng: -76.9857613}}
-            height='300px'
-            zoom={15}
-          />
+          <Maps />
       </div>
 
           <button type="submit">Submit</button>

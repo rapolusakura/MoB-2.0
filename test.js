@@ -1,5 +1,7 @@
-<!DOCTYPE html>
-<html>
+import React from 'react' 
+
+const map = () => {
+  <div> 
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
@@ -171,4 +173,8 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmiCER2zbSfCRoMZrZCrNBw2omSdKO-a0&libraries=places&callback=initAutocomplete"
          async defer></script>
   </body>
-</html>
+<div> 
+
+}
+
+export default map; 
