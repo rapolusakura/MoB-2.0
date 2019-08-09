@@ -107,10 +107,10 @@ export default class orderForm extends React.Component {
         end: this.state.destPlaceId,
         mode: mode
       }),
-    })
-        .then(res => { 
-          this.setState({distance: res.distance})
-          console.log('this is the distance', res.distance); 
+    }).then(res => res.json())
+        .then(json => { 
+          this.setState({distance: json.distance})
+          console.log('this is the distance', json.distance); 
           if(this.state.employer != null) {
               fetch("/calculateRate", {
               method: 'POST',
@@ -132,11 +132,6 @@ export default class orderForm extends React.Component {
               });
           }
         });
-
-        //now get the rate based off of the distance and the company
-        //i need to find the fucking company first.. 
-        //1) get the user session
-        //2) get the companyId - if it is not null/if they are not an admin
         //3) on the UI side, if they are an admin, render a component that allows them to search a company by their RUC or razon commercial
 
     }
@@ -225,7 +220,7 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
             />
 
         </div>
-            <button style={{margin: '40px'}} onClick={() => {this.calculateRate(values.mode)}}> Calculate Rate </button>
+            <button style={{margin: '40px'}} type = "button" onClick={() => {this.calculateRate(values.mode)}}> Calculate Rate </button>
             <button type="submit"> Submit </button>
           </div> 
       </Form>

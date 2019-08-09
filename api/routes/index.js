@@ -68,8 +68,7 @@ router.post('/createOrder', function(req, res, next) {
     startLat: startLat, 
     startLng: startLng, 
     endLat: endLat,
-    endLng: endLng,
-		date_created: Date.now()
+    endLng: endLng
 	}); 
 
 	order.save(function (err, order) {

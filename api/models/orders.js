@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 
-
 var orderSchema = new mongoose.Schema({
 	client_company_id: String,
 	client_contact_name: String,
@@ -17,10 +16,14 @@ var orderSchema = new mongoose.Schema({
 	rate: Number,
 	method_of_payment: {
 		type: String, 
-		enum: ['cash', 'credit']
+		enum: ['credit_7_days', 'credit_15_days', 'credit_30_days', 'cash_on_destination', 'cash_on_origin', 'bank_transfer']
 	}, 
+	money_collection: {
+		type: Number, 
+		default: null
+	},
 	operator: String, 
-	//RUC: Number, 
+	RUC: Number, 
 	dest_contact_name: String, 
 	dest_company_name: String, 
 	dest_address: String, 
@@ -34,41 +37,22 @@ var orderSchema = new mongoose.Schema({
 		type: String, 
 		default: null
 	},
+	biker_commision: Number,
 	kg_of_c02_saved: Number, 
 	startLat: String, 
 	startLng: String, 
 	endLat: String, 
 	endLng: String,
-	// type_of_rate: {
-	// 	type: String, 
-	// 	enum: ['e-commerce', 'enterprise', 'express', 'juntoz']
-	// },
+	type_of_rate: {
+		type: String, 
+		enum: ['e-commerce', 'enterprise', 'express', 'juntoz']
+	},
 	delivery_status: {
 		type: String,
 		enum : ['outgoing','pending','completed'],
 		default: 'outgoing'
 	}
 });
-
-orderSchema.methods.calculateRate = function(distance, type_of_rate) {
-	let rate = -1.0; 
-	const solPerKm = 1.3333; 
-	const baseDistance = 3.75; 
-	const fee = 7; 
-
-	if(type_of_rate == 'express') {
-		rate = Math.ceil(fee + (distance - baseDistance)*solPerKm); 
-	} else if (type_of_rate == 'enterprise') {
-		rate = Math.ceil(3 + fee + (distance - baseDistance)*solPerKm); 
-	} else if (type_of_rate == 'e-commerce' || type_of_rate == 'juntoz') {
-		if (distance <= 3*baseDistance) { rate = fee }
-		else if (distance > 3*baseDistance && distance<=baseDistance*3.5) {rate = 9}
-		else if (distance > 3.5*baseDistance && distance<=baseDistance*4) {rate = 12}
-		else if (distance > 4*baseDistance && distance<=baseDistance*4.5) {rate = 14}
-		else if (distance > 4.5*baseDistance) {rate = 14 + (distance - (baseDistance*4.5))*solPerKm}
-	}
-	return rate;  
-};
 
 var Order = mongoose.model("Orders", orderSchema);
 
