@@ -239,7 +239,8 @@ router.post('/signin', (req, res, next) => {
       userSession.userId = user._id;
       userSession.isAdmin = user.isAdmin;
       if(!user.isAdmin) {
-        userSession.employer = user.employer; 
+        userSession.employer = user.employer;
+        userSession.type_of_rate = user.typ
       }
       userSession.save((err, doc) => {
         if (err) {
@@ -314,19 +315,6 @@ router.get('/verify', (req, res, next) => {
       }
     });
   });
-
-// router.get('/notifyBikers', function(req, res, next) {
-//   Bikers.find({}, function(err, bikers) {
-//     if(err) {console.log(err)}
-//     else {
-//       for(let i =0; i<bikers.length; i++) {
-//         createMessage('Mail On Bike: ¿Estarás disponible mañana para realizar envíos? Por favor responder sólo éstas dos opciones: (disponible/negativo)', bikers[i].phone_number);
-//         //createMessage('Are you available to work tomorrow? Respond with (si/no)', bikers[i].phone_number);
-//       }
-//       res.send("success")
-//     }
-//   })
-// })
 
 router.get('/notifyBikersTest', function(req, res, next) {
   //the actual route will have nothing in the find so it gets everyone
@@ -600,7 +588,10 @@ router.post('/calculateRate', (req, response, next) => {
     }
       return response.send({
         success: true,
-        rate: rate
+        rate: rate,
+        type_of_rate: type_of_rate, 
+        RUC: company[0].RUC,
+        client_company_name: company[0].client_company_name
     })
     }
   })

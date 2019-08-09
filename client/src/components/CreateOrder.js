@@ -21,7 +21,10 @@ export default class orderForm extends React.Component {
       employer : null,
       userId : '', 
       distance : -1, 
-      rate : -1
+      rate : -1, 
+      type_of_rate: '', 
+      RUC: '',
+      client_company_name: ''
     }
   }
 
@@ -39,7 +42,6 @@ export default class orderForm extends React.Component {
         }); 
       }
     }); 
-
   }
 
   CreateOrderSchema = () => { 
@@ -65,6 +67,9 @@ export default class orderForm extends React.Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        //i mean like ideally the company will be a part of the user.... like it literally alrady is through the ID so they shouldnt
+        //have to input it in the form.. when they get approved (will also need to implement this verification process), just query the companies 
+        //db with the company id and grab the official company name?? or the razon commercial, RUC (if it exists), type of rate
         client_company_id : this.state.employer, 
         client_company_name : values.companyName,
         special_instructions : "Origin Notes:\n".concat(values.origin_notes).concat('\nDestination Notes:\n').concat(values.dest_notes), 
@@ -127,7 +132,12 @@ export default class orderForm extends React.Component {
               .then(json => { 
               if(json.success) {
                 console.log('this is the rate of the order: ', json.rate)
-                this.setState({rate:json.rate}); 
+                this.setState({
+                  rate: json.rate, 
+                  type_of_rate: json.type_of_rate, 
+                  RUC: json.RUC, 
+                  client_company_name: json.client_company_name
+                }); 
               }
               });
           }
