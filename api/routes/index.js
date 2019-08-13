@@ -418,12 +418,12 @@ router.post('/messageReceived', function(req, res) {
   }
 
   //accepting an order
-  else if (msgBody.split(' ')[0] == 'ORDER_ID') {
-    let orderId = msgBody.split(' ')[3];
+  else if (msgBody.split(' ')[0] == 'Pedido') {
+    let orderId = msgBody.split('*')[msgBody.split('*').length-2];
     Order.find({ "_id": orderId }, function(err, order) {
         if (err) {
             console.log(err);
-            createMessage(`${orderId} is not a valid order. Make sure you copy and paste the message exactly without spaces.`, msgFrom); 
+            createMessage(`${orderId} is not a valid order. Make sure you copy and paste the message exactly, including formatting.`, msgFrom); 
         } else {
           if(order[0].assigned_messenger_id == null) {
             createMessage(`Congrats! You've been assigned ORDER_ID: ${orderId}, for company ${order[0].client_company_name}`, msgFrom); 
@@ -452,7 +452,7 @@ router.post('/messageReceived', function(req, res) {
 
   //delivery confirmation
   else if (msgBody.split(' ')[0] == 'entregado' || msgBody.split(' ')[0] == 'Entregado' || msgBody.split(' ')[0] == 'delivered' || msgBody.split(' ')[0] == 'Delivered') {
-    let orderId = msgBody.split(' ')[4]; 
+    let orderId = msgBody.split('*')[msgBody.split('*').length-2]
     Order.find({ "_id": orderId }, function(err, order) {
         if (err) {
             console.log(err);
@@ -526,6 +526,7 @@ Destino: ${dest_address}
 Contacto: ${dest_contact_name} Fono: ${dest_phone_number}
 Llevar: ${type_of_load.toUpperCase()}. ${modeString}. Tarifa: ${rate}. Pago: ${method_of_payment.toUpperCase()}. Recaudo=${money_collection}
 Navigation: ${mapsNavLink}
+Special Instructions: ${special_instructions}
 
 If you would like to accept, copy and paste EXACTLY the message with the ORDER_ID.
           `
@@ -543,7 +544,7 @@ If you would like to accept, copy and paste EXACTLY the message with the ORDER_I
               }
               
               for(let i = 0; i<messageTemplate.assign.length; i++) {
-                createMessage(`ORDER_ID FOR ${company_name}: *${orderId}*`, messageTemplate.assign[i].phone_number); 
+                createMessage(`Pedido por ${company_name}: *${orderId}*`, messageTemplate.assign[i].phone_number); 
                 createMessage(messageToSend, messageTemplate.assign[i].phone_number) 
                 console.log(`just asked if ${messageTemplate.assign[i].name} wants to take the order`)
               }
