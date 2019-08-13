@@ -588,8 +588,8 @@ router.post('/searchForCompany', (req, res, next) => {
   const { body } = req; 
   const { val } = body; 
   Companies.find({$or:[
-        {"RUC":{"$in":val}},
-        {"official_company_name":{"$in":val}}
+        {"RUC":{$regex : val}},
+        {"official_company_name":{$regex : val}}
     ]}, function(err, companies) {
     if(err) {console.log(err)}
       else {
