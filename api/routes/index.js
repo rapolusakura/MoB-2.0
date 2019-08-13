@@ -72,14 +72,11 @@ router.post('/createOrder', function(req, res, next) {
     endLat: endLat,
     endLng: endLng, 
     kg_of_c02_saved: kg_of_c02_saved, 
-
-    //FILL THIS IN
-    method_of_payment: ,
-    RUC: , 
-    money_collection: (maybe), 
-    client_phone_number: , 
-    client_contact_name: , 
-
+    method_of_payment: method_of_payment,
+    RUC: RUC, 
+    money_collection: money_collection, 
+    client_phone_number: client_phone_number, 
+    client_contact_name: client_contact_name 
 	}); 
 
 	order.save(function (err, order) {
@@ -438,7 +435,7 @@ router.post('/messageReceived', function(req, res) {
   }
 
   //delivery confirmation
-  else if (msgBody.split(' ')[0] == 'Delivered' || msgBody.split(' ')[0] == 'delivered' || msgBody.split(' ')[0] == 'DELIVERED') {
+  else if (msgBody.split(' ')[0] == 'entregado' || msgBody.split(' ')[0] == 'Entregado' || msgBody.split(' ')[0] == 'delivered' || msgBody.split(' ')[0] == 'Delivered') {
     let orderId = msgBody.split(' ')[4]; 
     Order.find({ "_id": orderId }, function(err, order) {
         if (err) {
@@ -461,7 +458,7 @@ router.post('/messageReceived', function(req, res) {
 
   //edge case
   else {
-    createMessage("No entiendo esta mensaje. Your options are: \n1) (disponible/negativo) to confirm your availability for the next day\n2) Copy and pasting the message starting with ORDER_ID to accept an order\n 3) 'Delivered ' followed by the 'ORDER_ID: ' of the order you have just completed.", msgFrom)
+    createMessage("No entiendo este mensaje. Utilizar las siguientes palabras para las respuestas: \n1) (disponible/negativo) para confirmar tu disponibilidad para el día siguiente.\n2) Copiar el mensaje con todo el texto ORDER_ID, pegarlo como respuesta y enciarlo al BOT para aceptar un pedido.\n3) Para confirmar una entrega debes poner la palabra «*entregado*» y pegar el 'ORDER_ID: ' a continuación al enviar la respuesta al BOT y el pedido se da por concluido.", msgFrom)
   }
 }); 
 
@@ -478,11 +475,25 @@ router.post('/assignBikers', function(req, res, next) {
     assign: []
   }; 
 
-  Order.find({"_id": orderId}, function(err, order) {
+  Order.find({"_id": orderId}, function(err, orders) {
         if (err) {
             console.log(err);
         } else {
-          const company_name = order[0].client_company_name; 
+          const order = orders[0]; 
+          const company_name = order.client_company_name;
+          const type_of_rate =  order.type_of_rate; 
+          const client_address = order.client_address; 
+          const client_contact_name = order.client_contact_name; 
+          const dest_address = order.dest_address; 
+          const dest_contact_name = order.dest_contact_name; 
+          const dest_phone_number = order.dest_phone_number; 
+          const type_of_load = order.type_of_load; 
+          const mode = order.mode; 
+          const rate = order.rate; 
+          const method_of_payment = order.method_of_payment; 
+          const order_num = order._id; 
+          const money_collection = order.money_collection; 
+
           Bikers.find({"_id": bikerIds}, function(err, bikers) {
             if (err) {
               console.log(err);
@@ -513,7 +524,7 @@ router.get('/getBikersForToday', function(req, res, next) {
         console.log(err);
     } else {
         let list = record[0].availableToday; 
-        Bikers.find({"_id":{"$in": list}}, {name: 1, phone_number: 1, num_current_orders: 1} , function(err, response) {
+        Bikers.find({"_id":{"$in": list}}, {name: 1, phone_number: 1, district: 1, num_current_orders: 1} , function(err, response) {
           if(err) {console.log(err)} 
           else {
             res.send(response); 
