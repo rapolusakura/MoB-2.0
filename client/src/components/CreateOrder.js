@@ -39,7 +39,7 @@ export default class orderForm extends React.Component {
     .then(res => res.json())
     .then(json => {
       if (json.success) {
-        console.log('json resoponse', json)
+        console.log('json response to getUserDetails', json)
         this.setState({
           isAdmin: json.isAdmin,
           employer: json.employer, 
@@ -70,49 +70,42 @@ CreateOrderSchema = () => {
  createOrderAPI = (values) => {
   let mode = ''; 
   values.mode ? mode = 'round-trip' : mode = 'one-way'; 
-  console.log('phone num', this.state.phone_number)
-  console.log('company official name', this.state.client_company_name)
-  console.log('method of payment', values.method_of_payment)
-  console.log('type-of-rate', this.state.type_of_rate)
-  // console.log("starting addy", this.state.startingAddress)
-  // console.log("dest addy", this.state.destAddress)
-    fetch("/createOrder", {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          client_company_id : this.state.employer, 
-          client_company_name : this.state.client_company_name,
-          client_contact_name: this.state.name, 
-          client_phone_number: this.state.phone_number, 
-          special_instructions : "Origin Notes:".concat(values.origin_notes).concat('\nDestination Notes:').concat(values.dest_notes), 
-          type_of_load : values.type_of_load, 
-          mode : mode, 
-          distance : this.state.distance,
-          rate : this.state.rate, 
-          client_address : this.state.startingAddress, 
-          dest_address : this.state.destAddress, 
-          dest_contact_name : values.destContact, 
-          dest_company_name: values.destCompany,
-          dest_phone_number: values.destPhone, 
-          startLat: this.state.startingLat, 
-          startLng: this.state.startingLng, 
-          endLat: this.state.destLat,
-          endLng: this.state.destLng, 
-          type_of_rate: this.state.type_of_rate, 
-          method_of_payment: values.method_of_payment,
-          RUC: this.state.RUC, 
-          money_collection: values.money_collection
-        }),
-      }).then(res => res.json())
-          .then(json => { 
-          console.log('json', json); 
-          if(json.success) {
-            console.log("worked!!");
-          }
-      });
+  fetch("/createOrder", {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        client_company_id : this.state.employer, 
+        client_company_name : this.state.client_company_name,
+        client_contact_name: this.state.name, 
+        client_phone_number: this.state.phone_number, 
+        special_instructions : "Origin Notes:".concat(values.origin_notes).concat('\nDestination Notes:').concat(values.dest_notes), 
+        type_of_load : values.type_of_load, 
+        mode : mode, 
+        distance : this.state.distance,
+        rate : this.state.rate, 
+        client_address : this.state.startingAddress, 
+        dest_address : this.state.destAddress, 
+        dest_contact_name : values.destContact, 
+        dest_company_name: values.destCompany,
+        dest_phone_number: values.destPhone, 
+        startLat: this.state.startingLat, 
+        startLng: this.state.startingLng, 
+        endLat: this.state.destLat,
+        endLng: this.state.destLng, 
+        type_of_rate: this.state.type_of_rate, 
+        method_of_payment: values.method_of_payment,
+        RUC: this.state.RUC, 
+        money_collection: values.money_collection
+      }),
+    }).then(res => res.json())
+        .then(json => { 
+        if(json.success) {
+          console.log("worked!!");
+        }
+    });
 }
 
 calculateRate = (isRoundTrip, moneyCollection) => {
