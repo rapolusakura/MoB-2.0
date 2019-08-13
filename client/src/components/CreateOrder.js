@@ -1,5 +1,5 @@
 import React from 'react'; 
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, FastField } from 'formik';
 import * as Yup from 'yup';
 import MapView from './Map'; 
 import { getFromStorage } from '../utils/storage';
@@ -56,8 +56,6 @@ export default class orderForm extends React.Component {
 
 CreateOrderSchema = () => { 
   Yup.object().shape({
-  companyName: Yup.string()
-    .required('Company name is required'),
   destContact: Yup.string()
     .required('the contact name of the destination is required'),
   destPhone: Yup.number()
@@ -205,12 +203,12 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
           <div> 
             <h2> client info </h2> 
             <br/> 
-            <Field name="origin_notes" type="text" placeholder = "Enter any special notes.. instructions on getting there, etc" />
+            <FastField name="origin_notes" type="text" placeholder = "Enter any special notes.. instructions on getting there, etc" />
             <br/>
-            <Field name="type_of_load" type="text" placeholder = "Enter the type of load (document, etc.)" /> 
+            <FastField name="type_of_load" type="text" placeholder = "Enter the type of load (document, etc.)" /> 
             <br/>
             <label> 
-            <Field name="mode" type="checkbox" checked={values.mode}/> 
+            <FastField name="mode" type="checkbox" checked={values.mode}/> 
             Round-trip delivery?
             </label> 
             <br/>
@@ -227,7 +225,7 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
               <option label="Bank transfer" value="bank_transfer" />
             </select>
             {errors.method_of_payment && touched.method_of_payment ? <div>{errors.method_of_payment}</div> : null}
-            <Field name="money_collection" type="text" placeholder = "Recaudo" /> 
+            <FastField name="money_collection" type="text" placeholder = "Recaudo" /> 
 
             <br/>
 
@@ -244,15 +242,15 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
             </div> 
 
             <h2> destination info </h2> 
-            <Field name="destContact" type="text" placeholder = "Dest contact name" /> 
+            <FastField name="destContact" type="text" placeholder = "Dest contact name" /> 
             {errors.destContact && touched.destContact ? <div>{errors.destContact}</div> : null}
             <br/>
-            <Field name="destCompany" type="text" placeholder = "Dest company" /> 
+            <FastField name="destCompany" type="text" placeholder = "Dest company" /> 
             <br/>
-            <Field name="destPhone" type="text" placeholder = "Dest phone number" /> 
+            <FastField name="destPhone" type="text" placeholder = "Dest phone number" /> 
             {errors.destPhone && touched.destPhone ? <div>{errors.destPhone}</div> : null}
             <br/>
-            <Field name="dest_notes" type="text" placeholder = "Enter any special notes.. instructions on getting there, etc" />
+            <FastField name="dest_notes" type="text" placeholder = "Enter any special notes.. instructions on getting there, etc" />
             <br/>
             <div style={{ margin: '70px' }}>
             <h2> destination address </h2> 
