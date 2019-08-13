@@ -593,8 +593,25 @@ router.post('/searchForCompany', (req, res, next) => {
     ]}, function(err, companies) {
     if(err) {console.log(err)}
       else {
+        if(companies.length == 0) {
+          return res.send({
+            success: false, 
+            message: 'no companies match the search criteria'
+          })
+        } else if (companies.length == 1) {
+          return res.send({
+            success: true, 
+            message: 'found exactly one company',
+            company: companies
+          })
+        } else if (companies.length > 1) {
+          return res.send({
+            success: true, 
+            message: 'found more than one company',
+            company: companies
+          })
+        }
         console.log(companies)
-        res.send(companies); 
       }
   })
 })
@@ -688,7 +705,6 @@ router.get('/getUserDetails', (req, res, next) => {
           message: 'Error: Invalid'
         });
       } else {
-        console.log('these are athe user details: ', sessions)
         isAdmin = sessions[0].isAdmin; 
         userId = sessions[0].userId; 
         employer = sessions[0].employer; 
@@ -696,11 +712,9 @@ router.get('/getUserDetails', (req, res, next) => {
           if(err) {console.log(err)}
           else {
             officialName = company[0].official_company_name; 
-            console.log('official comapny name', officialName)
             User.find({ _id: userId}, function(err, user) {
               if(err) {console.log(err)}
               else {
-                console.log('found the user', user)
                 name = user[0].firstName.concat(' ').concat(user[0].lastName); 
                 phone_number = user[0].phoneNumber; 
                 defaultOrigin = user[0].defaultOriginAddress; 

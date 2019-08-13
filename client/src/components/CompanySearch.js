@@ -21,7 +21,16 @@ class CompanySearch extends React.Component {
         val: this.state.inputVal
       })
     })
-    .then(console.log('searched'))
+    .then(res => res.json())
+    .then(json => {
+      if(json.success) {
+        if(json.company.length == 1) {
+          console.log(json.company)
+        }
+      } else {
+        console.log('no company with that search criteria. try with the other option or call mail on bike to register as a client')
+      }
+    })
   }
 
 
