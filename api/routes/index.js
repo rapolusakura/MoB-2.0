@@ -474,7 +474,7 @@ router.post('/messageReceived', function(req, res) {
 
   //edge case
   else {
-    createMessage("No entiendo este mensaje. Utilizar las siguientes palabras para las respuestas: \n1) (disponible/negativo) para confirmar tu disponibilidad para el día siguiente.\n2) Copiar el mensaje con todo el texto ORDER_ID, pegarlo como respuesta y enciarlo al BOT para aceptar un pedido.\n3) Para confirmar una entrega debes poner la palabra «*entregado*» y pegar el 'ORDER_ID: ' a continuación al enviar la respuesta al BOT y el pedido se da por concluido.", msgFrom)
+    createMessage("No entiendo este mensaje. Utilizar las siguientes palabras para las respuestas: \n1) (disponible/negativo) para confirmar tu disponibilidad para el día siguiente.\n2) Copiar el mensaje con todo el texto ORDER_ID, pegarlo como respuesta y enciarlo al BOT para aceptar un pedido.\n3) Para confirmar una entrega debes poner la palabra *entregado* y pegar el 'ORDER_ID: ' a continuación al enviar la respuesta al BOT y el pedido se da por concluido.", msgFrom)
   }
 }); 
 
@@ -526,7 +526,7 @@ Destino: ${dest_address}
 Contacto: ${dest_contact_name} Fono: ${dest_phone_number}
 Llevar: ${type_of_load.toUpperCase()}. ${modeString}. Tarifa: ${rate}. Pago: ${method_of_payment.toUpperCase()}. Recaudo=${money_collection}
 Navigation: ${mapsNavLink}
-Special Instructions: ${special_instructions}
+${special_instructions}
 
 If you would like to accept, copy and paste EXACTLY the message with the ORDER_ID.
           `
