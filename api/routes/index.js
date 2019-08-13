@@ -506,6 +506,8 @@ router.post('/assignBikers', function(req, res, next) {
           const type_of_load = order.type_of_load; 
           const mode = order.mode; 
           const rate = order.rate; 
+          const special_instructions = order.special_instructions; 
+          const mapsNavLink = `https://www.google.com/maps/dir/?api=1&origin=${order.startLat},${order.startLng}&destination=${order.endLat},${order.endLng}&travelmode=walking`
           const method_of_payment = order.method_of_payment; 
           const order_num = order._id; 
           let money_collection = order.money_collection;
@@ -523,6 +525,7 @@ Contacto: ${client_contact_name}
 Destino: ${dest_address}
 Contacto: ${dest_contact_name} Fono: ${dest_phone_number}
 Llevar: ${type_of_load.toUpperCase()}. ${modeString}. Tarifa: ${rate}. Pago: ${method_of_payment.toUpperCase()}. Recaudo=${money_collection}
+Navigation: ${mapsNavLink}
 
 If you would like to accept, copy and paste EXACTLY the message with the ORDER_ID.
           `
@@ -540,7 +543,7 @@ If you would like to accept, copy and paste EXACTLY the message with the ORDER_I
               }
               
               for(let i = 0; i<messageTemplate.assign.length; i++) {
-                createMessage(`ORDER_ID FOR ${company_name}: ${orderId}`, messageTemplate.assign[i].phone_number); 
+                createMessage(`ORDER_ID FOR ${company_name}: *${orderId}*`, messageTemplate.assign[i].phone_number); 
                 createMessage(messageToSend, messageTemplate.assign[i].phone_number) 
                 console.log(`just asked if ${messageTemplate.assign[i].name} wants to take the order`)
               }
