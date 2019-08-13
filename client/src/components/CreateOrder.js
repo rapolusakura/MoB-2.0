@@ -2,6 +2,7 @@ import React from 'react';
 import { Formik, Form, Field, FastField } from 'formik';
 import * as Yup from 'yup';
 import MapView from './Map'; 
+import CompanySearch from './CompanySearch'; 
 import { getFromStorage } from '../utils/storage';
 
 export default class orderForm extends React.Component {
@@ -47,6 +48,7 @@ export default class orderForm extends React.Component {
             name: json.name, 
             phone_number: json.phone_number
           })
+
         } else {
         this.setState({
           isAdmin: json.isAdmin,
@@ -188,12 +190,19 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
   render() {
 
     let apiLabel;
+    let companySearch = ''; 
+
+    // if(this.state.isAdmin) {
+    //   companySearch = <CompanySearch />
+    // }
 
     if (this.state.rate != -1 && this.state.distance != -1) {
       apiLabel = <label> Distance: {this.state.distance} Rate: {this.state.rate} </label>;
     } else {
       apiLabel = <label> Distance: N/A Rate: N/A </label>;
     }
+
+
     return (
       <div>
           <Formik 
@@ -210,6 +219,7 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
       <Form>
           <div> 
             <h2> client info </h2> 
+            <CompanySearch /> 
             <br/> 
             <FastField name="origin_notes" type="text" placeholder = "Enter any special notes.. instructions on getting there, etc" />
             <br/>
