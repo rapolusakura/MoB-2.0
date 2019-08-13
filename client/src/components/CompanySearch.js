@@ -9,12 +9,21 @@ class CompanySearch extends React.Component {
     };
   }
 
-  callAPI() {
-      console.log(this.state.inputVal)
-      // fetch("/getPendingOrders")
-      //     .then(res => res.json())
-      //     .then(res => this.setState({ 'orders': res }));
+  callAPI = () => {
+    console.log(this.state.inputVal)
+    fetch("/searchForCompany", {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        val: this.state.inputVal
+      })
+    })
+    .then(console.log('searched'))
   }
+
 
   updateInputValue(evt) {
     this.setState({

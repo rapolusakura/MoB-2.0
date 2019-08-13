@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var companySchema = new mongoose.Schema({
 	approved_employees: [String], 
-	RUC: Number, 
+	RUC: String, 
 	past_orders: [String], 
 	type_of_rate: {
 		type: String, 

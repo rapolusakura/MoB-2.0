@@ -7,6 +7,7 @@ var bikerSchema = new mongoose.Schema({
     type: Number, 
     default: 0
   },
+  district: String,
   gender: {
   	type: String, 
   	enum: ['female', 'male', 'other']

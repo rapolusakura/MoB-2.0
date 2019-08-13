@@ -573,7 +573,6 @@ router.get('/getBikersForToday', function(req, res, next) {
 
 router.post('/getBikerDetails', (req, res, next) => {
   const { body } = req;
-  console.log(body); 
   const {
     bikerId 
   } = body;
@@ -585,10 +584,16 @@ router.post('/getBikerDetails', (req, res, next) => {
   })
 }); 
 
-router.get('/getCompanyNames', (req, res, next) => {
-  Companies.find({}, {'official_company_name': 1}, function(err, companies) {
+router.post('/searchForCompany', (req, res, next) => {
+  const { body } = req; 
+  const { val } = body; 
+  Companies.find({$or:[
+        {"RUC":{"$in":val}},
+        {"official_company_name":{"$in":val}}
+    ]}, function(err, companies) {
     if(err) {console.log(err)}
       else {
+        console.log(companies)
         res.send(companies); 
       }
   })
