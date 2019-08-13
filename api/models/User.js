@@ -44,7 +44,11 @@ const UserSchema = new mongoose.Schema({
     default: true
   },
   defaultOriginAddress: String, 
-  defaultDestAddress: String
+  defaultDestAddress: String, 
+  pastOrders: {
+    type: [String], 
+    default: []
+  }
 });
 
 UserSchema.methods.generateHash = function(password) {

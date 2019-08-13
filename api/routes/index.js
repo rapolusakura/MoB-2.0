@@ -49,8 +49,10 @@ router.post('/createOrder', function(req, res, next) {
     client_company_name, special_instructions, 
     type_of_load, mode, distance, rate, client_address, dest_address, 
     dest_contact_name, dest_company_name, dest_phone_number, client_company_id,
-    startLat, startLng, endLat, endLng
+    startLat, startLng, endLat, endLng, 
+    method_of_payment, RUC, money_collection, client_phone_number, client_contact_name
   } = body;
+  const kg_of_c02_saved = distance*0.3; 
 
 	const order = new Order({ 
 		client_company_name: client_company_name,
@@ -68,7 +70,16 @@ router.post('/createOrder', function(req, res, next) {
     startLat: startLat, 
     startLng: startLng, 
     endLat: endLat,
-    endLng: endLng
+    endLng: endLng, 
+    kg_of_c02_saved: kg_of_c02_saved, 
+
+    //FILL THIS IN
+    method_of_payment: ,
+    RUC: , 
+    money_collection: (maybe), 
+    client_phone_number: , 
+    client_contact_name: , 
+
 	}); 
 
 	order.save(function (err, order) {

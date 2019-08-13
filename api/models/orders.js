@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 var orderSchema = new mongoose.Schema({
 	client_company_id: String,
 	client_contact_name: String,
+	client_phone_number: String,
 	client_company_name: String, 
 	client_address: String, 
 	client_district: String, 
@@ -16,7 +17,7 @@ var orderSchema = new mongoose.Schema({
 	rate: Number,
 	method_of_payment: {
 		type: String, 
-		enum: ['credit_7_days', 'credit_15_days', 'credit_30_days', 'cash_on_destination', 'cash_on_origin', 'bank_transfer']
+		enum: ['cash_on_destination', 'cash_on_origin', 'bank_transfer']
 	}, 
 	money_collection: {
 		type: Number, 

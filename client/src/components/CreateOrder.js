@@ -24,7 +24,8 @@ export default class orderForm extends React.Component {
       rate : -1, 
       type_of_rate: '', 
       RUC: '',
-      client_company_name: ''
+      client_company_name: '', 
+
     }
   }
 
@@ -38,7 +39,9 @@ export default class orderForm extends React.Component {
         this.setState({
           isAdmin: json.isAdmin,
           employer: json.employer, 
-          userId: json.userId
+          userId: json.userId, 
+          name: json.name, 
+          phone_number: json.phone_number
         }); 
       }
     }); 
@@ -52,7 +55,9 @@ export default class orderForm extends React.Component {
       .required('the contact name of the destination is required'),
     destPhone: Yup.number()
       .positive()
-      .required('the phone number of the dest is required'),  
+      .required('the phone number of the dest is required'), 
+    method_of_payment: Yup.string()
+      .required('method of payment is required'),
   })};
 
  createOrderAPI = (values) => {
@@ -131,7 +136,7 @@ export default class orderForm extends React.Component {
               .then(res => res.json())
               .then(json => { 
               if(json.success) {
-                console.log('this is the rate of the order: ', json.rate)
+                console.log('this is the response from calculate rate: ', json)
                 this.setState({
                   rate: json.rate, 
                   type_of_rate: json.type_of_rate, 
@@ -143,7 +148,6 @@ export default class orderForm extends React.Component {
           }
         });
         //3) on the UI side, if they are an admin, render a component that allows them to search a company by their RUC or razon commercial
-
     }
   }
 
@@ -170,8 +174,8 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
     return (
           <Formik 
            initialValues={{
-          companyName: '', 
-          mode: false
+            companyName: '', 
+            mode: false
         }}
       validationSchema={this.CreateOrderSchema}
       onSubmit={values => {
@@ -193,6 +197,20 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
             <Field name="mode" type="checkbox" checked={values.mode}/> 
             Round-trip delivery?
             </label> 
+            <br/>
+            <label> Method of Payment </label> 
+            <select
+              name="method_of_payment"
+              value={values.method_of_payment}
+              style={{ display: 'block' }}
+            >
+              <option value="" label="Select a method of payment" />
+              <option label="Cash on origin" value="cash_on_origin" />
+              <option label="Cash on destination" value="cash_on_destination" />
+              <option label="Bank transfer" value="bank_transfer" />
+            </select>
+            {errors.method_of_payment && touched.method_of_payment ? <div>{errors.method_of_payment}</div> : null}
+
             <br/>
 
             <div style={{margin: '70px'}}>
