@@ -1,39 +1,32 @@
 import React from 'react'; 
-import { Formik, Form, Field, FastField} from 'formik';
 
 class CompanySearch extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
+      inputVal: '',
       company: null
     };
   }
 
-  searchForCompany(value) {
-      console.log(value); 
+  callAPI() {
+      console.log(this.state.inputVal)
       // fetch("/getPendingOrders")
       //     .then(res => res.json())
       //     .then(res => this.setState({ 'orders': res }));
   }
 
-  componentWillMount() {
+  updateInputValue(evt) {
+    this.setState({
+      inputVal: evt.target.value
+    });
   }
 
     render() {    
     return (
       <div>
-      <Formik 
-        onSubmit={values => {
-            console.log('submitting', values);
-            this.searchForCompany(values); 
-      }}> 
-      {({ values }) => (
-        <Form> 
-        <FastField name="company_search" type="text" placeholder = "Enter the RUC or the razon commercial name"> </FastField>
-        <button type="submit"> Search for company </button>      
-        </Form> 
-      )}
-      </Formik> 
+        <input type="text" placeholder = "type in the RUC or the razon commercial name" value={this.state.inputVal} onChange={evt => this.updateInputValue(evt)}></input> 
+        <button type = "button" onClick={() => this.callAPI()}> search for the company </button>
       </div> 
     )
   }

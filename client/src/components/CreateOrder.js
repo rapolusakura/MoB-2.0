@@ -219,8 +219,8 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
       <Form>
           <div> 
             <h2> client info </h2> 
-            <CompanySearch /> 
             <br/> 
+            <CompanySearch /> 
             <FastField name="origin_notes" type="text" placeholder = "Enter any special notes.. instructions on getting there, etc" />
             <br/>
             <FastField name="type_of_load" type="text" placeholder = "Enter the type of load (document, etc.)" /> 
