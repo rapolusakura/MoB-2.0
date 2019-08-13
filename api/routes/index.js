@@ -50,11 +50,11 @@ router.post('/createOrder', function(req, res, next) {
     type_of_load, type_of_rate, mode, distance, rate, client_address, dest_address, 
     dest_contact_name, dest_company_name, dest_phone_number, client_company_id,
     startLat, startLng, endLat, endLng, 
-    method_of_payment, RUC, money_collection, client_phone_number, client_contact_name
+    method_of_payment, RUC, money_collection, client_phone_number, client_contact_name, userId
   } = body;
   const kg_of_c02_saved = distance*0.3; 
 
-	const order = new Order({ 
+	const newOrder = new Order({ 
 		client_company_name: client_company_name,
     special_instructions: special_instructions, 
     type_of_load: type_of_load, 
@@ -80,12 +80,23 @@ router.post('/createOrder', function(req, res, next) {
     client_contact_name: client_contact_name 
 	}); 
 
-	order.save(function (err, order) {
+	newOrder.save(function (err, record) {
 		if(err) return console.error(err); 
 		else {
-      return res.send({
-        success: true, 
-        message: "Order has successfully been created"
+      let newId = record._id; 
+      User.find({ id: userId }, function(err, user) {
+        if (err) {console.log(err)} 
+        else {
+          User.updateOne({_id: userId}, {$addToSet: {"pastOrders": newId}}, function(err, success) {
+            if(err) {console.log(err)}
+            else {
+              return res.send({
+                success: true, 
+                message: "Order has successfully been created"
+              })
+            }
+          })
+        }
       })
 		}
 	});

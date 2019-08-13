@@ -98,7 +98,8 @@ CreateOrderSchema = () => {
         type_of_rate: this.state.type_of_rate, 
         method_of_payment: values.method_of_payment,
         RUC: this.state.RUC, 
-        money_collection: values.money_collection
+        money_collection: values.money_collection, 
+        userId : this.state.userId
       }),
     }).then(res => res.json())
         .then(json => { 
