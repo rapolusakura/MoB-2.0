@@ -47,7 +47,7 @@ router.post('/createOrder', function(req, res, next) {
   const { body } = req;
   const {
     client_company_name, special_instructions, 
-    type_of_load, mode, distance, rate, client_address, dest_address, 
+    type_of_load, type_of_rate, mode, distance, rate, client_address, dest_address, 
     dest_contact_name, dest_company_name, dest_phone_number, client_company_id,
     startLat, startLng, endLat, endLng, 
     method_of_payment, RUC, money_collection, client_phone_number, client_contact_name
@@ -58,6 +58,7 @@ router.post('/createOrder', function(req, res, next) {
 		client_company_name: client_company_name,
     special_instructions: special_instructions, 
     type_of_load: type_of_load, 
+    type_of_rate: type_of_rate,
     mode: mode,
     distance: distance, 
     rate: rate,
@@ -82,7 +83,10 @@ router.post('/createOrder', function(req, res, next) {
 	order.save(function (err, order) {
 		if(err) return console.error(err); 
 		else {
-			res.send("Order has successfully been created!"); 
+      return res.send({
+        success: true, 
+        message: "Order has successfully been created"
+      })
 		}
 	});
 });
@@ -300,8 +304,7 @@ router.get('/verify', (req, res, next) => {
     //also verify that the user is verified like the isVerified field is true
     UserSession.find({
       _id: token,
-      isDeleted: false, 
-      isVerified: true
+      isDeleted: false
     }, (err, sessions) => {
       if (err) {
         console.log(err);
@@ -611,8 +614,7 @@ router.post('/calculateRate', (req, response, next) => {
         success: true,
         rate: rate,
         type_of_rate: type_of_rate, 
-        RUC: company[0].RUC,
-        client_company_name: company[0].client_company_name
+        RUC: company[0].RUC
     })
     }
   })

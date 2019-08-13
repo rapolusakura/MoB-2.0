@@ -39,17 +39,17 @@ export default class orderForm extends React.Component {
     .then(res => res.json())
     .then(json => {
       if (json.success) {
+        console.log('json resoponse', json)
         this.setState({
           isAdmin: json.isAdmin,
           employer: json.employer, 
           userId: json.userId, 
           name: json.name, 
           phone_number: json.phone_number, 
-          client_company_name: json.official_company_name, 
+          client_company_name: json.client_company_name, 
           defaultOrigin: json.defaultOrigin, 
           defaultDest: json.defaultDest
         }); 
-        console.log('nameeee', this.state.name)
       }
     }); 
   }
@@ -102,6 +102,7 @@ CreateOrderSchema = () => {
           endLat: this.state.destLat,
           endLng: this.state.destLng, 
           type_of_rate: this.state.type_of_rate, 
+          method_of_payment: values.method_of_payment,
           RUC: this.state.RUC, 
           money_collection: values.money_collection
         }),
@@ -155,8 +156,7 @@ calculateRate = (isRoundTrip, moneyCollection) => {
               this.setState({
                 rate: realRate, 
                 type_of_rate: json.type_of_rate, 
-                RUC: json.RUC, 
-                client_company_name: json.client_company_name
+                RUC: json.RUC
               }); 
             }
             });
@@ -198,14 +198,15 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
       <div>
           <Formik 
            initialValues={{
-            mode: false
+            mode: false,
+            method_of_payment: 'cash_on_origin'
         }}
       validationSchema={this.CreateOrderSchema}
       onSubmit={values => {
             console.log('submitting', values);
             this.createOrderAPI(values); 
       }}>
-      {({ touched, values, errors }) => (
+      {({ touched, values, errors, handleChange }) => (
       <Form>
           <div> 
             <h2> client info </h2> 
@@ -225,6 +226,7 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
               name="method_of_payment"
               value={values.method_of_payment}
               style={{ display: 'block' }}
+              onChange={handleChange}
             >
               <option label="Cash on origin" value="cash_on_origin" />
               <option label="Cash on destination" value="cash_on_destination" />

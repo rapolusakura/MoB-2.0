@@ -34,7 +34,10 @@ const UserSchema = new mongoose.Schema({
     type: Boolean, 
     default: false
   }, 
-  phoneNumber: Number, 
+  phoneNumber: {
+    type: Number, 
+    default: null
+  },
   employer: {
     type: String, 
     default: null
