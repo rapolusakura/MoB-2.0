@@ -297,9 +297,11 @@ router.get('/verify', (req, res, next) => {
     const { token } = query;
     // ?token=test
     // Verify the token is one of a kind and it's not deleted.
+    //also verify that the user is verified like the isVerified field is true
     UserSession.find({
       _id: token,
-      isDeleted: false
+      isDeleted: false, 
+      isVerified: true
     }, (err, sessions) => {
       if (err) {
         console.log(err);
@@ -562,9 +564,6 @@ router.post('/calculateDistance', (req, response, next) => {
   const {
     start, end, mode 
   } = body;
-
-  //check if either are empty
-
   //call the distance matrix API
   let distance = -1; 
   request(`https://maps.googleapis.com/maps/api/distancematrix/json?mode=walking&origins=place_id:${start}&destinations=place_id:${end}&key=${process.env.GOOGLE_MAPS_API_KEY}`, { json: true }, (err, res, body) => {
@@ -619,10 +618,18 @@ router.post('/calculateRate', (req, response, next) => {
   })
 }); 
 
-router.get('/getUserSessionDetails', (req, res, next) => {
+router.get('/getUserDetails', (req, res, next) => {
     // Get the token
     const { query } = req;
     const { token } = query;
+    let isAdmin = ''; 
+    let userId = ''; 
+    let employer = ''; 
+    let officialName = ''; 
+    let name = ''; 
+    let defaultOrigin = ''; 
+    let defaultDest = ''; 
+    let phone_number = ''; 
 
     // Verify the token is one of a kind and it's not deleted.
     UserSession.find({
@@ -642,14 +649,43 @@ router.get('/getUserSessionDetails', (req, res, next) => {
           message: 'Error: Invalid'
         });
       } else {
-        // DO ACTION
-        return res.send({
-          success: true,
-          message: 'Good', 
-          isAdmin: sessions[0].isAdmin,
-          userId: sessions[0]._id,
-          employer: sessions[0].employer
-        });
+        console.log('these are athe user details: ', sessions)
+        isAdmin = sessions[0].isAdmin; 
+        userId = sessions[0].userId; 
+        employer = sessions[0].employer; 
+        Companies.find({_id: employer}, {official_company_name: 1}, function(err, company) {
+          if(err) {console.log(err)}
+          else {
+            officialName = company[0].official_company_name; 
+            console.log('official comapny name', officialName)
+            User.find({ _id: userId}, function(err, user) {
+              if(err) {console.log(err)}
+              else {
+                console.log('found the user', user)
+                name = user[0].firstName.concat(' ').concat(user[0].lastName); 
+                phone_number = user[0].phoneNumber; 
+                defaultOrigin = user[0].defaultOriginAddress; 
+                defaultDest = user[0].defaultDestAddress; 
+
+                return res.send({
+                  success: true, 
+                  message: 'Found user details', 
+                  isAdmin: isAdmin,
+                  userId: userId,
+                  employer: employer, 
+                  name: name, 
+                  phone_number: phone_number,
+                  client_company_name: officialName, 
+                  defaultOrigin: defaultOrigin, 
+                  defaultDest: defaultDest
+                })
+              }
+            })
+          } 
+
+        })
+
+
       }
     });
   });

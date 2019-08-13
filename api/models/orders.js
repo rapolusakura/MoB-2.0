@@ -23,7 +23,6 @@ var orderSchema = new mongoose.Schema({
 		type: Number, 
 		default: null
 	},
-	operator: String, 
 	RUC: Number, 
 	dest_contact_name: String, 
 	dest_company_name: String, 
