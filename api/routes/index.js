@@ -508,7 +508,24 @@ router.post('/assignBikers', function(req, res, next) {
           const rate = order.rate; 
           const method_of_payment = order.method_of_payment; 
           const order_num = order._id; 
-          const money_collection = order.money_collection; 
+          let money_collection = order.money_collection;
+          if(money_collection == null) {money_collection = 0}
+
+          let modeString = ''; 
+          mode == 'one-way' ? modeString = 'UNA VÍA' : modeString = 'CON RETORNO'
+
+          const messageToSend = `
+          *Pedido: ${order_num}*
+Tipo Envío: ${type_of_rate.toUpperCase()}
+Origen: ${client_address}
+Empresa: ${company_name}
+Contacto: ${client_contact_name} 
+Destino: ${dest_address}
+Contacto: ${dest_contact_name} Fono: ${dest_phone_number}
+Llevar: ${type_of_load.toUpperCase()}. ${modeString}. Tarifa: ${rate}. Pago: ${method_of_payment.toUpperCase()}. Recaudo=${money_collection}
+
+If you would like to accept, copy and paste EXACTLY the message with the ORDER_ID.
+          `
 
           Bikers.find({"_id": bikerIds}, function(err, bikers) {
             if (err) {
@@ -524,7 +541,7 @@ router.post('/assignBikers', function(req, res, next) {
               
               for(let i = 0; i<messageTemplate.assign.length; i++) {
                 createMessage(`ORDER_ID FOR ${company_name}: ${orderId}`, messageTemplate.assign[i].phone_number); 
-                createMessage(`Hi ${messageTemplate.assign[i].name}! Would you like to take this order from ${company_name}? If you would like to accept, copy and paste EXACTLY the message with the ORDER_ID.`, messageTemplate.assign[i].phone_number) 
+                createMessage(messageToSend, messageTemplate.assign[i].phone_number) 
                 console.log(`just asked if ${messageTemplate.assign[i].name} wants to take the order`)
               }
               res.send(order); 

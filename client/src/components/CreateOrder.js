@@ -40,6 +40,14 @@ export default class orderForm extends React.Component {
     .then(json => {
       if (json.success) {
         console.log('json response to getUserDetails', json)
+        if(json.isAdmin) {
+          this.setState({
+            isAdmin: json.isAdmin,
+            userId: json.userId, 
+            name: json.name, 
+            phone_number: json.phone_number
+          })
+        } else {
         this.setState({
           isAdmin: json.isAdmin,
           employer: json.employer, 
@@ -49,7 +57,7 @@ export default class orderForm extends React.Component {
           client_company_name: json.client_company_name, 
           defaultOrigin: json.defaultOrigin, 
           defaultDest: json.defaultDest
-        }); 
+        }); }
       }
     }); 
   }
