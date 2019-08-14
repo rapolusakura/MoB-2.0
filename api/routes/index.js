@@ -99,17 +99,12 @@ router.post('/createOrder', function(req, res, next) {
                 cluster: process.env.PUSHER_APP_CLUSTER
             });
 
-            pusher.trigger('notifications', 'post_updated', post, req.headers['x-socket-id']);
-            res.send('');
-
-
-
-
-
-              return res.send({
-                success: true, 
-                message: "Order has successfully been created"
-              })
+            pusher.trigger('my-channel', 'my-event', {"message": "hello world"});
+            
+            return res.send({
+              success: true, 
+              message: "Order has successfully been created"
+            })
             }
           })
         }
@@ -724,6 +719,8 @@ router.get('/getUserDetails', (req, res, next) => {
         isAdmin = sessions[0].isAdmin; 
         userId = sessions[0].userId; 
         employer = sessions[0].employer; 
+
+        if(!isAdmin) {
         Companies.find({_id: employer}, {official_company_name: 1}, function(err, company) {
           if(err) {console.log(err)}
           else {
@@ -753,6 +750,25 @@ router.get('/getUserDetails', (req, res, next) => {
           } 
 
         })
+      } else {
+          User.find({ _id: userId}, function(err, user) {
+              if(err) {console.log(err)}
+              else {
+                name = user[0].firstName.concat(' ').concat(user[0].lastName); 
+                phone_number = user[0].phoneNumber;  
+
+                return res.send({
+                  success: true, 
+                  message: 'Found user details', 
+                  isAdmin: isAdmin,
+                  userId: userId,
+                  name: name, 
+                  phone_number: phone_number
+                })
+              }
+            })
+
+      }
 
 
       }
