@@ -17,6 +17,7 @@ class Dashboard extends React.Component {
   }
 
   setupPusher() {
+    Notification.requestPermission();
     const pusher = new Pusher('8f64842151a6eaee08bf', {
       cluster: 'mt1',
       useTLS: true
@@ -27,16 +28,17 @@ class Dashboard extends React.Component {
     channel.bind('message', data => {
       console.log(data); 
       this.callAPI();
+      var notification = new Notification("A new order was just created. Check it out.");
     });
 
-    // Notification.requestPermission();
+    
     // pusher.subscribe('notifications')
     //         .bind('post_updated', function (post) {
     //             // if we're on the home page, show an "Updated" badge
     //             if (window.location.pathname === "/") {
     //                 $('a[href="/posts/' + post._id + '"]').append('<span class="badge badge-primary badge-pill">Updated</span>');
     //             }
-    //             var notification = new Notification(post.title + " was just updated. Check it out.");
+    //             
     //             notification.onclick = function (event) {
     //                 window.location.href = '/posts/' + post._id;
     //                 event.preventDefault();
