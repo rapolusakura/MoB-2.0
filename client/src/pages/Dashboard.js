@@ -1,18 +1,12 @@
 import React from 'react'; 
 import Order from '../components/Order'
 import Pusher from 'pusher-js';
-import ChatList from '../components/ChatList';
-import ChatBox from '../components/ChatBox';
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      text: '',
-      username: '',
-      chats: [],
       orders: []
-
     };
   }
 
@@ -23,18 +17,17 @@ class Dashboard extends React.Component {
   }
 
   setupPusher() {
-
-    const username = window.prompt('Username: ', 'Anonymous');
-    this.setState({ username });
     const pusher = new Pusher('8f64842151a6eaee08bf', {
       cluster: 'mt1',
-      encrypted: true
+      useTLS: true
     });
+
     const channel = pusher.subscribe('chat');
+
     channel.bind('message', data => {
-      this.setState({ chats: [...this.state.chats, data], test: '' });
+      console.log(data); 
+      this.callAPI();
     });
-    this.handleTextChange = this.handleTextChange.bind(this);
 
     // Notification.requestPermission();
     // pusher.subscribe('notifications')
@@ -52,27 +45,8 @@ class Dashboard extends React.Component {
     // });
   }
 
-  handleTextChange(e) {
-  if (e.keyCode === 13) {
-    fetch("/message", {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: this.state.username,
-        message: this.state.text
-      })
-    })
-  } else {
-    this.setState({ text: e.target.value });
-  }
-}
-
   componentWillMount() {
       this.callAPI();
-      this.setupPusher(); 
   }
 
   componentDidMount() {
@@ -82,16 +56,6 @@ class Dashboard extends React.Component {
     render() {
     return (
       <div> 
-
-      <h1 className="App-title">Welcome to React-Pusher Chat</h1>
-            <section>
-              <ChatList chats={this.state.chats} />
-              <ChatBox
-                text={this.state.text}
-                username={this.state.username}
-                handleTextChange={this.handleTextChange}
-              />
-            </section>
       <ul>
         {this.state.orders.map( (order, index) => {
           return (

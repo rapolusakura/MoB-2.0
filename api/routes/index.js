@@ -45,6 +45,13 @@ router.get('/changeDatabase', function(req, res, next) {
 
 router.post('/createOrder', function(req, res, next) {
   //keep in mind the companyId can be null espeically since you havent implemented the other componenet rendering based off of admin status
+ let pusher = new Pusher({
+            appId: process.env.PUSHER_APP_ID,
+            key: process.env.PUSHER_APP_KEY,
+            secret: process.env.PUSHER_APP_SECRET,
+            cluster: process.env.PUSHER_APP_CLUSTER, 
+            useTLS: true
+  });
   const { body } = req;
   const {
     client_company_name, special_instructions, 
@@ -91,43 +98,20 @@ router.post('/createOrder', function(req, res, next) {
           User.updateOne({_id: userId}, {$addToSet: {"pastOrders": newId}}, function(err, success) {
             if(err) {console.log(err)}
             else {
-              //notify the dashboard -- people who are on the dashboard.... ? the component should be subscribed to notifications
-            // let pusher = new Pusher({
-            //     appId: process.env.PUSHER_APP_ID,
-            //     key: process.env.PUSHER_APP_KEY,
-            //     secret: process.env.PUSHER_APP_SECRET,
-            //     cluster: process.env.PUSHER_APP_CLUSTER
-            // });
-
-            // pusher.trigger('my-channel', 'my-event', {"message": "hello world"});
-            
-            return res.send({
-              success: true, 
-              message: "Order has successfully been created"
-            })
-            }
+              
+              pusher.trigger('chat', 'message', 'just got a new order!!');
+              
+              return res.send({
+                success: true, 
+                message: "Order has successfully been created"
+              })
+              }
           })
         }
       })
 		}
 	});
 });
-
-router.post('/message', (req, res) => {
-
-   let pusher = new Pusher({
-                appId: process.env.PUSHER_APP_ID,
-                key: process.env.PUSHER_APP_KEY,
-                secret: process.env.PUSHER_APP_SECRET,
-                cluster: process.env.PUSHER_APP_CLUSTER, 
-                encrypted: true
-      });
-
-      const payload = req.body;
-      pusher.trigger('chat', 'message', payload);
-      res.send(payload)
-    });
-
 
 router.get('/getOutgoingOrders', function(req, res, next) {
 	Order.find({ "delivery_status": "outgoing" }, function(err, orders) {
