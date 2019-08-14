@@ -29,7 +29,13 @@ class Dashboard extends React.Component {
       console.log(data); 
       this.callAPI();
       var notification = new Notification("A new order was just created. Check it out.");
+      notification.onclick = function (event) {
+          window.location.href = '/';
+          event.preventDefault();
+          notification.close();
+      }
     });
+
 
     
     // pusher.subscribe('notifications')
