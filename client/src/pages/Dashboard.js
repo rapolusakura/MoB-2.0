@@ -34,6 +34,15 @@ class Dashboard extends React.Component {
           notification.close();
       }
     });
+
+    channel.bind('accepted_order', data => {
+      this.callAPI();
+      var notification = new Notification(`${data} just accepted an order!`);
+    });
+
+    channel.bind('completed_order', data => {
+      var notification = new Notification(`Order for ${data} has just been completed!`);
+    });
   }
 
   componentWillMount() {
