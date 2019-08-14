@@ -8,7 +8,7 @@ class Order extends React.Component {
   constructor(props) {
     super(props);
   }
-
+  
     render() {
 
     const status = this.props.order.delivery_status; 

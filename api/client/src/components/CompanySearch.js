@@ -6,10 +6,10 @@ class CompanySearch extends React.Component {
     super(props);
     this.state = { 
       inputVal: '',
-      companies: null, 
-      formattedOptions: []
+      companies: []
     };
   }
+
 
   callAPI = () => {
     console.log(this.state.inputVal)
@@ -31,58 +31,31 @@ class CompanySearch extends React.Component {
         this.setState({
           companies: json.company
         })
-        this.createOptions(); 
       } else {
         console.log('no company with that search criteria. try with the other option or call mail on bike to register as a client')
       }
     })
   }
 
-  createOptions = () => {
-    let options = {
-        company: []
-    }
-
-    for(let i=0; i<this.state.companies.length; i++) {
-      let official_company_name = this.state.companies[i].official_company_name; 
-      let RUC = this.state.companies[i].RUC; 
-      let common_name = this.state.companies[i].company_name; 
-      options.company.push({ 
-        "official_company_name" : official_company_name,
-        "RUC"  : RUC, 
-        "common_name" : common_name
+    updateInputValue(evt) {
+      this.setState({
+        inputVal: evt.target.value
       });
     }
-
-    this.setState({
-      formattedOptions: options
-    })
-
-    console.log(this.state.formattedOptions)
-  }
-
-  updateInputValue(evt) {
-    this.setState({
-      inputVal: evt.target.value
-    });
-  }
 
     render() {    
     return (
       <div>
         <input type="text" placeholder = "type in the RUC or the razon commercial name" value={this.state.inputVal} onChange={evt => this.updateInputValue(evt)}></input> 
         <button type = "button" onClick={() => this.callAPI()}> search for the company </button>
-        <div> {
-          this.state.formattedOptions != [] ? 
-          this.state.formattedOptions.map( (company, index) => {
+        <div>
+        <ul>
+        {this.state.companies.map( (company, index) => {
           return (
-            <CompanyOption company={company} />
+            <CompanyOption company = {company} />
             ) 
-          }) 
-
-          : 'noooo'
-        }
-
+        })}
+      </ul>
         </div>
 
       </div> 
