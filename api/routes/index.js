@@ -1,6 +1,6 @@
 require('dotenv').config()
 var express = require('express');
-let Pusher = require('pusher');
+const Pusher = require('pusher');
 var router = express.Router();
 var db = require('../db.js'); 
 const Order = require('../models/orders'); 
@@ -92,14 +92,14 @@ router.post('/createOrder', function(req, res, next) {
             if(err) {console.log(err)}
             else {
               //notify the dashboard -- people who are on the dashboard.... ? the component should be subscribed to notifications
-            let pusher = new Pusher({
-                appId: process.env.PUSHER_APP_ID,
-                key: process.env.PUSHER_APP_KEY,
-                secret: process.env.PUSHER_APP_SECRET,
-                cluster: process.env.PUSHER_APP_CLUSTER
-            });
+            // let pusher = new Pusher({
+            //     appId: process.env.PUSHER_APP_ID,
+            //     key: process.env.PUSHER_APP_KEY,
+            //     secret: process.env.PUSHER_APP_SECRET,
+            //     cluster: process.env.PUSHER_APP_CLUSTER
+            // });
 
-            pusher.trigger('my-channel', 'my-event', {"message": "hello world"});
+            // pusher.trigger('my-channel', 'my-event', {"message": "hello world"});
             
             return res.send({
               success: true, 
@@ -113,6 +113,20 @@ router.post('/createOrder', function(req, res, next) {
 	});
 });
 
+router.post('/message', (req, res) => {
+
+   let pusher = new Pusher({
+                appId: process.env.PUSHER_APP_ID,
+                key: process.env.PUSHER_APP_KEY,
+                secret: process.env.PUSHER_APP_SECRET,
+                cluster: process.env.PUSHER_APP_CLUSTER, 
+                encrypted: true
+      });
+
+      const payload = req.body;
+      pusher.trigger('chat', 'message', payload);
+      res.send(payload)
+    });
 
 
 router.get('/getOutgoingOrders', function(req, res, next) {
