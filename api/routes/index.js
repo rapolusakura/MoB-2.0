@@ -1,5 +1,6 @@
 require('dotenv').config()
 var express = require('express');
+let Pusher = require('pusher');
 var router = express.Router();
 var db = require('../db.js'); 
 const Order = require('../models/orders'); 
@@ -90,6 +91,21 @@ router.post('/createOrder', function(req, res, next) {
           User.updateOne({_id: userId}, {$addToSet: {"pastOrders": newId}}, function(err, success) {
             if(err) {console.log(err)}
             else {
+              //notify the dashboard -- people who are on the dashboard.... ? the component should be subscribed to notifications
+            let pusher = new Pusher({
+                appId: process.env.PUSHER_APP_ID,
+                key: process.env.PUSHER_APP_KEY,
+                secret: process.env.PUSHER_APP_SECRET,
+                cluster: process.env.PUSHER_APP_CLUSTER
+            });
+
+            pusher.trigger('notifications', 'post_updated', post, req.headers['x-socket-id']);
+            res.send('');
+
+
+
+
+
               return res.send({
                 success: true, 
                 message: "Order has successfully been created"
