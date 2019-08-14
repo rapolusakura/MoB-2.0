@@ -597,7 +597,8 @@ router.post('/getBikerDetails', (req, res, next) => {
 
 router.post('/searchForCompany', (req, res, next) => {
   const { body } = req; 
-  const { val } = body; 
+  let { val } = body; 
+  val = val.toUpperCase(); 
   Companies.find({$or:[
         {"RUC":{$regex : val}},
         {"official_company_name":{$regex : val}}

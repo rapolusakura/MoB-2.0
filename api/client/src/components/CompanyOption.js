@@ -9,7 +9,9 @@ export default class CompanyOption extends React.Component {
 
     return (
       <div>
-        <h2> {this.props.company.official_company_name} </h2> 
+        <h2> Razon Commercial: {this.props.company.official_company_name} </h2> 
+        <h2> Razon Social: {this.props.company.company_name} </h2> 
+        <h3> RUC: {this.props.company.RUC} </h3> 
       </div> 
     )
   }
