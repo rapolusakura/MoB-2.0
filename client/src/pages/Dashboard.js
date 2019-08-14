@@ -23,34 +23,17 @@ class Dashboard extends React.Component {
       useTLS: true
     });
 
-    const channel = pusher.subscribe('chat');
+    const channel = pusher.subscribe('orders');
 
-    channel.bind('message', data => {
-      console.log(data); 
+    channel.bind('new_order', data => {
       this.callAPI();
-      var notification = new Notification("A new order was just created. Check it out.");
+      var notification = new Notification(`${data} just made an order! Check it out.`);
       notification.onclick = function (event) {
           window.location.href = '/';
           event.preventDefault();
           notification.close();
       }
     });
-
-
-    
-    // pusher.subscribe('notifications')
-    //         .bind('post_updated', function (post) {
-    //             // if we're on the home page, show an "Updated" badge
-    //             if (window.location.pathname === "/") {
-    //                 $('a[href="/posts/' + post._id + '"]').append('<span class="badge badge-primary badge-pill">Updated</span>');
-    //             }
-    //             
-    //             notification.onclick = function (event) {
-    //                 window.location.href = '/posts/' + post._id;
-    //                 event.preventDefault();
-    //                 notification.close();
-    //             }
-    // });
   }
 
   componentWillMount() {

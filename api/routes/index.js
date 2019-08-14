@@ -99,7 +99,7 @@ router.post('/createOrder', function(req, res, next) {
             if(err) {console.log(err)}
             else {
               
-              pusher.trigger('chat', 'message', 'just got a new order!!');
+              pusher.trigger('orders', 'new_order', client_company_name);
               
               return res.send({
                 success: true, 
