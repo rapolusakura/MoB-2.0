@@ -17,6 +17,13 @@ const client = require('twilio')(accountSid, authToken);
 const TWILIO_NUM = 'whatsapp:+14155238886'; 
 const TWILIO_PROD_NUM = 'whatsapp:+5117062608'
 const ANDERSONS_NUM = 'whatsapp:+51932522542';
+const pusher = new Pusher({
+    appId: process.env.PUSHER_APP_ID,
+    key: process.env.PUSHER_APP_KEY,
+    secret: process.env.PUSHER_APP_SECRET,
+    cluster: process.env.PUSHER_APP_CLUSTER, 
+    useTLS: true
+});
 
 createMessage = (body, to) => {
   client.messages
@@ -45,13 +52,6 @@ router.get('/changeDatabase', function(req, res, next) {
 
 router.post('/createOrder', function(req, res, next) {
   //keep in mind the companyId can be null espeically since you havent implemented the other componenet rendering based off of admin status
- let pusher = new Pusher({
-            appId: process.env.PUSHER_APP_ID,
-            key: process.env.PUSHER_APP_KEY,
-            secret: process.env.PUSHER_APP_SECRET,
-            cluster: process.env.PUSHER_APP_CLUSTER, 
-            useTLS: true
-  });
   const { body } = req;
   const {
     client_company_name, special_instructions, 
