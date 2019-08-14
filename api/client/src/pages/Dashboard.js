@@ -43,7 +43,7 @@ class Dashboard extends React.Component {
     channel.bind('completed_order', data => {
       var notification = new Notification(`Order for ${data} has just been completed!`);
     });
-    
+
   }
 
   componentWillMount() {
