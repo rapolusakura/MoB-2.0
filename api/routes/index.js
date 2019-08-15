@@ -124,10 +124,9 @@ router.post('/createOrder', function(req, res, next) {
 });
 
 router.get('/getOutgoingOrders', function(req, res, next) {
-	Order.find({ "delivery_status": "outgoing" }, function(err, orders) {
+	Order.find({ $query:{"delivery_status": "outgoing" }, $orderby: {'timestamp': 1} }, function(err, orders) {
         if (err) {
             console.log(err);
-
         } else {
           res.send(orders);  
         }  

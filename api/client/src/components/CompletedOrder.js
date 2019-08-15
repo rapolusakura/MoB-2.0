@@ -34,7 +34,7 @@ class PendingCompletion extends React.Component {
   render() {
     return (   
       <div>
-      <h1> Assigned to: {this.state.assignedBiker.name} </h1> 
+      <h1> Completed by: {this.state.assignedBiker.name} </h1> 
       </div>
     )
   }

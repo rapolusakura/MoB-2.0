@@ -10,7 +10,6 @@ class CompanySearch extends React.Component {
     };
   }
 
-
   callAPI = () => {
     console.log(this.state.inputVal)
     fetch("/searchForCompany", {
@@ -26,7 +25,6 @@ class CompanySearch extends React.Component {
     .then(res => res.json())
     .then(json => {
       if(json.success) {
-        //display the company and have them select the correct one
         console.log(json.company)
         this.setState({
           companies: json.company

@@ -13,7 +13,6 @@ export default class CompanyOption extends React.Component {
       this.setState({
         isSelected : !this.state.isSelected
       })
-      console.log('passing up the value')
   }
 
   render() {    

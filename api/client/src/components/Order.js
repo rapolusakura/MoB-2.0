@@ -2,6 +2,7 @@ import React from 'react';
 import '../style.css'
 import OutgoingAssignment from './OutgoingAssignment'
 import PendingCompletion from './PendingCompletion'
+import CompletedOrder from './CompletedOrder'
 
 
 class Order extends React.Component {
@@ -30,6 +31,7 @@ class Order extends React.Component {
                 <h3> Delivery Status: {status} </h3> 
                 {status == 'outgoing' && <OutgoingAssignment order={this.props.order} /> }
                 {status == 'pending' && <PendingCompletion order={this.props.order} /> }
+                {status == 'completed' && <CompletedOrder order={this.props.order} /> }
                 </div> 
         </div>
     );

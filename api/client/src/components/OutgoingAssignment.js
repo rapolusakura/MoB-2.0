@@ -53,7 +53,7 @@ class OutgoingAssignment extends React.Component {
           <div> 
           <label> 
             <Field type="checkbox" name={biker._id}/> 
-            {biker.name} ({biker.num_current_orders})
+            {biker.name} ({biker.num_current_orders}): {biker.district}
           </label> 
           </div> 
           )
