@@ -9,14 +9,11 @@ export default class CompanyOption extends React.Component {
   }
 
   switchCheck = () => {
-    console.log('got called bc i fucking pressed something')
-    this.setState({
-      isSelected: !this.state.isSelected
-    }); 
-    if(this.state.isSelected) {
       this.props.companySelected(this.props.company)
+      this.setState({
+        isSelected : !this.state.isSelected
+      })
       console.log('passing up the value')
-    }
   }
 
   render() {    

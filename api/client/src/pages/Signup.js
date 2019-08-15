@@ -39,6 +39,8 @@ export default class Signup extends React.Component {
 })}
 
  attemptSignup = (values) => {
+  console.log('THIS IS THE COMPANY ID' , this.state.companyId)
+  if(this.state.companyId != null ) {
   fetch("/signup", {
       method: 'POST',
       headers: {
@@ -61,6 +63,7 @@ export default class Signup extends React.Component {
           alert('Your account has been created! An agent from Mail on Bike will contact you shortly to verify your identity.')
         }
       });  
+    }
 }
 
 companySelected = (company) => {
@@ -69,7 +72,6 @@ companySelected = (company) => {
     companyName: company.official_company_name, 
     companyRUC: company.RUC
   })
-  console.log('just set hte state with ' , this.state.companyId)
 }
 
 render() {
