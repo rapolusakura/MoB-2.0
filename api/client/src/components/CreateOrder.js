@@ -64,6 +64,14 @@ export default class orderForm extends React.Component {
     }); 
   }
 
+  companySelected = (company) => {
+    this.setState({
+      employer: company._id, 
+      client_company_name: company.official_company_name
+    })
+    console.log('i just got called hurray')
+  }
+
 CreateOrderSchema = () => { 
   Yup.object().shape({
   destContact: Yup.string()
@@ -164,7 +172,6 @@ calculateRate = (isRoundTrip, moneyCollection) => {
             });
         }
       });
-      //3) on the UI side, if they are an admin, render a component that allows them to search a company by their RUC or razon commercial
   }
 }
 
@@ -190,18 +197,12 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
   render() {
 
     let apiLabel;
-    let companySearch = ''; 
-
-    // if(this.state.isAdmin) {
-    //   companySearch = <CompanySearch />
-    // }
 
     if (this.state.rate != -1 && this.state.distance != -1) {
       apiLabel = <label> Distance: {this.state.distance} Rate: {this.state.rate} </label>;
     } else {
       apiLabel = <label> Distance: N/A Rate: N/A </label>;
     }
-
 
     return (
       <div>
@@ -220,7 +221,9 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
           <div> 
             <h2> client info </h2> 
             <br/> 
-            <CompanySearch /> 
+            {
+              this.state.isAdmin ? <CompanySearch companySelected={this.companySelected}/> : 'nada'
+            }
             <FastField name="origin_notes" type="text" placeholder = "Enter any special notes.. instructions on getting there, etc" />
             <br/>
             <FastField name="type_of_load" type="text" placeholder = "Enter the type of load (document, etc.)" /> 

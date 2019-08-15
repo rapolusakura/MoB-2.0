@@ -37,6 +37,10 @@ class CompanySearch extends React.Component {
     })
   }
 
+  companySelected = (company) => {
+    this.props.companySelected(company); 
+  }
+
     updateInputValue(evt) {
       this.setState({
         inputVal: evt.target.value
@@ -52,7 +56,7 @@ class CompanySearch extends React.Component {
         <ul>
         {this.state.companies.map( (company, index) => {
           return (
-            <CompanyOption company = {company} />
+            <CompanyOption company={company} companySelected={this.companySelected}/>
             ) 
         })}
       </ul>
