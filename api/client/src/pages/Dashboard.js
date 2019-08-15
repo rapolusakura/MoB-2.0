@@ -23,9 +23,15 @@ class Dashboard extends React.Component {
       useTLS: true
     });
 
-    const channel = pusher.subscribe('orders');
+    const orderChannel = pusher.subscribe('orders');
+    const bikerChannel = pusher.subscribe('bikers'); 
 
-    channel.bind('new_order', data => {
+    bikerChannel.bind('accepted_order', data => {
+      this.callAPI();
+      var notification = new Notification(`${data} just accepted an order!`);
+    });
+
+    orderChannel.bind('new_order', data => {
       this.callAPI();
       var notification = new Notification(`${data} just made an order! Check it out.`);
       notification.onclick = function (event) {
@@ -35,12 +41,7 @@ class Dashboard extends React.Component {
       }
     });
 
-    channel.bind('accepted_order', data => {
-      this.callAPI();
-      var notification = new Notification(`${data} just accepted an order!`);
-    });
-
-    channel.bind('completed_order', data => {
+    bikerChannel.bind('completed_order', data => {
       var notification = new Notification(`Order for ${data} has just been completed!`);
     });
 

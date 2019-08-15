@@ -437,7 +437,7 @@ router.post('/messageReceived', function(req, res) {
                     Bikers.updateOne({"phone_number": msgFrom}, {$inc: {"num_current_orders": 1}}, function(err, incremented) {
                       if (err) { console.log(err)}
                         else {
-                          pusher.trigger('orders', 'accepted_order', biker[i].name);
+                          pusher.trigger('bikers', 'accepted_order', biker[i].name);
                           console.log("the order has been successfully assigned to you")
                         }
                     })
@@ -467,7 +467,7 @@ router.post('/messageReceived', function(req, res) {
               else {
                 Order.updateOne({_id: orderId}, {$set: {"delivery_status": "completed"}}, function(err, success) {
                   if(err) {console.log(err)} else {
-                    pusher.trigger('orders', 'completed_order', order[0].client_company_name);
+                    pusher.trigger('bikers', 'completed_order', order[0].client_company_name);
                     console.log("the order has been completed")}
                 }); 
               }
