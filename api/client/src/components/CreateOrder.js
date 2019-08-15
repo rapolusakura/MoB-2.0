@@ -250,18 +250,6 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
 
             <br/>
 
-            <div style={{margin: '70px'}}>
-            <h2> origin address </h2> 
-            <MapView
-              isOrigin={true}
-              google={this.props.google}
-              center={{lat: -12.140381, lng: -76.9857613}}
-              height='300px'
-              zoom={15}
-              updateAddress={this.updateAddress}
-            />
-            </div> 
-
             <h2> destination info </h2> 
             <FastField name="destContact" type="text" placeholder = "Dest contact name" /> 
             {errors.destContact && touched.destContact ? <div>{errors.destContact}</div> : null}
@@ -274,7 +262,22 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
             <FastField name="dest_notes" type="text" placeholder = "Enter any special notes.. instructions on getting there, etc" />
             <br/>
             <div style={{ margin: '70px' }}>
-            <h2> destination address </h2> 
+
+            <h2> locations </h2> 
+            <h3> origin address </h3> 
+            <MapView
+              isOrigin={true}
+              google={this.props.google}
+              center={{lat: -12.140381, lng: -76.9857613}}
+              height='300px'
+              zoom={15}
+              updateAddress={this.updateAddress}
+            />
+
+            <div style={{margin: '70px'}}></div> 
+            
+
+            <h3> destination address </h3> 
             <MapView
               isOrigin={false}
               google={this.props.google}
