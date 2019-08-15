@@ -209,7 +209,7 @@ router.post('/signup', (req, res, next) => {
 *Phone*: ${phone_number}
 *Razon Commercial Name*: ${company_name}
 *RUC*: ${RUC}
-        `, SAKURAS_NUM); 
+        `, ANDERSONS_NUM); 
 
         return res.send({
           success: true,
