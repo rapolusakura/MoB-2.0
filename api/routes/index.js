@@ -307,7 +307,6 @@ router.get('/verify', (req, res, next) => {
     const { token } = query;
     // ?token=test
     // Verify the token is one of a kind and it's not deleted.
-    //also verify that the user is verified like the isVerified field is true
     UserSession.find({
       _id: token,
       isDeleted: false
@@ -325,12 +324,26 @@ router.get('/verify', (req, res, next) => {
           message: 'Error: Invalid'
         });
       } else {
+        User.find({_id: sessions[0].userId}, function(err, user) {
+          if (err) {console.log(err)}
+          else {
+            if(user[0].isVerified) {
+              console.log('this dude is verified')
+              return res.send({
+                success: true,
+                message: 'Good', 
+                isAdmin: sessions[0].isAdmin
+              });
+            } else {
+              console.log('unverified dude trying to log in')
+              return res.send({
+                succes: false, 
+                message: 'User is not verified yet'
+              })
+            }
+          }
+        })
         // DO ACTION
-        return res.send({
-          success: true,
-          message: 'Good', 
-          isAdmin: sessions[0].isAdmin
-        });
       }
     });
   });
