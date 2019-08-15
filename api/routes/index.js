@@ -155,6 +155,7 @@ router.post('/signup', (req, res, next) => {
     email = email.toLowerCase();
     email = email.trim();
     phone_number = phone_number.trim(); 
+    
 
     //add area code
     if(phone_number.length == 9) {

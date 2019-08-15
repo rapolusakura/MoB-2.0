@@ -1,13 +1,14 @@
 import React from 'react'; 
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import CompanySearch from '../components/CompanySearch'
 
 export default class Signup extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      'company_names' : []
+      company : null
     }
   }
 
@@ -25,12 +26,8 @@ export default class Signup extends React.Component {
   email: Yup.string()
     .email('Invalid email')
     .required('Required'),
-  employer: Yup.number()
- //   .required('Required') 
-    .positive()
-    .integer(),
   phone_number: Yup.string()
- //   .required('A phone number is required')
+    .required('A phone number is required')
     .matches(this.phoneRegExp, 'Phone number is not valid'),
   password: Yup.string()
     .min(1, 'Too short!')
@@ -50,6 +47,13 @@ export default class Signup extends React.Component {
     }).then(response => response.text())
       .then(text => 
         alert(text));  
+}
+
+companySelected = (company) => {
+  this.setState({
+    company: company._id
+  })
+  console.log('just set hte state with ' , this.state.company)
 }
 
 render() {
@@ -87,10 +91,8 @@ render() {
           <Field name="email" type="email" placeholder = "Email" />
           {errors.email && touched.email ? <div>{errors.email}</div> : null}
           <br/>
-          type in your employer's RUC
-          <Field name="employer" type="text" placeholder = "Employer" />
-          {errors.employer && touched.employer ? <div>{errors.employer}</div> : null}
-          <br/>
+
+          <CompanySearch companySelected={this.companySelected}/> 
 
           <Field name="phone_number" type="tel" placeholder = "Phone number"/>
           {errors.phone_number && touched.phone_number ? <div>{errors.phone_number}</div> : null}
