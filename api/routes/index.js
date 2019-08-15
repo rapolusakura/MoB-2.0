@@ -17,6 +17,7 @@ const client = require('twilio')(accountSid, authToken);
 const TWILIO_NUM = 'whatsapp:+14155238886'; 
 const TWILIO_PROD_NUM = 'whatsapp:+5117062608'
 const ANDERSONS_NUM = 'whatsapp:+51932522542';
+const SAKURAS_NUM = 'whatsapp:+18082037593'
 const pusher = new Pusher({
     appId: process.env.PUSHER_APP_ID,
     key: process.env.PUSHER_APP_KEY,
@@ -26,12 +27,21 @@ const pusher = new Pusher({
 });
 
 createMessage = (body, to) => {
-  client.messages
-  .create({
-    from: TWILIO_PROD_NUM,
-    body: body,
-    to: `whatsapp:+${to}`
-  })
+  if(to.includes('whatsapp')) {
+    client.messages
+    .create({
+      from: TWILIO_PROD_NUM,
+      body: body,
+      to: to
+    })
+  } else {
+    client.messages
+    .create({
+      from: TWILIO_PROD_NUM,
+      body: body,
+      to: `whatsapp:+${to}`
+    })
+  }
 }
 
 //get home page
@@ -149,7 +159,7 @@ router.get('/getCompletedOrders', function(req, res, next) {
 router.post('/signup', (req, res, next) => {
     const { body } = req;
     var {
-      password, email, firstName, lastName, phone_number, employer
+      password, email, firstName, lastName, phone_number, companyId, company_name, RUC
     } = body;
     
     email = email.toLowerCase();
@@ -182,18 +192,30 @@ router.post('/signup', (req, res, next) => {
       newUser.firstName = firstName.toLowerCase().trim(); 
       newUser.lastName = lastName.toLowerCase().trim(); 
       newUser.password = newUser.generateHash(password);
-      newUser.employer = employer; 
+      newUser.employer = companyId; 
       newUser.save((err, user) => {
         if (err) {
           return res.send({
             success: false,
             message: 'Error: Server error'
           });
-        }
+        } else {
+
+        createMessage(`
+        New account created! Please call this person to verify them to start making orders for their company. 
+
+*Name*: ${firstName} ${lastName}
+*Email*: ${email}
+*Phone*: ${phone_number}
+*Razon Commercial Name*: ${company_name}
+*RUC*: ${RUC}
+        `, SAKURAS_NUM); 
+
         return res.send({
           success: true,
           message: 'Signed up'
         });
+      }
       })
       }});
 });

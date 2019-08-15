@@ -8,7 +8,9 @@ export default class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      company : null
+      companyId : null, 
+      companyName : null, 
+      companyRUC : null
     }
   }
 
@@ -49,18 +51,25 @@ export default class Signup extends React.Component {
         phone_number: values.phone_number, 
         email: values.email, 
         password: values.password,
-        employer: this.state.company
+        companyId: this.state.companyId, 
+        company_name: this.state.companyName, 
+        RUC: this.state.companyRUC
       }),
-    }).then(response => response.text())
-      .then(text => 
-        alert(text));  
+    }).then(response => response.json())
+      .then(json => {
+        if(json.success) {
+          alert('Your account has been created! An agent from Mail on Bike will contact you shortly to verify your identity.')
+        }
+      });  
 }
 
 companySelected = (company) => {
   this.setState({
-    company: company._id
+    companyId: company._id, 
+    companyName: company.official_company_name, 
+    companyRUC: company.RUC
   })
-  console.log('just set hte state with ' , this.state.company)
+  console.log('just set hte state with ' , this.state.companyId)
 }
 
 render() {
