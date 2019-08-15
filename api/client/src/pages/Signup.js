@@ -43,7 +43,14 @@ export default class Signup extends React.Component {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(values),
+      body: JSON.stringify({
+        firstName: values.firstName, 
+        lastName: values.lastName, 
+        phone_number: values.phone_number, 
+        email: values.email, 
+        password: values.password,
+        employer: this.state.company
+      }),
     }).then(response => response.text())
       .then(text => 
         alert(text));  

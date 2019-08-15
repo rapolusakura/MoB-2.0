@@ -155,7 +155,6 @@ router.post('/signup', (req, res, next) => {
     email = email.toLowerCase();
     email = email.trim();
     phone_number = phone_number.trim(); 
-    
 
     //add area code
     if(phone_number.length == 9) {
@@ -177,24 +176,13 @@ router.post('/signup', (req, res, next) => {
           message: 'Error: Account already exist.'
         });
       } else {
-        // Companies.find({'RUC': employer}, function (err, companies) {
-        //   if (err) {
-        //   return res.send({
-        //     success: false,
-        //     message: 'Error: Server error'
-        //   });
-        //   } else if (companies.length > 1) {
-        //     console.log('this is not unique!')
-        //   } else if (companies.length == 1) {
-        //       console.log('fuck ya found one')
-        //   }
-        // })
-// Save the new user
+      // Save the new user
       const newUser = new User();
       newUser.email = email;
       newUser.firstName = firstName.toLowerCase().trim(); 
       newUser.lastName = lastName.toLowerCase().trim(); 
       newUser.password = newUser.generateHash(password);
+      newUser.employer = employer; 
       newUser.save((err, user) => {
         if (err) {
           return res.send({
@@ -207,31 +195,6 @@ router.post('/signup', (req, res, next) => {
           message: 'Signed up'
         });
       })
-
-      /*
-      // Save the new user
-      const newUser = new User();
-      newUser.email = email;
-      newUser.firstName = firstName.toLowerCase().trim(); 
-      newUser.lastName = lastName.toLowerCase().trim(); 
-      newUser.phone_number = phone_number; 
-
-      //um idk what to do here
-      newUser.employer = employer; 
-      newUser.password = newUser.generateHash(password);
-      newUser.save((err, user) => {
-        if (err) {
-          return res.send({
-            success: false,
-            message: 'Error: Server error'
-          });
-        }
-        return res.send({
-          success: true,
-          message: 'Signed up'
-        });
-
-        */
       }});
 });
 
