@@ -1,5 +1,5 @@
 import React from 'react';
-import { getFromStorage } from '../utils/storage';
+import { getFromStorage, deleteFromStorage } from '../utils/storage';
 
 class Logout extends React.Component {
   constructor(props) {
@@ -9,6 +9,7 @@ class Logout extends React.Component {
   logout = () => {
     const obj = getFromStorage('mail_on_bike');
     if (obj && obj.token) {
+    deleteFromStorage('mail_on_bike')
     const { token } = obj;
     // Verify token
     fetch('/logout?token=' + token)
