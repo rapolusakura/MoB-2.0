@@ -425,10 +425,10 @@ router.post('/messageReceived', function(req, res) {
     Order.find({ "_id": orderId }, function(err, order) {
         if (err) {
             console.log(err);
-            createMessage(`${orderId} is not a valid order. Make sure you copy and paste the message exactly, including formatting.`, msgFrom); 
+            createMessage(`${orderId} no es un número de pedido válido. Por favor asegúrate de copiar y pegar el número de orden tal cual aparece en el mensaje sin modificaciones.`, msgFrom); 
         } else {
           if(order[0].assigned_messenger_id == null) {
-            createMessage(`Congrats! You've been assigned ORDER_ID: ${orderId}, for company ${order[0].client_company_name}`, msgFrom); 
+            createMessage(`El pedido se te ha asignado correctamente Pedido: ${orderId}, por cliente ${order[0].client_company_name}`, msgFrom); 
             Bikers.find({"phone_number": msgFrom}, function(err, biker){
               if (err) { console.log(err)}
               else {
@@ -446,7 +446,7 @@ router.post('/messageReceived', function(req, res) {
               }
             })
           } else {
-            createMessage(`Sorry, ORDER_ID: ${orderId}, for company ${order[0].client_company_name} has already been accepted by another biker. Next time, respond faster!`, msgFrom); 
+            createMessage(`Lo siento, el pedido: ${orderId}, del cliente ${order[0].client_company_name} ya fue asignado a otro mensajero. Procura responder más rápido al siguiente pedido.`, msgFrom); 
             console.log('is taken')
           }
         }  
@@ -459,9 +459,9 @@ router.post('/messageReceived', function(req, res) {
     Order.find({ "_id": orderId }, function(err, order) {
         if (err) {
             console.log(err);
-            createMessage(`${orderId} is not a valid order. Make sure you copy and paste the message exactly without spaces.`, msgFrom); 
+            createMessage(`${orderId} no es un número de pedido válido. Por favor asegúrate de copiar y pegar el número de orden tal cual aparece en el mensaje sin modificaciones.`, msgFrom); 
         } else {
-            createMessage('Great! You just completed this delivery.', msgFrom);
+            createMessage('¡Excelente! El pedido se ha completado correctamente.', msgFrom);
             Bikers.updateOne({"phone_number": msgFrom}, {$inc: {"num_current_orders": -1}}, function(err, decremented){
               if (err) { console.log(err)}
               else {
@@ -478,7 +478,7 @@ router.post('/messageReceived', function(req, res) {
 
   //edge case
   else {
-    createMessage("No entiendo este mensaje. Utilizar las siguientes palabras para las respuestas: \n1) (disponible/negativo) para confirmar tu disponibilidad para el día siguiente.\n2) Copiar el mensaje con todo el texto ORDER_ID, pegarlo como respuesta y enciarlo al BOT para aceptar un pedido.\n3) Para confirmar una entrega debes poner la palabra *entregado* y pegar el 'ORDER_ID: ' a continuación al enviar la respuesta al BOT y el pedido se da por concluido.", msgFrom)
+    createMessage("No entiendo este mensaje. Utilizar las siguientes palabras para las respuestas: \n1) (disponible/negativo) para confirmar tu disponibilidad para el día siguiente.\n2) Copiar el mensaje con todo el texto Pedido, pegarlo como respuesta y enciarlo al BOT para aceptar un pedido.\n3) Para confirmar una entrega debes poner la palabra *entregado* y pegar el 'Pedido: ' a continuación al enviar la respuesta al BOT y el pedido se da por concluido.", msgFrom)
   }
 }); 
 
@@ -532,7 +532,7 @@ Llevar: ${type_of_load.toUpperCase()}. ${modeString}. Tarifa: ${rate}. Pago: ${m
 Navigation: ${mapsNavLink}
 ${special_instructions}
 
-If you would like to accept, copy and paste EXACTLY the message with the ORDER_ID.
+Si desea aceptar, copie y pegue exactamente el mensaje con el 'Pedido por ...'
           `
 
           Bikers.find({"_id": bikerIds}, function(err, bikers) {
