@@ -12,9 +12,9 @@ const Header = () => (
         <li><Link to='/completedOrders'>Completed Orders</Link></li>
       </ul>
     </nav>
-    <h1> you are currently on hello </h1>
+    <h1> Admin View </h1>
 
-    <Link to='/createOrder'><button> CREATE AN ORDER </button> </Link>
+    <Link to='/createOrder'> <button> CREATE AN ORDER </button> </Link>
   </header>
 )
 

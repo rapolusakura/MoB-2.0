@@ -125,7 +125,7 @@ render() {
           <Field className="field" name="confirmPassword" type="password" placeholder = "Confirm password" />
           {errors.confirmPassword && touched.confirmPassword ? <div>{errors.confirmPassword}</div> : null}
           <br/>
-          
+          <br />
           <Button variant="contained" color="primary" type="submit">Signup</Button>        </div> 
     </Form>
     )}

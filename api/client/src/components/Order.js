@@ -1,9 +1,8 @@
 import React from 'react';
-import '../style.css'
 import OutgoingAssignment from './OutgoingAssignment'
 import PendingCompletion from './PendingCompletion'
 import CompletedOrder from './CompletedOrder'
-
+import '../style.css'
 
 class Order extends React.Component {
     constructor(props) {
@@ -16,7 +15,7 @@ class Order extends React.Component {
 
     const mystyle = {
       color: "black",
-      backgroundColor: "white",
+      backgroundColor: '#6f90ca',
       padding: "10px",
       fontFamily: "Arial"
     };
