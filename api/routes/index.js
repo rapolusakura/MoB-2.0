@@ -691,6 +691,7 @@ router.get('/getUserDetails', (req, res, next) => {
     let defaultOrigin = ''; 
     let defaultDest = ''; 
     let phone_number = ''; 
+    let type_of_rate = ''; 
 
     // Verify the token is one of a kind and it's not deleted.
     UserSession.find({
@@ -719,6 +720,8 @@ router.get('/getUserDetails', (req, res, next) => {
           if(err) {console.log(err)}
           else {
             officialName = company[0].official_company_name; 
+            type_of_rate = company[0].type_of_rate;
+
             User.find({ _id: userId}, function(err, user) {
               if(err) {console.log(err)}
               else {
@@ -737,7 +740,8 @@ router.get('/getUserDetails', (req, res, next) => {
                   phone_number: phone_number,
                   client_company_name: officialName, 
                   defaultOrigin: defaultOrigin, 
-                  defaultDest: defaultDest
+                  defaultDest: defaultDest,
+                  type_of_rate: type_of_rate
                 })
               }
             })
