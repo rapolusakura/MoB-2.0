@@ -532,7 +532,7 @@ Llevar: ${type_of_load.toUpperCase()}. ${modeString}. Tarifa: ${rate}. Pago: ${m
 Navigation: ${mapsNavLink}
 ${special_instructions}
 
-Si desea aceptar, copie y pegue exactamente el mensaje con el 'Pedido por ...'
+Para aceptar un pedido, debes copiar y pegar el mensaje con el 'Pedido por ...' tal cual te ha llegado.
           `
 
           Bikers.find({"_id": bikerIds}, function(err, bikers) {
