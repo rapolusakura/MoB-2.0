@@ -283,7 +283,7 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
             <div style={{ margin: '35px' }}>
 
             <h2> Locations </h2> 
-            <h3> origin address </h3> 
+            <h3> Origin Address </h3> 
             <MapView
               isOrigin={true}
               google={this.props.google}
@@ -295,8 +295,7 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
 
             <div style={{margin: '70px'}}></div> 
             
-
-            <h3> destination address </h3> 
+            <h3> Destination address </h3> 
             <MapView
               isOrigin={false}
               google={this.props.google}
