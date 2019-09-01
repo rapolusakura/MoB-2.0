@@ -6,7 +6,7 @@ import Signup from './Signup';
 import Logout from '../components/Logout'; 
 import CreateOrder from '../components/CreateOrder'; 
 import { getFromStorage } from '../utils/storage';
-
+import '../style.css'
 	
 class App extends React.Component {
 	constructor(props){
@@ -69,10 +69,15 @@ class App extends React.Component {
 
 	loginView = () => {
 		return (
-			<div> 
+		<div> 
+		<h1> Mail On Bike </h1>
+			<div className='rowC'>
+			<div className='container'>
 		   		<Login setLoginStatus={this.setLoginStatus}/>
-		   		<Signup/>
+		   		</div> <div className='container'>
+		   		<Signup/> </div> 
 			</div> 
+			</div>
 		)
 	}
 

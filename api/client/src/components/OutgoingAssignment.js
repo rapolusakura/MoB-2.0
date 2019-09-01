@@ -1,5 +1,6 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
+import Button from '@material-ui/core/Button';
 
 class OutgoingAssignment extends React.Component {
   constructor(props) {
@@ -59,7 +60,7 @@ class OutgoingAssignment extends React.Component {
           )
       })}
      <br/>
-     <button type="submit"> assign bikers </button> 
+     <Button variant="contained" color="primary" type="submit"> assign bikers </Button> 
      </div>
     </Form>
     </Formik> 

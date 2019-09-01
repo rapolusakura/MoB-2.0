@@ -1,17 +1,20 @@
 import React from 'react'; 
 import CompanyOption from './CompanyOption'
+import '../style.css'
 
 class CompanySearch extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
       inputVal: '',
-      companies: []
+      companies: [],
+      message: ''
     };
   }
 
   callAPI = () => {
     console.log(this.state.inputVal)
+    if(this.state.inputVal != '') {
     fetch("/searchForCompany", {
       method: 'POST',
       headers: {
@@ -30,9 +33,16 @@ class CompanySearch extends React.Component {
           companies: json.company
         })
       } else {
-        console.log('no company with that search criteria. try with the other option or call mail on bike to register as a client')
+        this.setState ({
+          message: 'No company exists with that search criteria. Try with the other option or call Mail on Bike to register as a client.'
+        })
       }
     })
+  } else {
+    this.setState({
+      message: 'Please enter an RUC or Razon Commerical Name'
+    })
+  }
   }
 
   companySelected = (company) => {
@@ -48,8 +58,8 @@ class CompanySearch extends React.Component {
     render() {    
     return (
       <div>
-        <input type="text" placeholder = "type in the RUC or the razon commercial name" value={this.state.inputVal} onChange={evt => this.updateInputValue(evt)}></input> 
-        <button type = "button" onClick={() => this.callAPI()}> search for the company </button>
+        <input className = 'field' type="text" placeholder = "RUC or Razon Commercial Name" value={this.state.inputVal} onChange={evt => this.updateInputValue(evt)}></input> 
+        <button type = "button" onClick={() => this.callAPI()}> Search for the Company </button>
         <div>
         <ul>
         {this.state.companies.map( (company, index) => {
@@ -59,6 +69,7 @@ class CompanySearch extends React.Component {
         })}
       </ul>
         </div>
+        <div> {this.state.message} </div>
 
       </div> 
     )

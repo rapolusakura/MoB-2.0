@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Button from '@material-ui/core/Button';
 
 // The Header creates links that can be used to navigate
 // between routes.
@@ -12,9 +13,9 @@ const Header = () => (
         <li><Link to='/completedOrders'>Completed Orders</Link></li>
       </ul>
     </nav>
-    <h1> you are currently on hello </h1>
+    <h1> Admin View </h1>
 
-    <Link to='/createOrder'><button> CREATE AN ORDER </button> </Link>
+    <Link to='/createOrder'> <Button variant="contained" color="primary"> CREATE AN ORDER </Button> </Link>
   </header>
 )
 

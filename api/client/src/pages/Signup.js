@@ -2,6 +2,8 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import CompanySearch from '../components/CompanySearch'
+import Button from '@material-ui/core/Button';
+import '../style.css'
 
 export default class Signup extends React.Component {
 
@@ -78,7 +80,7 @@ render() {
   return (
 
   <div> 
-    <h1>this is a sign up page for new users</h1> 
+    <h1>Sign Up </h1> 
   <Formik 
     initialValues={{
         firstName: '',
@@ -95,37 +97,36 @@ render() {
     {({ touched, errors }) => (
     <Form>
         <div> 
-          <Field name="firstName" placeholder="First Name" />
+          <Field className="field" name="firstName" placeholder="First Name" />
           {errors.firstName && touched.firstName ? (
             <div>{errors.firstName}</div>
           ) : null}
           <br/>
-          <Field name="lastName" placeholder = "Last Name" />
+          <Field className="field" name="lastName" placeholder = "Last Name" />
           {errors.lastName && touched.lastName ? (
             <div>{errors.lastName}</div>
           ) : null}
           <br/>
 
-          <Field name="email" type="email" placeholder = "Email" />
+          <Field className="field" name="email" type="email" placeholder = "Email" />
           {errors.email && touched.email ? <div>{errors.email}</div> : null}
           <br/>
 
           <CompanySearch companySelected={this.companySelected}/> 
 
-          <Field name="phone_number" type="tel" placeholder = "Phone number"/>
+          <Field className="field" name="phone_number" type="tel" placeholder = "Phone number"/>
           {errors.phone_number && touched.phone_number ? <div>{errors.phone_number}</div> : null}
           <br/>
 
-          <Field name="password" type="password" placeholder = "Enter password" />
+          <Field className="field" name="password" type="password" placeholder = "Enter password" />
           {errors.password && touched.password ? <div>{errors.password}</div> : null}
           <br/>
 
-          <Field name="confirmPassword" type="password" placeholder = "Confirm password" />
+          <Field className="field" name="confirmPassword" type="password" placeholder = "Confirm password" />
           {errors.confirmPassword && touched.confirmPassword ? <div>{errors.confirmPassword}</div> : null}
           <br/>
-          
-          <button type="submit">Submit</button>
-        </div> 
+          <br />
+          <Button variant="contained" color="primary" type="submit">Signup</Button>        </div> 
     </Form>
     )}
   </Formik>

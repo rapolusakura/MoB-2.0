@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import MapView from './Map'; 
 import CompanySearch from './CompanySearch'; 
 import { getFromStorage } from '../utils/storage';
+import '../style.css'
 
 export default class orderForm extends React.Component {
 
@@ -58,7 +59,8 @@ export default class orderForm extends React.Component {
           phone_number: json.phone_number, 
           client_company_name: json.client_company_name, 
           defaultOrigin: json.defaultOrigin, 
-          defaultDest: json.defaultDest
+          defaultDest: json.defaultDest,
+          type_of_rate: json.type_of_rate
         }); }
       }
     }); 
@@ -67,9 +69,10 @@ export default class orderForm extends React.Component {
   companySelected = (company) => {
     this.setState({
       employer: company._id, 
-      client_company_name: company.official_company_name
+      client_company_name: company.official_company_name,
+      type_of_rate: company.type_of_rate
     })
-    console.log('i just got called hurray')
+    console.log('just set the company')
   }
 
 CreateOrderSchema = () => { 
@@ -209,7 +212,8 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
           <Formik 
            initialValues={{
             mode: false,
-            method_of_payment: 'cash_on_origin'
+            method_of_payment: 'cash_on_origin', 
+            type_of_load: ''
         }}
       validationSchema={this.CreateOrderSchema}
       onSubmit={values => {
@@ -219,18 +223,31 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
       {({ touched, values, errors, handleChange }) => (
       <Form>
           <div> 
-            <h2> client info </h2> 
+            <h2> Client Information </h2> 
             <br/> 
             {
-              this.state.isAdmin ? <CompanySearch companySelected={this.companySelected}/> : 'nada'
+              this.state.isAdmin ? <CompanySearch companySelected={this.companySelected}/> : ''
             }
-            <FastField name="origin_notes" type="text" placeholder = "Enter any special notes.. instructions on getting there, etc" />
+            <FastField className = 'orderField' name="origin_notes" type="text" placeholder = "Enter any special notes.. instructions on getting there, etc" />
             <br/>
-            <FastField name="type_of_load" type="text" placeholder = "Enter the type of load (document, etc.)" /> 
-            <br/>
+            
+            <label> Type of Load </label> 
+            <select
+              name="type_of_load"
+              value={values.type_of_load}
+              style={{ display: 'block' }}
+              onChange={handleChange}
+            >
+              <option label="Document" value="document" />
+              <option label="Produce" value="produce" />
+              <option label="Other" value="other" />
+            </select>
+
+            <br /> 
+
             <label> 
-            <FastField name="mode" type="checkbox" checked={values.mode}/> 
             Round-trip delivery?
+            <FastField name="mode" type="checkbox" checked={values.mode}/> 
             </label> 
             <br/>
 
@@ -246,25 +263,27 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
               <option label="Bank transfer" value="bank_transfer" />
             </select>
             {errors.method_of_payment && touched.method_of_payment ? <div>{errors.method_of_payment}</div> : null}
-            <FastField name="money_collection" type="text" placeholder = "Recaudo" /> 
 
+            {
+              this.state.type_of_rate == 'e-commerce' ? <FastField className = 'orderField' name="money_collection" type="text" placeholder = "Recaudo" />  : ''
+            }
             <br/>
 
-            <h2> destination info </h2> 
-            <FastField name="destContact" type="text" placeholder = "Dest contact name" /> 
+            <h2> Destination Information </h2> 
+            <FastField className = 'orderField' name="destContact" type="text" placeholder = "Dest contact name" /> 
             {errors.destContact && touched.destContact ? <div>{errors.destContact}</div> : null}
             <br/>
-            <FastField name="destCompany" type="text" placeholder = "Dest company" /> 
+            <FastField className = 'orderField' name="destCompany" type="text" placeholder = "Dest company" /> 
             <br/>
-            <FastField name="destPhone" type="text" placeholder = "Dest phone number" /> 
+            <FastField className = 'orderField' name="destPhone" type="text" placeholder = "Dest phone number" /> 
             {errors.destPhone && touched.destPhone ? <div>{errors.destPhone}</div> : null}
             <br/>
-            <FastField name="dest_notes" type="text" placeholder = "Enter any special notes.. instructions on getting there, etc" />
+            <FastField className = 'orderField' name="dest_notes" type="text" placeholder = "Enter any special notes.. instructions on getting there, etc" />
             <br/>
-            <div style={{ margin: '70px' }}>
+            <div style={{ margin: '35px' }}>
 
-            <h2> locations </h2> 
-            <h3> origin address </h3> 
+            <h2> Locations </h2> 
+            <h3> Origin Address </h3> 
             <MapView
               isOrigin={true}
               google={this.props.google}
@@ -276,8 +295,7 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
 
             <div style={{margin: '70px'}}></div> 
             
-
-            <h3> destination address </h3> 
+            <h3> Destination address </h3> 
             <MapView
               isOrigin={false}
               google={this.props.google}

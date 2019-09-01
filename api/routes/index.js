@@ -14,7 +14,7 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const accountSid = process.env.TWILIO_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
-const TWILIO_NUM = 'whatsapp:+14155238886'; 
+const TWILIO_SANDBOX_NUM = 'whatsapp:+14155238886'; 
 const TWILIO_PROD_NUM = 'whatsapp:+5117062608'
 const ANDERSONS_NUM = 'whatsapp:+51932522542';
 const SAKURAS_NUM = 'whatsapp:+18082037593'
@@ -691,6 +691,7 @@ router.get('/getUserDetails', (req, res, next) => {
     let defaultOrigin = ''; 
     let defaultDest = ''; 
     let phone_number = ''; 
+    let type_of_rate = ''; 
 
     // Verify the token is one of a kind and it's not deleted.
     UserSession.find({
@@ -719,6 +720,8 @@ router.get('/getUserDetails', (req, res, next) => {
           if(err) {console.log(err)}
           else {
             officialName = company[0].official_company_name; 
+            type_of_rate = company[0].type_of_rate;
+
             User.find({ _id: userId}, function(err, user) {
               if(err) {console.log(err)}
               else {
@@ -737,7 +740,8 @@ router.get('/getUserDetails', (req, res, next) => {
                   phone_number: phone_number,
                   client_company_name: officialName, 
                   defaultOrigin: defaultOrigin, 
-                  defaultDest: defaultDest
+                  defaultDest: defaultDest,
+                  type_of_rate: type_of_rate
                 })
               }
             })

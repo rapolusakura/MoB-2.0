@@ -5,6 +5,8 @@ import {
   setInStorage,
   getFromStorage,
 } from '../utils/storage';
+import Button from '@material-ui/core/Button';
+import '../style.css'
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -41,7 +43,7 @@ export default class Login extends React.Component {
   render() {
     return (
       <div> 
-      <h1>this is a login page for people who have accounts aleady</h1>
+      <h1>Log In</h1>
       <br/>
       <Formik 
         initialValues={{
@@ -55,11 +57,14 @@ export default class Login extends React.Component {
         {({ touched, errors }) => (
         <Form>
             <div> 
-              <Field name="email" type="email" placeholder = "Email" />
+              <Field className = "field" name="email" type="email" placeholder = "Email" />
               {errors.email && touched.email ? <div>{errors.email}</div> : null}
-              <Field name="password" type="password" placeholder = "Enter password" />
+              <br/>
+              <Field className = "field" name="password" type="password" placeholder = "Enter password" />
               {errors.password && touched.password ? <div>{errors.password}</div> : null}
-              <button type="submit">Submit</button>
+              <br/>
+              <br/>
+              <Button variant="contained" color="primary" type="submit">Login</Button>
             </div> 
         </Form>
         )}
