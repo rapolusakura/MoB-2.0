@@ -355,6 +355,10 @@ router.get('/notifyBikersTest', function(req, res, next) {
   })
 })
 
+router.post('/messageFailure', function(req, res) {
+  console.log(req.body); 
+}); 
+
 router.post('/messageReceived', function(req, res) {
   var msgFrom = req.body.From.split('+')[1];
   var msgBody = req.body.Body; 
