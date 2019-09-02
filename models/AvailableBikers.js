@@ -8,6 +8,10 @@ var availableSchema = new mongoose.Schema({
   availableTomorrow: {
   	type: [String],
   	default: []
+  },
+  undelivered: {
+  	type: [String],
+  	default: []
   }
 });
 

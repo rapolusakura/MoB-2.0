@@ -356,9 +356,23 @@ router.get('/notifyBikersTest', function(req, res, next) {
 })
 
 router.post('/messageFailure', function(req, res) {
+  //bot is not able to deliver the message
   if(req.body.EventType == 'UNDELIVERED') {
-    console.log('triggered!')
-    console.log(`undelivered to: ${req.body.ChannelToAddress}`)
+    var receipient = req.body.ChannelToAddress.substring(1); 
+    Bikers.find({"phone_number" : receipient}, function(err, bikers) {
+      if(err) {console.log(err)}
+      else {
+        AvailableBikers.updateOne({"tag": 1}, { $addToSet : { undelivered: bikers[0].name}}, function(err, response) {
+          if(err) {
+            console.log(err); 
+          }
+          else {
+            console.log(`${bikers[0].name} was unable to be reached.`)
+            res.end('done')
+          }
+        }); 
+      }
+    })
   }
 }); 
 
