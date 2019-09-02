@@ -356,7 +356,10 @@ router.get('/notifyBikersTest', function(req, res, next) {
 })
 
 router.post('/messageFailure', function(req, res) {
-  console.log(req.body); 
+  if(req.body.EventType == 'UNDELIVERED') {
+    console.log('triggered!')
+    console.log(`undelivered to: ${req.body.ChannelToAddress}`)
+  }
 }); 
 
 router.post('/messageReceived', function(req, res) {
