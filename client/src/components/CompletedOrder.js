@@ -1,6 +1,6 @@
 import React from 'react';
 
-class PendingCompletion extends React.Component {
+class CompletedOrder extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -40,4 +40,4 @@ class PendingCompletion extends React.Component {
   }
 }
 
-export default PendingCompletion;
+export default CompletedOrder;

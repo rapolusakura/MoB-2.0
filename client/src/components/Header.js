@@ -8,12 +8,12 @@ const Header = () => (
   <header>
     <nav>
       <ul>
-        <li><Link to='/'>Dashboard</Link></li>
-        <li><Link to='/pendingOrders'>Pending Orders</Link></li>
-        <li><Link to='/completedOrders'>Completed Orders</Link></li>
+        <li><Link to='/'>Plantilla</Link></li>
+        <li><Link to='/pendingOrders'>Ordenes pendientes</Link></li>
+        <li><Link to='/completedOrders'>Ordenes completadas</Link></li>
       </ul>
     </nav>
-    <h1> Admin View </h1>
+    <h1> Vista del Administrador </h1>
 
     <Link to='/createOrder'> <Button variant="contained" color="primary"> CREATE AN ORDER </Button> </Link>
   </header>
