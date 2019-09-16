@@ -202,9 +202,9 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
     let apiLabel;
 
     if (this.state.rate != -1 && this.state.distance != -1) {
-      apiLabel = <label> Distance: {this.state.distance} Rate: {this.state.rate} </label>;
+      apiLabel = <label> Distancia: {this.state.distance} Tarifa: {this.state.rate} </label>;
     } else {
-      apiLabel = <label> Distance: N/A Rate: N/A </label>;
+      apiLabel = <label> Distancia: N/A Tarifa: N/A </label>;
     }
 
     return (
@@ -223,15 +223,16 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
       {({ touched, values, errors, handleChange }) => (
       <Form>
           <div> 
-            <h2> Client Information </h2> 
+            <h2> Información del Cliente </h2> 
             <br/> 
             {
               this.state.isAdmin ? <CompanySearch companySelected={this.companySelected}/> : ''
             }
-            <FastField className = 'orderField' name="origin_notes" type="text" placeholder = "Enter any special notes.. instructions on getting there, etc" />
+            <FastField className = 'orderField' name="origin_notes" type="text" placeholder = "Ingrese instrucciones adicionales
+para la entrega" />
             <br/>
             
-            <label> Type of Load </label> 
+            <label> Tipo de carga </label> 
             <select
               name="type_of_load"
               value={values.type_of_load}
@@ -246,12 +247,12 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
             <br /> 
 
             <label> 
-            Round-trip delivery?
+            ¿El pedido es con retorno?
             <FastField name="mode" type="checkbox" checked={values.mode}/> 
             </label> 
             <br/>
 
-            <label> Method of Payment </label> 
+            <label> Medio de pago </label> 
             <select
               name="method_of_payment"
               value={values.method_of_payment}
@@ -269,21 +270,21 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
             }
             <br/>
 
-            <h2> Destination Information </h2> 
-            <FastField className = 'orderField' name="destContact" type="text" placeholder = "Dest contact name" /> 
+            <h2> Destinatario </h2> 
+            <FastField className = 'orderField' name="destContact" type="text" placeholder = "Nombre de contacto en destino" /> 
             {errors.destContact && touched.destContact ? <div>{errors.destContact}</div> : null}
             <br/>
-            <FastField className = 'orderField' name="destCompany" type="text" placeholder = "Dest company" /> 
+            <FastField className = 'orderField' name="destCompany" type="text" placeholder = "Empresa destino" /> 
             <br/>
-            <FastField className = 'orderField' name="destPhone" type="text" placeholder = "Dest phone number" /> 
+            <FastField className = 'orderField' name="destPhone" type="text" placeholder = "Teléfono/celular" /> 
             {errors.destPhone && touched.destPhone ? <div>{errors.destPhone}</div> : null}
             <br/>
-            <FastField className = 'orderField' name="dest_notes" type="text" placeholder = "Enter any special notes.. instructions on getting there, etc" />
+            <FastField className = 'orderField' name="dest_notes" type="text" placeholder = "Observaciones: instrucciones adicionales" />
             <br/>
             <div style={{ margin: '35px' }}>
 
-            <h2> Locations </h2> 
-            <h3> Origin Address </h3> 
+            <h2> Ubicaciones </h2> 
+            <h3> Dirección de origen </h3> 
             <MapView
               isOrigin={true}
               google={this.props.google}
@@ -295,7 +296,7 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
 
             <div style={{margin: '70px'}}></div> 
             
-            <h3> Destination address </h3> 
+            <h3> Dirección de destino </h3> 
             <MapView
               isOrigin={false}
               google={this.props.google}
@@ -307,8 +308,8 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
 
         </div>
           {apiLabel}
-            <button style={{margin: '40px'}} type = "button" onClick={() => {this.calculateRate(values.mode, values.money_collection)}}> Calculate Rate </button>
-            <button type="submit"> Submit </button>
+            <button style={{margin: '40px'}} type = "button" onClick={() => {this.calculateRate(values.mode, values.money_collection)}}> Calcular tarifa </button>
+            <button type="submit"> Enviar pedido </button>
           </div> 
       </Form>
       )}

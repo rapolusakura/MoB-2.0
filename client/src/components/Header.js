@@ -15,7 +15,7 @@ const Header = () => (
     </nav>
     <h1> Vista del Administrador </h1>
 
-    <Link to='/createOrder'> <Button variant="contained" color="primary"> CREATE AN ORDER </Button> </Link>
+    <Link to='/createOrder'> <Button variant="contained" color="primary"> Crear Pedido </Button> </Link>
   </header>
 )
 

@@ -24,7 +24,7 @@ class Logout extends React.Component {
     render() {
       return (
         <div>
-          <Button variant="contained" color="primary" onClick={this.logout}> Log Out </Button> 
+          <Button variant="contained" color="primary" onClick={this.logout}> Salir del Sistema </Button> 
         </div>
     );
   }

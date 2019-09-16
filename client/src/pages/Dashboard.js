@@ -33,7 +33,7 @@ class Dashboard extends React.Component {
 
     orderChannel.bind('new_order', data => {
       this.callAPI();
-      var notification = new Notification(`${data} just made an order! Check it out.`);
+      var notification = new Notification(`${data} ha creado un pedido.`);
       notification.onclick = function (event) {
           window.location.href = '/';
           event.preventDefault();

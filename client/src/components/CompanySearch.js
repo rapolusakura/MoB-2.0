@@ -58,8 +58,8 @@ class CompanySearch extends React.Component {
     render() {    
     return (
       <div>
-        <input className = 'field' type="text" placeholder = "RUC or Razon Commercial Name" value={this.state.inputVal} onChange={evt => this.updateInputValue(evt)}></input> 
-        <button type = "button" onClick={() => this.callAPI()}> Search for the Company </button>
+        <input className = 'field' type="text" placeholder = "RUC o Razón Comercial" value={this.state.inputVal} onChange={evt => this.updateInputValue(evt)}></input> 
+        <button type = "button" onClick={() => this.callAPI()}> Buscar empresa </button>
         <div>
         <ul>
         {this.state.companies.map( (company, index) => {

@@ -27,16 +27,16 @@ class Order extends React.Component {
       return (
         <div className = "card">
               <div className = "container"> 
-                <h3> ORDER ID: {this.props.order._id} </h3>
+                <h3> ID Pedido: {this.props.order._id} </h3>
                 <h1 style={mystyle}> {this.props.order.client_company_name}</h1>
                 <h3> {moment(time).format('MMMM Do YYYY, h:mm:ss a')}</h3>
-                <h3> Client Contact: {this.props.order.client_contact_name}</h3>
-                <h2> {this.props.order.rate} Sol </h2> 
+                <h3> Contacto: {this.props.order.client_contact_name}</h3>
+                <h2> Tarifa: {this.props.order.rate} Sol </h2> 
                 <h4> {this.props.order.special_instructions} </h4>
-                <a href={mapsNavLink}> Route </a> 
-                <h3> Origin: {this.props.order.client_address} </h3> 
-                <h3> Destination: {this.props.order.dest_address} </h3> 
-                <h3> Delivery Status: {status} </h3> 
+                <a href={mapsNavLink}> Ruta Google </a> 
+                <h3> Origen: {this.props.order.client_address} </h3> 
+                <h3> Destino: {this.props.order.dest_address} </h3> 
+                <h3> Status: {status} </h3> 
                 {status == 'outgoing' && <OutgoingAssignment order={this.props.order} /> }
                 {status == 'pending' && <PendingCompletion order={this.props.order} /> }
                 {status == 'completed' && <CompletedOrder order={this.props.order} /> }

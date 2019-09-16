@@ -34,7 +34,7 @@ class CompletedOrder extends React.Component {
   render() {
     return (   
       <div>
-      <h1> Completed by: {this.state.assignedBiker.name} </h1> 
+      <h1> MoBiker: {this.state.assignedBiker.name} </h1> 
       </div>
     )
   }
