@@ -72,7 +72,6 @@ export default class orderForm extends React.Component {
       client_company_name: company.official_company_name,
       type_of_rate: company.type_of_rate
     })
-    console.log('just set the company')
   }
 
 CreateOrderSchema = () => { 
@@ -179,25 +178,24 @@ calculateRate = (isRoundTrip, moneyCollection) => {
 }
 
 updateAddress = (isOrigin, address, place_id, lat, lng) => {
-  console.log(lat, " fuck ", lng); 
-  if(isOrigin) {
-    this.setState({
-    startingAddress: address,
-    startingPlaceId: place_id, 
-    startingLat: lat, 
-    startingLng: lng
-   })
-    console.log(lat); 
-    console.log(lng); 
-    this.mapElement.current.setCompanyAddress(address, parseFloat(lat), parseFloat(lng)); 
-  } else {
-    this.setState({
-    destAddress: address, 
-    destPlaceId: place_id,
-    destLat: lat, 
-    destLng: lng
-   })
-  }
+  if(parseFloat(lat) !== NaN && parseFloat(lng) !== NaN) {
+    if(isOrigin) {
+      this.setState({
+      startingAddress: address,
+      startingPlaceId: place_id, 
+      startingLat: lat, 
+      startingLng: lng
+     })
+      this.mapElement.current.setCompanyAddress(address, parseFloat(lat), parseFloat(lng)); 
+    } else {
+      this.setState({
+      destAddress: address, 
+      destPlaceId: place_id,
+      destLat: lat, 
+      destLng: lng
+     })
+    }
+}
 }
 
   render() {

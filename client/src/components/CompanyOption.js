@@ -27,11 +27,8 @@ export default class CompanyOption extends React.Component {
       place_id = json.results[0].place_id; 
       lat = json.results[0].geometry.location.lat;
       lng = json.results[0].geometry.location.lng; 
-      console.log(lat , " ", lng);
       this.props.updateAddress(true, this.props.company.address, place_id, lat, lng); 
     })
-
-    this.props.updateAddress(true, this.props.company.address, place_id, lat, lng); 
   }
 
   render() {  

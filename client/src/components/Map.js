@@ -63,7 +63,6 @@ class MapView extends React.Component{
       this.state.area !== nextState.area ||
       this.state.state !== nextState.state
     ) {
-      console.log('updating');
       return true
     } else if ( this.props.center.lat === nextProps.center.lat ){
       return false
