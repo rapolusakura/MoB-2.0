@@ -18,13 +18,13 @@ export default class Signup extends React.Component {
 
  phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
  
- SignupSchema = () => { Yup.object().shape({
+ SignupSchema = Yup.object().shape({
   firstName: Yup.string()
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
   lastName: Yup.string()
-    .min(2, 'Too Short!')
+    .min(1, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
   email: Yup.string()
@@ -34,11 +34,11 @@ export default class Signup extends React.Component {
     .required('A phone number is required')
     .matches(this.phoneRegExp, 'Phone number is not valid'),
   password: Yup.string()
-    .min(1, 'Too short!')
+    .min(6, 'Too short!')
     .required('Password is required'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
-})}
+})
 
  attemptSignup = (values) => {
   console.log('THIS IS THE COMPANY ID' , this.state.companyId)

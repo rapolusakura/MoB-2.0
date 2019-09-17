@@ -3,7 +3,7 @@ import OutgoingAssignment from './OutgoingAssignment'
 import PendingCompletion from './PendingCompletion'
 import CompletedOrder from './CompletedOrder'
 import '../style.css'
-const moment = require('moment'); 
+var moment = require('moment'); 
 
 class Order extends React.Component {
     constructor(props) {
@@ -22,14 +22,14 @@ class Order extends React.Component {
     };
 
     const mapsNavLink = `https://www.google.com/maps/dir/?api=1&origin=${this.props.order.startLat},${this.props.order.startLng}&destination=${this.props.order.endLat},${this.props.order.endLng}&travelmode=walking`
-    const time = this.props.order.timestamp; 
+    var time = this.props.order.timestamp; 
 
       return (
         <div className = "card">
               <div className = "container"> 
                 <h3> ID Pedido: {this.props.order._id} </h3>
                 <h1 style={mystyle}> {this.props.order.client_company_name}</h1>
-                <h3> {moment(time).format('MMMM Do YYYY, h:mm:ss a')}</h3>
+                <h3> {moment(time).format('LLLL')}</h3>
                 <h3> Contacto: {this.props.order.client_contact_name}</h3>
                 <h2> Tarifa: {this.props.order.rate} Sol </h2> 
                 <h4> {this.props.order.special_instructions} </h4>

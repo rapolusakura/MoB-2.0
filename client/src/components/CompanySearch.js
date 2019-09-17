@@ -34,13 +34,13 @@ class CompanySearch extends React.Component {
         })
       } else {
         this.setState ({
-          message: 'No company exists with that search criteria. Try with the other option or call Mail on Bike to register as a client.'
+          message: 'Ninguna empresa existe con ese criterio de búsqueda. Pruebe con la otra opción o llame a Mail on Bike para registrar un nuevo cliente.'
         })
       }
     })
   } else {
     this.setState({
-      message: 'Please enter an RUC or Razon Commerical Name'
+      message: 'Por favor, introduzca un RUC o Razón Commerical'
     })
   }
   }

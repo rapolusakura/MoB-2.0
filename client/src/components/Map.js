@@ -261,7 +261,7 @@ class MapView extends React.Component{
     if( this.props.center.lat !== undefined ) {
       map = <div>
         <AsyncMap
-          googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmiCER2zbSfCRoMZrZCrNBw2omSdKO-a0&libraries=places&sensor=false"
+          googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmiCER2zbSfCRoMZrZCrNBw2omSdKO-a0&libraries=places"
           loadingElement={
             <div style={{ height: `100%` }} />
           }

@@ -62,6 +62,8 @@ export default class orderForm extends React.Component {
           defaultDest: json.defaultDest,
           type_of_rate: json.type_of_rate
         }); }
+
+        if(json.address !== "SIN DIRECCION")
       }
     }); 
   }
@@ -74,8 +76,7 @@ export default class orderForm extends React.Component {
     })
   }
 
-CreateOrderSchema = () => { 
-  Yup.object().shape({
+CreateOrderSchema = Yup.object().shape({
   destContact: Yup.string()
     .required('the contact name of the destination is required'),
   destPhone: Yup.number()
@@ -83,7 +84,7 @@ CreateOrderSchema = () => {
     .required('the phone number of the dest is required'), 
   method_of_payment: Yup.string()
     .required('method of payment is required'),
-})};
+});
 
  createOrderAPI = (values) => {
   let mode = ''; 
@@ -162,7 +163,6 @@ calculateRate = (isRoundTrip, moneyCollection) => {
             .then(res => res.json())
             .then(json => { 
             if(json.success) {
-              console.log('this is the response from calculate rate: ', json)
               let realRate = -1;
               if (moneyCollection === '' || moneyCollection === 0 || moneyCollection === null || moneyCollection === 'undefined') { realRate = json.rate } else { realRate = json.rate + 2;}
               this.setState({
@@ -229,6 +229,9 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
             <br/> 
             {
               this.state.isAdmin ? <CompanySearch companySelected={this.companySelected} updateAddress={this.updateAddress}/> : ''
+            }
+            {
+              this.state.isAdmin ? '' : <h3> Empresa: {this.state.client_company_name} </h3> 
             }
             <br/>
             
@@ -310,6 +313,7 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
         </div>
           {apiLabel}
             <button style={{margin: '40px'}} type = "button" onClick={() => {this.calculateRate(values.mode, values.money_collection)}}> Calcular tarifa </button>
+            <h3> La tarifa está sujeta a cambios. </h3> 
             <button type="submit"> Enviar pedido </button>
           </div> 
       </Form>
