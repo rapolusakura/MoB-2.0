@@ -14,7 +14,7 @@ class CompanySearch extends React.Component {
 
   callAPI = () => {
     console.log(this.state.inputVal)
-    if(this.state.inputVal != '') {
+    if(this.state.inputVal !== '') {
     fetch("/searchForCompany", {
       method: 'POST',
       headers: {
@@ -49,6 +49,10 @@ class CompanySearch extends React.Component {
     this.props.companySelected(company); 
   }
 
+  updateAddress = (isOrigin, address, place_id, lat, lng) => {
+    this.props.updateAddress(isOrigin, address, place_id, lat, lng); 
+  }
+
     updateInputValue(evt) {
       this.setState({
         inputVal: evt.target.value
@@ -64,7 +68,7 @@ class CompanySearch extends React.Component {
         <ul>
         {this.state.companies.map( (company, index) => {
           return (
-            <CompanyOption company={company} companySelected={this.companySelected}/>
+            <CompanyOption company={company} companySelected={this.companySelected} updateAddress={this.updateAddress}/>
             ) 
         })}
       </ul>

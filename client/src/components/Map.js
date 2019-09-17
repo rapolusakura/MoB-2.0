@@ -36,8 +36,6 @@ class MapView extends React.Component{
               area = this.getArea( addressArray ),
               state = this.getState( addressArray );
 
-        console.log( 'city', city, area, state );
-
         this.setState( {
           address: ( address ) ? address : '',
           area: ( area ) ? area : '',
@@ -65,6 +63,7 @@ class MapView extends React.Component{
       this.state.area !== nextState.area ||
       this.state.state !== nextState.state
     ) {
+      console.log('updating');
       return true
     } else if ( this.props.center.lat === nextProps.center.lat ){
       return false
@@ -173,7 +172,6 @@ class MapView extends React.Component{
    * @param place
    */
   onPlaceSelected = ( place ) => {
-    console.log( 'plc', place );
     const address = place.formatted_address,
           addressArray =  place.address_components,
           city = this.getCity( addressArray ),
@@ -199,6 +197,19 @@ class MapView extends React.Component{
     this.props.updateAddress(this.props.isOrigin, address, place.place_id, latValue, lngValue); 
   };
 
+  setCompanyAddress = (address, latValue, lngValue) => {
+    this.setState({
+      address: address,
+      markerPosition: {
+        lat: latValue,
+        lng: lngValue
+      },
+      mapPosition: {
+        lat: latValue,
+        lng: lngValue
+      }
+    })
+  }
 
   render(){
     const AsyncMap = withScriptjs(
@@ -221,7 +232,7 @@ class MapView extends React.Component{
               componentRestrictions= {{country: 'pe'}}
             />
             {
-            this.state.address != '' ? 
+            this.state.address !== '' ? 
             <InfoWindow
               onClose={this.onInfoWindowClose}
               position={{ lat: ( this.state.markerPosition.lat + 0.0018 ), lng: this.state.markerPosition.lng }}

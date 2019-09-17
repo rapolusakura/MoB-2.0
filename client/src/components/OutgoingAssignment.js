@@ -60,7 +60,7 @@ class OutgoingAssignment extends React.Component {
           )
       })}
      <br/>
-     <Button variant="contained" color="primary" type="submit"> assign bikers </Button> 
+     <Button variant="contained" color="primary" type="submit"> Asignar MoBiker </Button> 
      </div>
     </Form>
     </Formik> 

@@ -32,6 +32,7 @@ export default class orderForm extends React.Component {
       defaultOrigin: '', 
       defaultDest: ''
     }
+    this.mapElement = React.createRef(); 
   }
 
   componentDidMount() {
@@ -41,7 +42,6 @@ export default class orderForm extends React.Component {
     .then(res => res.json())
     .then(json => {
       if (json.success) {
-        console.log('json response to getUserDetails', json)
         if(json.isAdmin) {
           this.setState({
             isAdmin: json.isAdmin,
@@ -100,7 +100,7 @@ CreateOrderSchema = () => {
         client_company_name : this.state.client_company_name,
         client_contact_name: this.state.name, 
         client_phone_number: this.state.phone_number, 
-        special_instructions : "Origin Notes:".concat(values.origin_notes).concat('\nDestination Notes:').concat(values.dest_notes), 
+        special_instructions : 'Notas especiales: '.concat(values.dest_notes), 
         type_of_load : values.type_of_load, 
         mode : mode, 
         distance : this.state.distance,
@@ -129,7 +129,7 @@ CreateOrderSchema = () => {
 }
 
 calculateRate = (isRoundTrip, moneyCollection) => {
-  if(this.state.startingPlaceId != '' && this.state.destPlaceId != '') {
+  if(this.state.startingPlaceId !== '' && this.state.destPlaceId !== '') {
     let mode = ''; 
     isRoundTrip ? mode = 'round-trip' : mode = 'one-way'; 
 
@@ -165,7 +165,7 @@ calculateRate = (isRoundTrip, moneyCollection) => {
             if(json.success) {
               console.log('this is the response from calculate rate: ', json)
               let realRate = -1;
-              if (moneyCollection == '' || moneyCollection == 0 || moneyCollection == null || moneyCollection == 'undefined') { realRate = json.rate } else { realRate = json.rate + 2;}
+              if (moneyCollection === '' || moneyCollection === 0 || moneyCollection === null || moneyCollection === 'undefined') { realRate = json.rate } else { realRate = json.rate + 2;}
               this.setState({
                 rate: realRate, 
                 type_of_rate: json.type_of_rate, 
@@ -179,14 +179,17 @@ calculateRate = (isRoundTrip, moneyCollection) => {
 }
 
 updateAddress = (isOrigin, address, place_id, lat, lng) => {
+  console.log(lat, " fuck ", lng); 
   if(isOrigin) {
     this.setState({
     startingAddress: address,
     startingPlaceId: place_id, 
     startingLat: lat, 
     startingLng: lng
-
    })
+    console.log(lat); 
+    console.log(lng); 
+    this.mapElement.current.setCompanyAddress(address, parseFloat(lat), parseFloat(lng)); 
   } else {
     this.setState({
     destAddress: address, 
@@ -200,8 +203,9 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
   render() {
 
     let apiLabel;
+    let lat,lng; 
 
-    if (this.state.rate != -1 && this.state.distance != -1) {
+    if (this.state.rate !== -1 && this.state.distance !== -1) {
       apiLabel = <label> Distancia: {this.state.distance} Tarifa: {this.state.rate} </label>;
     } else {
       apiLabel = <label> Distancia: N/A Tarifa: N/A </label>;
@@ -226,10 +230,8 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
             <h2> Información del Cliente </h2> 
             <br/> 
             {
-              this.state.isAdmin ? <CompanySearch companySelected={this.companySelected}/> : ''
+              this.state.isAdmin ? <CompanySearch companySelected={this.companySelected} updateAddress={this.updateAddress}/> : ''
             }
-            <FastField className = 'orderField' name="origin_notes" type="text" placeholder = "Ingrese instrucciones adicionales
-para la entrega" />
             <br/>
             
             <label> Tipo de carga </label> 
@@ -266,12 +268,12 @@ para la entrega" />
             {errors.method_of_payment && touched.method_of_payment ? <div>{errors.method_of_payment}</div> : null}
 
             {
-              this.state.type_of_rate == 'e-commerce' ? <FastField className = 'orderField' name="money_collection" type="text" placeholder = "Recaudo" />  : ''
+              this.state.type_of_rate === 'e-commerce' ? <FastField className = 'orderField' name="money_collection" type="text" placeholder = "Recaudo" />  : ''
             }
             <br/>
 
             <h2> Destinatario </h2> 
-            <FastField className = 'orderField' name="destContact" type="text" placeholder = "Nombre de contacto en destino" /> 
+            <Field className = 'orderField' name="destContact" type="text" placeholder = "Nombre de contacto en destino" /> 
             {errors.destContact && touched.destContact ? <div>{errors.destContact}</div> : null}
             <br/>
             <FastField className = 'orderField' name="destCompany" type="text" placeholder = "Empresa destino" /> 
@@ -287,6 +289,7 @@ para la entrega" />
             <h3> Dirección de origen </h3> 
             <MapView
               isOrigin={true}
+              ref = {this.mapElement}
               google={this.props.google}
               center={{lat: -12.140381, lng: -76.9857613}}
               height='300px'
