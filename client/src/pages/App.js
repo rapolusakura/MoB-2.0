@@ -50,7 +50,7 @@ class App extends React.Component {
 	userAccountView = () => {
 		return (
 			<div> 
-			<h1> User View </h1>
+			<h1> Vista del Usuario </h1>
 			<CreateOrder />
 			<br/>
 			<Logout setLoginStatus={this.setLoginStatus}/> 
