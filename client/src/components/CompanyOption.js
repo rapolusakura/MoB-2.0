@@ -33,7 +33,7 @@ export default class CompanyOption extends React.Component {
 
   render() {  
     let RUC, address; 
-    if (!this.props.company.RUC || this.props.company.RUC.length !== 11) {
+    if (!this.props.company.RUC || this.props.company.RUC.length < 2) {
        RUC = <h3></h3>      
     } else {
       RUC = <h3> RUC: {this.props.company.RUC} </h3>

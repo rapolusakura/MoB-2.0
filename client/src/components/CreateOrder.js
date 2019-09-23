@@ -49,7 +49,6 @@ export default class orderForm extends React.Component {
             name: json.name, 
             phone_number: json.phone_number
           })
-
         } else {
         this.setState({
           isAdmin: json.isAdmin,
@@ -61,9 +60,11 @@ export default class orderForm extends React.Component {
           defaultOrigin: json.defaultOrigin, 
           defaultDest: json.defaultDest,
           type_of_rate: json.type_of_rate
-        }); }
-
-        if(json.address !== "SIN DIRECCION")
+        }); 
+        if(json.address !== "SIN DIRECCION") {
+          this.geocodeAddress(json.address);
+        }
+      }
       }
     }); 
   }
@@ -87,6 +88,7 @@ CreateOrderSchema = Yup.object().shape({
 });
 
  createOrderAPI = (values) => {
+  this.calculateRate(values.isRoundTrip, values.moneyCollection); 
   let mode = ''; 
   values.mode ? mode = 'round-trip' : mode = 'one-way'; 
   fetch("/createOrder", {
@@ -175,6 +177,23 @@ calculateRate = (isRoundTrip, moneyCollection) => {
         }
       });
   }
+}
+
+geocodeAddress = (address) => {
+  fetch("/geocodeAddress", {
+    method: 'POST', 
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    }, 
+    body: JSON.stringify({
+      address: address
+    }),
+  })
+  .then(res => res.json())
+  .then(json => {
+    this.updateAddress(true, address, json.place_id, json.lat, json.lng); 
+  })
 }
 
 updateAddress = (isOrigin, address, place_id, lat, lng) => {

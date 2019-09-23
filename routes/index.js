@@ -80,6 +80,7 @@ router.post('/createOrder', function(req, res, next) {
     mode: mode,
     distance: distance, 
     rate: rate,
+    timestamp: new Date(),
     client_address: client_address, 
     dest_address: dest_address, 
     dest_contact_name: dest_contact_name, 
@@ -609,6 +610,29 @@ router.post('/getBikerDetails', (req, res, next) => {
   })
 }); 
 
+router.post('/geocodeAddress', (req, res, next) => {
+  const { body } = req;
+  const {
+    address 
+  } = body;
+  console.log('address: ', address); 
+  let place_id, lat, lng; 
+  let urlAddress = encodeURIComponent(address); 
+  request(`https://maps.googleapis.com/maps/api/geocode/json?address=${urlAddress}&region=pe&key=AIzaSyCmiCER2zbSfCRoMZrZCrNBw2omSdKO-a0`, { json: true}, (err, response, body) => {
+    if (err) {return console.log(err);}
+    console.log(body); 
+    place_id = body.results[0].place_id;
+    lat = body.results[0].geometry.location.lat;
+    lng = body.results[0].geometry.location.lng;
+    return res.send({
+      success: true, 
+      place_id: place_id, 
+      lat: lat, 
+      lng: lng 
+    })
+  })
+}); 
+
 router.post('/searchForCompany', (req, res, next) => {
   const { body } = req; 
   let { val } = body; 
@@ -713,6 +737,7 @@ router.get('/getUserDetails', (req, res, next) => {
     let defaultDest = ''; 
     let phone_number = ''; 
     let type_of_rate = ''; 
+    let address = ''; 
 
     // Verify the token is one of a kind and it's not deleted.
     UserSession.find({
@@ -737,12 +762,12 @@ router.get('/getUserDetails', (req, res, next) => {
         employer = sessions[0].employer; 
 
         if(!isAdmin) {
-        Companies.find({_id: employer}, {official_company_name: 1}, function(err, company) {
+        Companies.find({_id: employer}, {official_company_name: 1, type_of_rate: 1, address: 1}, function(err, company) {
           if(err) {console.log(err)}
           else {
             officialName = company[0].official_company_name; 
             type_of_rate = company[0].type_of_rate;
-
+            address = company[0].address; 
             User.find({ _id: userId}, function(err, user) {
               if(err) {console.log(err)}
               else {
@@ -762,7 +787,8 @@ router.get('/getUserDetails', (req, res, next) => {
                   client_company_name: officialName, 
                   defaultOrigin: defaultOrigin, 
                   defaultDest: defaultDest,
-                  type_of_rate: type_of_rate
+                  type_of_rate: type_of_rate, 
+                  address: address
                 })
               }
             })
@@ -788,7 +814,6 @@ router.get('/getUserDetails', (req, res, next) => {
             })
 
       }
-
 
       }
     });

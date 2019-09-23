@@ -52,6 +52,7 @@ class App extends React.Component {
 			<div> 
 			<h1> User View </h1>
 			<CreateOrder />
+			<br/>
 			<Logout setLoginStatus={this.setLoginStatus}/> 
 			</div> 
 		)
@@ -62,6 +63,7 @@ class App extends React.Component {
 		  <div>
 		    <Header />
 		    <Main />
+		    <br/>
 		    <Logout setLoginStatus={this.setLoginStatus}/>
 		  </div>
 		)
