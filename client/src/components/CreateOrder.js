@@ -260,9 +260,9 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
               <div>
               <h3> Empresa: {this.state.client_company_name} </h3> 
               <h3> RUC: {this.state.RUC} </h3> 
-              <h3> Address: {this.state.startingAddress} </h3> 
-              <h3> Company Contact: {this.state.name} </h3> 
-              <h3> Type of Rate: {this.state.type_of_rate} </h3> 
+              <h3> Dirección: {this.state.startingAddress} </h3> 
+              <h3> Nombre de Contacto: {this.state.name} </h3> 
+              <h3> Tipo de tarifa: {this.state.type_of_rate} </h3> 
               </div> 
             }
             <br/>
