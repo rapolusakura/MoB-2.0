@@ -17,6 +17,7 @@ const client = require('twilio')(accountSid, authToken);
 const TWILIO_SANDBOX_NUM = 'whatsapp:+14155238886'; 
 const TWILIO_PROD_NUM = 'whatsapp:+5117062608'
 const ANDERSONS_NUM = 'whatsapp:+51932522542';
+const SOFIAS_NUM = 'whatsapp:+51967238429';
 const SAKURAS_NUM = 'whatsapp:+18082037593'
 const pusher = new Pusher({
     appId: process.env.PUSHER_APP_ID,
@@ -210,6 +211,16 @@ router.post('/signup', (req, res, next) => {
 *Razon Commercial Name*: ${company_name}
 *RUC*: ${RUC}
         `, ANDERSONS_NUM); 
+
+        createMessage(`
+        New account created! Please call this person to verify them to start making orders for their company. 
+
+*Name*: ${firstName} ${lastName}
+*Email*: ${email}
+*Phone*: ${phone_number}
+*Razon Commercial Name*: ${company_name}
+*RUC*: ${RUC}
+        `, SOFIAS_NUM); 
 
         return res.send({
           success: true,
