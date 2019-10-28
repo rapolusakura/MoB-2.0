@@ -42,6 +42,7 @@ export default class orderForm extends React.Component {
     .then(res => res.json())
     .then(json => {
       if (json.success) {
+        console.log("RUC", json.RUC); 
         if(json.isAdmin) {
           this.setState({
             isAdmin: json.isAdmin,
@@ -59,7 +60,9 @@ export default class orderForm extends React.Component {
           client_company_name: json.client_company_name, 
           defaultOrigin: json.defaultOrigin, 
           defaultDest: json.defaultDest,
-          type_of_rate: json.type_of_rate
+          type_of_rate: json.type_of_rate, 
+          startingAddress: json.address, 
+          RUC: json.RUC
         }); 
         if(json.address !== "SIN DIRECCION") {
           this.geocodeAddress(json.address);
@@ -225,7 +228,11 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
     if (this.state.rate !== -1 && this.state.distance !== -1) {
       apiLabel = <label> Distancia: {this.state.distance} Tarifa: {this.state.rate} </label>;
     } else {
-      apiLabel = <label> Distancia: N/A Tarifa: N/A </label>;
+      apiLabel = 
+      <div><br/>
+      <label> <h3> Distancia: N/A  </h3> </label> 
+      <label> <h3> Tarifa: N/A </h3> </label>
+      </div> ;
     }
 
     return (
@@ -233,8 +240,7 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
           <Formik 
            initialValues={{
             mode: false,
-            method_of_payment: 'cash_on_origin', 
-            type_of_load: ''
+            method_of_payment: 'cash_on_origin'
         }}
       validationSchema={this.CreateOrderSchema}
       onSubmit={values => {
@@ -250,30 +256,27 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
               this.state.isAdmin ? <CompanySearch companySelected={this.companySelected} updateAddress={this.updateAddress}/> : ''
             }
             {
-              this.state.isAdmin ? '' : <h3> Empresa: {this.state.client_company_name} </h3> 
+              this.state.isAdmin ? '' : 
+              <div>
+              <h3> Empresa: {this.state.client_company_name} </h3> 
+              <h3> RUC: {this.state.RUC} </h3> 
+              <h3> Address: {this.state.startingAddress} </h3> 
+              <h3> Company Contact: {this.state.name} </h3> 
+              <h3> Type of Rate: {this.state.type_of_rate} </h3> 
+              </div> 
             }
             <br/>
             
-            <label> Tipo de carga </label> 
-            <select
-              name="type_of_load"
-              value={values.type_of_load}
-              style={{ display: 'block' }}
-              onChange={handleChange}
-            >
-              <option label="Document" value="document" />
-              <option label="Produce" value="produce" />
-              <option label="Other" value="other" />
-            </select>
+            <Field className = 'orderField' name="type_of_load" type="text" placeholder = "Tipo de carga" />
 
             <br /> 
-
+            <br /> 
             <label> 
             ¿El pedido es con retorno?
             <FastField name="mode" type="checkbox" checked={values.mode}/> 
             </label> 
             <br/>
-
+            <br/> 
             <label> Medio de pago </label> 
             <select
               name="method_of_payment"

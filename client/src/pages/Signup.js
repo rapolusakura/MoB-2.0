@@ -97,32 +97,32 @@ render() {
     {({ touched, errors }) => (
     <Form>
         <div> 
-          <Field className="field" name="firstName" placeholder="First Name" />
+          <Field className="field" name="firstName" placeholder="Nombre" />
           {errors.firstName && touched.firstName ? (
             <div>{errors.firstName}</div>
           ) : null}
           <br/>
-          <Field className="field" name="lastName" placeholder = "Last Name" />
+          <Field className="field" name="lastName" placeholder = "Apellido" />
           {errors.lastName && touched.lastName ? (
             <div>{errors.lastName}</div>
           ) : null}
           <br/>
 
-          <Field className="field" name="email" type="email" placeholder = "Email" />
+          <Field className="field" name="email" type="email" placeholder = "Correo Electrónico" />
           {errors.email && touched.email ? <div>{errors.email}</div> : null}
           <br/>
 
           <CompanySearch companySelected={this.companySelected}/> 
 
-          <Field className="field" name="phone_number" type="tel" placeholder = "Phone number"/>
+          <Field className="field" name="phone_number" type="tel" placeholder = "Teléfono Celular"/>
           {errors.phone_number && touched.phone_number ? <div>{errors.phone_number}</div> : null}
           <br/>
 
-          <Field className="field" name="password" type="password" placeholder = "Enter password" />
+          <Field className="field" name="password" type="password" placeholder = "Contraseña" />
           {errors.password && touched.password ? <div>{errors.password}</div> : null}
           <br/>
 
-          <Field className="field" name="confirmPassword" type="password" placeholder = "Confirm password" />
+          <Field className="field" name="confirmPassword" type="password" placeholder = "Confirmar contraseña" />
           {errors.confirmPassword && touched.confirmPassword ? <div>{errors.confirmPassword}</div> : null}
           <br/>
           <br />

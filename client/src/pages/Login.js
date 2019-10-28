@@ -55,10 +55,10 @@ export default class Login extends React.Component {
         {({ touched, errors }) => (
         <Form>
             <div> 
-              <Field className = "field" name="email" type="email" placeholder = "Email" />
+              <Field className = "field" name="email" type="email" placeholder = "Ingresar correo electrónico" />
               {errors.email && touched.email ? <div>{errors.email}</div> : null}
               <br/>
-              <Field className = "field" name="password" type="password" placeholder = "Enter password" />
+              <Field className = "field" name="password" type="password" placeholder = "Ingresar contraseña" />
               {errors.password && touched.password ? <div>{errors.password}</div> : null}
               <br/>
               <br/>

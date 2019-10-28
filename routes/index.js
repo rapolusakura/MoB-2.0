@@ -738,6 +738,7 @@ router.get('/getUserDetails', (req, res, next) => {
     let phone_number = ''; 
     let type_of_rate = ''; 
     let address = ''; 
+    let RUC = ''; 
 
     // Verify the token is one of a kind and it's not deleted.
     UserSession.find({
@@ -762,12 +763,16 @@ router.get('/getUserDetails', (req, res, next) => {
         employer = sessions[0].employer; 
 
         if(!isAdmin) {
-        Companies.find({_id: employer}, {official_company_name: 1, type_of_rate: 1, address: 1}, function(err, company) {
+        Companies.find({_id: employer}, {official_company_name: 1, type_of_rate: 1, address: 1, RUC: 1}, function(err, company) {
           if(err) {console.log(err)}
           else {
             officialName = company[0].official_company_name; 
             type_of_rate = company[0].type_of_rate;
             address = company[0].address; 
+            RUC = company[0].RUC; 
+
+            console.log('FUCKING RUC', RUC); 
+
             User.find({ _id: userId}, function(err, user) {
               if(err) {console.log(err)}
               else {
@@ -788,7 +793,8 @@ router.get('/getUserDetails', (req, res, next) => {
                   defaultOrigin: defaultOrigin, 
                   defaultDest: defaultDest,
                   type_of_rate: type_of_rate, 
-                  address: address
+                  address: address, 
+                  RUC : RUC
                 })
               }
             })
