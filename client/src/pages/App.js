@@ -72,6 +72,7 @@ class App extends React.Component {
 	loginView = () => {
 		return (
 		<div> 
+		<img class="resize" src={ require('./logo.png') } />
 		<h1> Mail On Bike </h1>
 			<div className='rowC'>
 			<div className='container'>
