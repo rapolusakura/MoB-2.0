@@ -557,6 +557,9 @@ router.post('/assignBikers', function(req, res, next) {
           const special_instructions = order.special_instructions; 
           const mapsNavLink = `https://www.google.com/maps/dir/?api=1&origin=${order.startLat},${order.startLng}&destination=${order.endLat},${order.endLng}&travelmode=walking`
           const method_of_payment = order.method_of_payment; 
+          if(method_of_payment = 'cash_on_origin') {method_of_payment = 'Efectivo en Origen';}
+          if(method_of_payment = 'cash_on_destination') {method_of_payment = 'Efectivo en Destino';}
+          if(method_of_payment = 'bank_transfer') {method_of_payment = 'Transferencia bancaria';}
           const order_num = order._id; 
           let money_collection = order.money_collection;
           if(money_collection == null) {money_collection = 0}

@@ -268,6 +268,7 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
             <br/>
             
             <Field className = 'orderField' name="type_of_load" type="text" placeholder = "Tipo de carga" />
+            <label> <h4> Sólo transportamos documentos y paquetes pequeños de 30x30x20cms y hasta 3 Kg de peso. </h4> </label> 
 
             <br /> 
             <br /> 
@@ -284,9 +285,9 @@ updateAddress = (isOrigin, address, place_id, lat, lng) => {
               style={{ display: 'block' }}
               onChange={handleChange}
             >
-              <option label="Cash on origin" value="cash_on_origin" />
-              <option label="Cash on destination" value="cash_on_destination" />
-              <option label="Bank transfer" value="bank_transfer" />
+              <option label="Efectivo en Origen" value="cash_on_origin" />
+              <option label="Efectivo en Destino" value="cash_on_destination" />
+              <option label="Transferencia bancaria" value="bank_transfer" />
             </select>
             {errors.method_of_payment && touched.method_of_payment ? <div>{errors.method_of_payment}</div> : null}
 

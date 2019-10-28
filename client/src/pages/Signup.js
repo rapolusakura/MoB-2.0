@@ -80,7 +80,7 @@ render() {
   return (
 
   <div> 
-    <h1>Sign Up </h1> 
+    <h1>Nuevo Usuario</h1> 
   <Formik 
     initialValues={{
         firstName: '',
@@ -126,7 +126,7 @@ render() {
           {errors.confirmPassword && touched.confirmPassword ? <div>{errors.confirmPassword}</div> : null}
           <br/>
           <br />
-          <Button variant="contained" color="primary" type="submit">Signup</Button>        </div> 
+          <Button variant="contained" color="primary" type="submit">Enviar</Button>        </div> 
     </Form>
     )}
   </Formik>

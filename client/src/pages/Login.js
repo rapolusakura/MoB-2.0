@@ -42,7 +42,7 @@ export default class Login extends React.Component {
   render() {
     return (
       <div> 
-      <h1>Log In</h1>
+      <h1>Ingresar</h1>
       <br/>
       <Formik 
         initialValues={{
@@ -62,7 +62,7 @@ export default class Login extends React.Component {
               {errors.password && touched.password ? <div>{errors.password}</div> : null}
               <br/>
               <br/>
-              <Button variant="contained" color="primary" type="submit">Login</Button>
+              <Button variant="contained" color="primary" type="submit">Ingresar</Button>
             </div> 
         </Form>
         )}
