@@ -131,7 +131,7 @@ CreateOrderSchema = Yup.object().shape({
     }).then(res => res.json())
         .then(json => { 
         if(json.success) {
-          console.log("worked!!");
+          alert("El pedido se ha realizado correctamente. Gracias por su preferencia."); 
         }
     });
 }

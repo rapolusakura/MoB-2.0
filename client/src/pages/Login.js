@@ -35,6 +35,12 @@ export default class Login extends React.Component {
         if(json.success) {
           setInStorage('mail_on_bike', { token: json.token });
           this.props.setLoginStatus(true); 
+        } else {
+          if(json.message === "unverified") {
+            alert("Su cuenta aún no ha sido verificada. Por favor espere a que un representante de Mail On Bike lo contacte. Muchas gracias."); 
+          } else {
+            alert("Correo inválido o contraseña incorrecta."); 
+          }
         }
     });  
   }

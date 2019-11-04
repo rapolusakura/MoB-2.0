@@ -258,7 +258,7 @@ router.post('/signin', (req, res, next) => {
       if (err) {
         return res.send({
           success: false,
-          message: 'Error: server error'
+          message: 'email'
         });
       }
       if (users.length != 1) {
@@ -271,14 +271,14 @@ router.post('/signin', (req, res, next) => {
       if (!user.validPassword(password)) {
         return res.send({
           success: false,
-          message: 'Error: Invalid'
+          message: 'password'
         });
       }
 
       if(!user.isVerified) {
         return res.send({
           succes: false, 
-          message: "this user is not verified"
+          message: "unverified"
         })
       }
       
