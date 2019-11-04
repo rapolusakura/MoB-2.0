@@ -42,7 +42,6 @@ export default class orderForm extends React.Component {
     .then(res => res.json())
     .then(json => {
       if (json.success) {
-        console.log("RUC", json.RUC); 
         if(json.isAdmin) {
           this.setState({
             isAdmin: json.isAdmin,
@@ -65,7 +64,11 @@ export default class orderForm extends React.Component {
           RUC: json.RUC
         }); 
         if(json.address !== "SIN DIRECCION") {
-          this.geocodeAddress(json.address);
+          if(json.district !== "SIN DISTRITO" && json.district !== undefined) {
+            this.geocodeAddress(json.address, json.district); 
+          } else {
+            this.geocodeAddress(json.address, "");
+          }
         }
       }
       }
@@ -182,7 +185,8 @@ calculateRate = (isRoundTrip, moneyCollection) => {
   }
 }
 
-geocodeAddress = (address) => {
+geocodeAddress = (address, district) => {
+  address += " " + district; 
   fetch("/geocodeAddress", {
     method: 'POST', 
     headers: {
