@@ -11,7 +11,8 @@ export default class CompanyOption extends React.Component {
   switchCheck = () => {
       this.props.companySelected(this.props.company)
       if(this.props.company.address !== "SIN DIRECCION") {
-        this.geocodeAddress(this.props.company.address); 
+          let address = this.props.company.address + " " + this.props.company.district; 
+          this.geocodeAddress(address);
       }
       this.setState({
         isSelected : !this.state.isSelected
@@ -27,7 +28,7 @@ export default class CompanyOption extends React.Component {
       place_id = json.results[0].place_id; 
       lat = json.results[0].geometry.location.lat;
       lng = json.results[0].geometry.location.lng; 
-      this.props.updateAddress(true, this.props.company.address, place_id, lat, lng); 
+      this.props.updateAddress(true, address, place_id, lat, lng); 
     })
   }
 
@@ -38,11 +39,13 @@ export default class CompanyOption extends React.Component {
     } else {
       RUC = <h3> RUC: {this.props.company.RUC} </h3>
     }
+    
     if (this.props.company.address != "SIN DIRECCION") {
-      address = <h3> Address: {this.props.company.address} </h3>
+      address = <h3> Address: {this.props.company.address} {this.props.company.district} </h3>
     } else {
       address = <h3></h3> 
     }
+
     return (
       <div>
         <input name="selectCompany" type="checkbox" checked={this.state.isSelected} onChange={this.switchCheck}/>

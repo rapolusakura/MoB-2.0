@@ -75,7 +75,7 @@ export default class orderForm extends React.Component {
     }); 
   }
 
-  companySelected = (company) => {
+companySelected = (company) => {
     this.setState({
       employer: company._id, 
       client_company_name: company.official_company_name,
