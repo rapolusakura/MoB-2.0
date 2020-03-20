@@ -68,7 +68,6 @@ class OutgoingAssignment extends React.Component {
           )
       })}
      <br/>
-     <Text> Messages have been sent out! </Text>
      <Button variant="contained" color="primary" type="submit"> Asignarss MoBiker </Button> 
      this.state.show && <label> Messages have been sent out! </label> 
      </div>
