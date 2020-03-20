@@ -68,8 +68,8 @@ class OutgoingAssignment extends React.Component {
           )
       })}
      <br/>
-     <Button variant="contained" color="primary" type="submit"> Asignarss MoBiker </Button> 
-     this.state.show && <label> Messages have been sent out! </label> 
+     <Button variant="contained" color="primary" type="submit"> Asignar MoBiker </Button> 
+     {this.state.show && <h5> Messages have been sent out! </h5> }
      </div>
     </Form>
     </Formik> 
